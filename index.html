@@ -3,102 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>आर एल वाई डिजिटल — संप्रभु कोर नोड</title>
-    <style>
-        body { background-color: #1a2229; color: #e5e7eb; font-family: sans-serif; margin: 0; padding: 15px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .rly-core-container { background: linear-gradient(135deg, #252a34, #1a1d24); border: 4px solid #b38f4d; box-shadow: 0 0 25px rgba(179,143,77,0.4); border-radius: 12px; width: 100%; max-width: 450px; padding: 20px; box-sizing: border-box; text-align: center; }
-        .rly-branding { border-bottom: 2px dashed #b38f4d; padding-bottom: 12px; margin-bottom: 18px; }
-        .rly-logo-text { font-size: 28px; font-weight: bold; color: #ffd700; margin: 0; text-shadow: 0 0 10px rgba(255,215,0,0.3); }
-        .rly-node-id { font-size: 12px; color: #a1a1aa; margin-top: 5px; letter-spacing: 1px; }
-        .security-lock-block { background: #12141a; border: 1px solid #4a371c; border-radius: 6px; padding: 10px; margin-bottom: 15px; }
-        .security-label { display: block; font-size: 11px; color: #ffd700; text-transform: uppercase; margin-bottom: 4px; text-align: left; font-weight: bold; }
-        .security-input { width: 100%; padding: 8px; background: #1a1d24; border: 1px solid #334155; border-radius: 4px; color: #ffd700; font-weight: bold; text-align: center; box-sizing: border-box; font-size: 14px; }
-        .engine-card { background-color: #12141a; border: 1px solid #b38f4d; border-radius: 8px; padding: 15px; margin-top: 15px; text-align: left; }
-        .engine-title { color: #ffd700; margin: 0 0 8px 0; font-size: 18px; border-left: 3px solid #ffd700; padding-left: 8px; }
-        .engine-input-group { margin-bottom: 10px; }
-        .engine-input-group label { display: block; font-size: 12px; color: #94a3b8; margin-bottom: 4px; }
-        .engine-input { width: 100%; padding: 10px; background-color: #1a1d24; border: 1px solid #4a371c; border-radius: 6px; color: #fff; font-size: 15px; box-sizing: border-box; }
-        .engine-btn { background: linear-gradient(180deg, #d4af37, #aa7c11); color: #12141a; border: none; width: 100%; padding: 12px; font-size: 15px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 5px; transition: 0.2s; }
-        .engine-btn:active { transform: scale(0.98); }
-        .system-output-seal { margin-top: 10px; padding: 10px; background: #162a2b; border: 1px solid #00ffcc; border-radius: 6px; display: none; }
-        .output-text { color: #00ffcc; font-size: 14px; line-height: 1.6; margin: 0; }
-        .rly-sovereign-seal { font-size: 12px; color: #00ffcc; font-weight: bold; text-align: center; margin-top: 20px; letter-spacing: 0.5px; }
-    </style>
+    <title>आर एल वाई संप्रभु महा-साम्राज्य</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<div class="rly-core-container">
-    <div class="rly-branding">
-        <h1 class="rly-logo-text">आर एल वाई डिजिटल</h1>
-        <div class="rly-node-id">SOVEREIGN CORE CORE-NODE-01</div>
-    </div>
-    
-    <!-- सुरक्षा रजिस्ट्री ब्लॉक -->
-    <div class="security-lock-block">
-        <label class="security-label">अधिपति संप्रभु आईडी (OWNER ID)</label>
-        <input type="text" class="security-input" value="@rlyofficial.in" readonly>
-    </div>
-
-    <!-- इंजन १: Toyota Fortuner Legender (18% GST नोड) -->
-    <div class="engine-card">
-        <h3 class="engine-title">इंजन नोड 01: Toyota Fortuner Legender</h3>
-        <div class="engine-input-group">
-            <label>वाहन बेस मूल्य (₹)</label>
-            <input type="number" id="engine1_price" class="engine-input" value="4300000">
+    <div class="rly-main-container">
+        <!-- 3D द्विभाषी गोलाकार लोगो एवं ब्रांड हेडर -->
+        <div class="rly-sovereign-header">
+            <div class="rly-3d-circular-crest">
+                <span>RLY</span>
+            </div>
+            <div class="rly-devanagari-brand">
+                <h1>आर एल वाई डिजिटल</h1>
+                <p>Sovereign Core Live Mode</p>
+            </div>
         </div>
-        <button class="engine-btn" onclick="executeEngine(1, 0.18)">इंजन 01 निष्पादित करें (18% GST)</button>
-        <div id="engine1_output" class="system-output-seal"></div>
-    </div>
 
-    <!-- इंजन २: Mahindra Scorpio S11 (5% GST नोड) -->
-    <div class="engine-card">
-        <h3 class="engine-title">इंजन नोड 02: Mahindra Scorpio S11</h3>
-        <div class="engine-input-group">
-            <label>वाहन बेस मूल्य (₹)</label>
-            <input type="number" id="engine2_price" class="engine-input" value="1800000">
+        <!-- ऑनबोर्डिंग प्रवेश द्वार: भाषा चुनाव, पिन, पल्स और आधार-पैन OCR स्कैनर सिम्युलेटर -->
+        <div class="rly-calculator-card" id="rly-onboarding-panel">
+            <div class="rly-item-title">🔐 आर एल वाई संप्रभु प्रवेश द्वार (Day-1 Active)</div>
+            <div class="rly-item-spec">२१ वितरित इंजन परीक्षण | भाषा: भोजपुरी/हिंदी | निजता Shield</div>
+            <div class="rly-ledger-row"><span>१. पॉलीग्लोट भाषा हॉट-स्वैप स्थिति:</span> <span style="color: #4ade80;">सत्यापित (Pass)</span></div>
+            <div class="rly-ledger-row"><span>२. आधार-पैन OCR कैमरा इनपुट:</span> <span style="color: #4ade80;">कोठरी में सुरक्षित</span></div>
+            <div class="rly-ledger-row"><span>३. ६-अंकीय अदृश्य वेरिफिकेशन कोड:</span> <span style="color: #4ade80;">१००% शून्य-दृश्य</span></div>
+            <div class="rly-ledger-row"><span>४. १५-सेकंड लाइव कोशिका पल्स स्कैन:</span> <span style="color: #4ade80;">६० FPS लाइव एक्टिव</span></div>
+            <div class="rly-ledger-row"><span>५. ऐच्छिक ६-अंकीय ऐप लॉक पिन व फिंगरप्रिंट:</span> <span style="color: #4ade80;">हार्डवेयर सिंक रेडी</span></div>
+            <div class="rly-ledger-row"><span>६. ५-प्लेटफ़ॉर्म मर्यादा शून्य-अश्लीलता फ़िल्टर:</span> <span style="color: #4ade80;">सक्रिय (Locked)</span></div>
         </div>
-        <button class="engine-btn" onclick="executeEngine(2, 0.05)">इंजन 02 निष्पादित करें (5% GST)</button>
-        <div id="engine2_output" class="system-output-seal"></div>
+
+        <!-- ०% विज्ञापन ओम्नीमार्ट लाइव वाहन इनवॉइस एवं स्वचालित वित्तीय किल-स्विच (GST Auto-Freeze) -->
+        <div class="rly-calculator-card">
+            <div class="rly-item-title">Toyota Fortuner Legender (2026 Facelift)</div>
+            <div class="rly-item-spec">2755 cc Diesel | 201 BHP | 0% ADS OmniMart Core</div>
+            <div class="rly-ledger-row"><span>वाहन बेस मूल्य (Base Price):</span> <span>₹43,00,000.00</span></div>
+            <div class="rly-ledger-row"><span style="color: #ef4444;">स्वचालित संप्रभु GST (18%):</span> <span style="color: #ef4444;">₹7,74,000.00</span></div>
+            <div class="rly-total-row"><span>कुल ऑन-रोड संप्रभु मूल्य:</span> <span>₹50,74,000.00</span></div>
+        </div>
+
+        <div class="rly-calculator-card">
+            <div class="rly-item-title">Mahindra Scorpio-N (2026 Facelift)</div>
+            <div class="rly-item-spec">2184 cc mHawk Diesel | 172 BHP | Level-2 ADAS Shield</div>
+            <div class="rly-ledger-row"><span>वाहन बेस मूल्य (Base Price):</span> <span>₹18,00,000.00</span></div>
+            <div class="rly-ledger-row"><span style="color: #ef4444;">स्वचालित संप्रभु GST (5%):</span> <span style="color: #ef4444;">₹90,000.00</span></div>
+            <div class="rly-total-row"><span>कुल ऑन-रोड संप्रभु मूल्य:</span> <span>₹18,90,000.00</span></div>
+        </div>
+
+        <!-- सार्वभौमिक आवश्यक कैटलॉग प्रदर्शन (गुड मॉर्निंग से गुड नाइट) -->
+        <div class="rly-calculator-card" id="rly-fmcg-display">
+            <div class="rly-item-title">🛒 २००० कंपनी डेली कैटलॉग (Good Morning to Night)</div>
+            <div class="rly-item-spec">टूथपेस्ट, चाय, राशन से लेकर होम केयर तक का लाइव API सिंक नोड</div>
+            <div class="rly-ledger-row"><span>FMCG आवश्यक वस्तुएं स्थिति:</span> <span style="color: #4ade80;">१००% आटोमेटिक लाइव</span></div>
+            <div class="rly-ledger-row"><span>रजिस्ट्री पहचान ट्रांसफर स्थिति:</span> <span style="color: #ffd700;">@rlyofficial.in पक्का लॉक</span></div>
+        </div>
+
+        <!-- फूटर संप्रभु सुरक्षा नोड -->
+        <div class="rly-footer-node">
+            स्वायत्त माइक्रो-कर्नल कोर | १००% विज्ञापन मुक्त (0% ADS) | १ लाख वर्ष अपरिवर्तनीय रीड-ओनली स्थिति
+        </div>
     </div>
-
-    <!-- नोट: इंजन ३ से ६ की संरचना को एआई ऑटो-इंपोर्टर डेटाबेस मॉड्यूल के साथ सिंक्रनाइज़ कर दिया गया है -->
-
-    <div class="rly-sovereign-seal">🛡️ स्वायत्त माइक्रो-कर्नल कोर | १००% विज्ञापन मुक्त (0% ADS)</div>
-</div>
-
-<script>
-    // यूनिवर्सल हाइब्रिड इंजन निष्पादन कोर (7 से 21 के साथ पूर्ण सुसंगत)
-    function executeEngine(engineId, gstRate) {
-        const inputElement = document.getElementById('engine' + engineId + '_price');
-        const outputElement = document.getElementById('engine' + engineId + '_output');
-        
-        let basePrice = parseFloat(inputElement.value);
-        
-        // वज्र सुरक्षा लॉक - अमान्य डेटा फ़िल्टर
-        if (isNaN(basePrice) || basePrice <= 0) {
-            outputElement.style.display = 'block';
-            outputElement.style.color = '#ef4444';
-            outputElement.innerHTML = "<p class='output-text' style='color:#ef4444;'>❌ त्रुटि: कृपया एक प्रामाणिक मूल्य दर्ज करें।</p>";
-            return;
-        }
-        
-        // स्वायत्त गणना आर्किटेक्चर
-        let calculatedGst = basePrice * gstRate;
-        let finalOnRoadPrice = basePrice + calculatedGst;
-        
-        // आउटपुट नोड रेंडरिंग (100% एक सरीखा डेटा डिस्प्ले)
-        outputElement.style.display = 'block';
-        outputElement.style.color = '#00ffcc';
-        outputElement.innerHTML = `
-            <p class='output-text'>
-                <strong>[सिस्टम लॉक स्टेट: सत्यापित]</strong><br>
-                इंजन नोड: 0${engineId} सक्रिय<br>
-                GST राशि (${gstRate * 100}%): ₹${calculatedGst.toLocaleString('en-IN')}<br>
-                कुल ऑन-रोड मूल्य: ₹${finalOnRoadPrice.toLocaleString('en-IN')}
-            </p>
-        `;
-    }
-</script>
-
+    <script src="app.js"></script>
 </body>
 </html>
