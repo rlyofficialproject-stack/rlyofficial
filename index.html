@@ -8,59 +8,79 @@
 </head>
 <body>
     <div class="rly-main-container">
-        <!-- 3D द्विभाषी गोलाकार लोगो एवं ब्रांड हेडर -->
         <div class="rly-sovereign-header">
-            <div class="rly-3d-circular-crest">
-                <span>RLY</span>
-            </div>
+            <div class="rly-3d-circular-crest"><span>RLY</span></div>
             <div class="rly-devanagari-brand">
                 <h1>आर एल वाई डिजिटल</h1>
                 <p>Sovereign Core Live Mode</p>
             </div>
         </div>
-
-        <!-- ऑनबोर्डिंग प्रवेश द्वार: भाषा चुनाव, पिन, पल्स और आधार-पैन OCR स्कैनर सिम्युलेटर -->
-        <div class="rly-calculator-card" id="rly-onboarding-panel">
+        
+        <!-- अपडेटेड: लाइव कोशिका पल्स स्कैन इंटरेक्टिव नोड -->
+        <div class="rly-calculator-card">
             <div class="rly-item-title">🔐 आर एल वाई संप्रभु प्रवेश द्वार (Day-1 Active)</div>
-            <div class="rly-item-spec">२१ वितरित इंजन परीक्षण | भाषा: भोजपुरी/हिंदी | निजता Shield</div>
-            <div class="rly-ledger-row"><span>१. पॉलीग्लोट भाषा हॉट-स्वैप स्थिति:</span> <span style="color: #4ade80;">सत्यापित (Pass)</span></div>
-            <div class="rly-ledger-row"><span>२. आधार-पैन OCR कैमरा इनपुट:</span> <span style="color: #4ade80;">कोठरी में सुरक्षित</span></div>
-            <div class="rly-ledger-row"><span>३. ६-अंकीय अदृश्य वेरिफिकेशन कोड:</span> <span style="color: #4ade80;">१००% शून्य-दृश्य</span></div>
-            <div class="rly-ledger-row"><span>४. १५-सेकंड लाइव कोशिका पल्स स्कैन:</span> <span style="color: #4ade80;">६० FPS लाइव एक्टिव</span></div>
-            <div class="rly-ledger-row"><span>५. ऐच्छिक ६-अंकीय ऐप लॉक पिन व फिंगरप्रिंट:</span> <span style="color: #4ade80;">हार्डवेयर सिंक रेडी</span></div>
-            <div class="rly-ledger-row"><span>६. ५-प्लेटफ़ॉर्म मर्यादा शून्य-अश्लीलता फ़िल्टर:</span> <span style="color: #4ade80;">सक्रिय (Locked)</span></div>
+            <div class="rly-ledger-row"><span>१. भाषा हॉट-स्वैप (भोजपुरी/हिंदी):</span> <span style="color:#4ade80;">सत्यापित</span></div>
+            <div class="rly-ledger-row"><span>२. १५-सेकंड कोशिका पल्स स्कैन:</span> <span id="pulse-status" style="color:#ffd700;">रेडी (क्लिक करें)</span></div>
+            <div class="rly-ledger-row"><span>३. ६-अंकीय ऐप लॉक व फिंगरप्रिंट:</span> <span style="color:#4ade80;">हार्डवेयर सिंक</span></div>
+            
+            <!-- लाइव स्कैन ट्रिगर बटन और विजुअल बार -->
+            <div style="margin-top: 15px; text-align: center;">
+                <button id="scan-btn" onclick="startLivePulseScan()" style="background: #ffd700; color: #0c0c0e; border: none; padding: 10px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; width: 100%;">६० FPS कोशिका स्कैन शुरू करें</button>
+                <div id="progress-container" style="width: 100%; background: #27272a; height: 8px; border-radius: 4px; margin-top: 10px; display: none; overflow: hidden;">
+                    <div id="progress-bar" style="width: 0%; background: #4ade80; height: 100%; transition: width 0.15s linear;"></div>
+                </div>
+            </div>
         </div>
 
-        <!-- ०% विज्ञापन ओम्नीमार्ट लाइव वाहन इनवॉइस एवं स्वचालित वित्तीय किल-स्विच (GST Auto-Freeze) -->
         <div class="rly-calculator-card">
             <div class="rly-item-title">Toyota Fortuner Legender (2026 Facelift)</div>
-            <div class="rly-item-spec">2755 cc Diesel | 201 BHP | 0% ADS OmniMart Core</div>
-            <div class="rly-ledger-row"><span>वाहन बेस मूल्य (Base Price):</span> <span>₹43,00,000.00</span></div>
-            <div class="rly-ledger-row"><span style="color: #ef4444;">स्वचालित संप्रभु GST (18%):</span> <span style="color: #ef4444;">₹7,74,000.00</span></div>
+            <div class="rly-ledger-row"><span>बेस मूल्य:</span> <span>₹43,00,000.00</span></div>
+            <div class="rly-ledger-row"><span style="color:#ef4444;">स्वचालित GST (18%):</span> <span style="color:#ef4444;">₹7,74,000.00</span></div>
             <div class="rly-total-row"><span>कुल ऑन-रोड संप्रभु मूल्य:</span> <span>₹50,74,000.00</span></div>
         </div>
-
         <div class="rly-calculator-card">
             <div class="rly-item-title">Mahindra Scorpio-N (2026 Facelift)</div>
-            <div class="rly-item-spec">2184 cc mHawk Diesel | 172 BHP | Level-2 ADAS Shield</div>
-            <div class="rly-ledger-row"><span>वाहन बेस मूल्य (Base Price):</span> <span>₹18,00,000.00</span></div>
-            <div class="rly-ledger-row"><span style="color: #ef4444;">स्वचालित संप्रभु GST (5%):</span> <span style="color: #ef4444;">₹90,000.00</span></div>
+            <div class="rly-ledger-row"><span>बेस मूल्य:</span> <span>₹18,00,000.00</span></div>
+            <div class="rly-ledger-row"><span style="color:#ef4444;">स्वचालित GST (5%):</span> <span style="color:#ef4444;">₹90,000.00</span></div>
             <div class="rly-total-row"><span>कुल ऑन-रोड संप्रभु मूल्य:</span> <span>₹18,90,000.00</span></div>
         </div>
-
-        <!-- सार्वभौमिक आवश्यक कैटलॉग प्रदर्शन (गुड मॉर्निंग से गुड नाइट) -->
-        <div class="rly-calculator-card" id="rly-fmcg-display">
+        <div class="rly-calculator-card">
             <div class="rly-item-title">🛒 २००० कंपनी डेली कैटलॉग (Good Morning to Night)</div>
-            <div class="rly-item-spec">टूथपेस्ट, चाय, राशन से लेकर होम केयर तक का लाइव API सिंक नोड</div>
-            <div class="rly-ledger-row"><span>FMCG आवश्यक वस्तुएं स्थिति:</span> <span style="color: #4ade80;">१००% आटोमेटिक लाइव</span></div>
-            <div class="rly-ledger-row"><span>रजिस्ट्री पहचान ट्रांसफर स्थिति:</span> <span style="color: #ffd700;">@rlyofficial.in पक्का लॉक</span></div>
+            <div class="rly-ledger-row"><span>FMCG आवश्यक वस्तुएं स्थिति:</span> <span style="color:#4ade80;">१००% लाइव सिंक</span></div>
+            <div class="rly-ledger-row"><span>रजिस्ट्री पहचान ट्रांसफर स्थिति:</span> <span style="color:#ffd700;">@rlyofficial.in पक्का लॉक</span></div>
         </div>
-
-        <!-- फूटर संप्रभु सुरक्षा नोड -->
-        <div class="rly-footer-node">
-            स्वायत्त माइक्रो-कर्नल कोर | १००% विज्ञापन मुक्त (0% ADS) | १ लाख वर्ष अपरिवर्तनीय रीड-ओनली स्थिति
-        </div>
+        <div class="rly-footer-node">स्वायत्त माइक्रो-कर्नल कोर | १००% विज्ञापन मुक्त (0% ADS) | १ lakh वर्ष अपरिवर्तनीय स्थिति</div>
     </div>
+    
+    <!-- पल्स स्कैन को फ्रंट-एंड पर चलाने की त्वरित स्क्रिप्ट -->
+    <script>
+        function startLivePulseScan() {
+            const btn = document.getElementById('scan-btn');
+            const status = document.getElementById('pulse-status');
+            const container = document.getElementById('progress-container');
+            const bar = document.getElementById('progress-bar');
+            
+            btn.disabled = true;
+            btn.style.background = '#71717a';
+            btn.innerText = 'कोशिका स्कैनिंग चालू बा...';
+            status.innerText = '६० FPS स्कैनिंग...';
+            status.style.color = '#ffd700';
+            container.style.display = 'block';
+            
+            let width = 0;
+            const id = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(id);
+                    status.innerText = '६० FPS लाइव एक्टिव (सफल)';
+                    status.style.color = '#4ade80';
+                    btn.innerText = 'स्कैन पूर्ण - कोठरी सुरक्षित';
+                } else {
+                    width += 2;
+                    bar.style.width = width + '%';
+                }
+            }, 300); // १५ सेकंड का पूर्ण सिमुलेशन चक्र
+        }
+    </script>
     <script src="app.js"></script>
 </body>
 </html>
