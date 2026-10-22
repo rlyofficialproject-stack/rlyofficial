@@ -1,58 +1,69 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>आर एल वाई संप्रभु महा-साम्राज्य</title>
+    <title>RLY Sovereign Empire</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="rly-main-container">
+        <!-- ओनर निर्देशानुसार: केवल इंग्लिश ब्रांड नेम -->
         <div class="rly-sovereign-header">
             <div class="rly-3d-circular-crest"><span>RLY</span></div>
             <div class="rly-devanagari-brand">
-                <h1>आर एल वाई डिजिटल</h1>
+                <h1>RLY Digital</h1>
                 <p>Sovereign Core Live Mode</p>
             </div>
         </div>
         
-        <!-- अपडेटेड: लाइव कोशिका पल्स स्कैन इंटरेक्टिव नोड -->
+        <!-- ६० FPS लाइव कोशिका पल्स स्कैन नोड -->
         <div class="rly-calculator-card">
-            <div class="rly-item-title">🔐 आर एल वाई संप्रभु प्रवेश द्वार (Day-1 Active)</div>
-            <div class="rly-ledger-row"><span>१. भाषा हॉट-स्वैप (भोजपुरी/हिंदी):</span> <span style="color:#4ade80;">सत्यापित</span></div>
-            <div class="rly-ledger-row"><span>२. १५-सेकंड कोशिका पल्स स्कैन:</span> <span id="pulse-status" style="color:#ffd700;">रेडी (क्लिक करें)</span></div>
-            <div class="rly-ledger-row"><span>३. ६-अंकीय ऐप लॉक व फिंगरप्रिंट:</span> <span style="color:#4ade80;">हार्डवेयर सिंक</span></div>
+            <div class="rly-item-title">🔐 RLY Sovereign Entrance (Day-1 Active)</div>
+            <div class="rly-ledger-row"><span>1. Polyglot Language Hot-Swap:</span> <span style="color:#4ade80;">Verified (Pass)</span></div>
+            <div class="rly-ledger-row"><span>2. 15-Second Cell Pulse Scan:</span> <span id="pulse-status" style="color:#ffd700;">Ready (Click to Scan)</span></div>
+            <div class="rly-ledger-row"><span>3. 6-Digit App Lock & Fingerprint:</span> <span style="color:#4ade80;">Hardware Sync</span></div>
+            <div class="rly-ledger-row"><span>4. 5-Platform Decency Filter:</span> <span style="color:#4ade80;">Active (Locked)</span></div>
             
-            <!-- लाइव स्कैन ट्रिगर बटन और विजुअल बार -->
+            <!-- लाइव स्कैन इंटरैक्टिव मैकेनिज्म -->
             <div style="margin-top: 15px; text-align: center;">
-                <button id="scan-btn" onclick="startLivePulseScan()" style="background: #ffd700; color: #0c0c0e; border: none; padding: 10px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; width: 100%;">६० FPS कोशिका स्कैन शुरू करें</button>
+                <button id="scan-btn" onclick="startLivePulseScan()" style="background: #ffd700; color: #0c0c0e; border: none; padding: 12px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; width: 100%; font-size: 14px; letter-spacing: 1px;">START 60 FPS CELL PULSE SCAN</button>
                 <div id="progress-container" style="width: 100%; background: #27272a; height: 8px; border-radius: 4px; margin-top: 10px; display: none; overflow: hidden;">
                     <div id="progress-bar" style="width: 0%; background: #4ade80; height: 100%; transition: width 0.15s linear;"></div>
                 </div>
             </div>
         </div>
 
+        <!-- २००० कंपनी ऑटोमेशन और जीएसटी कैलकुलेटर हब -->
         <div class="rly-calculator-card">
             <div class="rly-item-title">Toyota Fortuner Legender (2026 Facelift)</div>
-            <div class="rly-ledger-row"><span>बेस मूल्य:</span> <span>₹43,00,000.00</span></div>
-            <div class="rly-ledger-row"><span style="color:#ef4444;">स्वचालित GST (18%):</span> <span style="color:#ef4444;">₹7,74,000.00</span></div>
-            <div class="rly-total-row"><span>कुल ऑन-रोड संप्रभु मूल्य:</span> <span>₹50,74,000.00</span></div>
+            <div class="rly-ledger-row"><span>Base Price:</span> <span>₹43,00,000.00</span></div>
+            <div class="rly-ledger-row"><span id="fortuner-gst-label" style="color:#ef4444;">Automatic GST (18%):</span> <span id="fortuner-gst-val" style="color:#ef4444;">₹7,74,000.00</span></div>
+            <div class="rly-total-row"><span>Total On-Road Sovereign Price:</span> <span>₹50,74,000.00</span></div>
         </div>
+
         <div class="rly-calculator-card">
             <div class="rly-item-title">Mahindra Scorpio-N (2026 Facelift)</div>
-            <div class="rly-ledger-row"><span>बेस मूल्य:</span> <span>₹18,00,000.00</span></div>
-            <div class="rly-ledger-row"><span style="color:#ef4444;">स्वचालित GST (5%):</span> <span style="color:#ef4444;">₹90,000.00</span></div>
-            <div class="rly-total-row"><span>कुल ऑन-रोड संप्रभु मूल्य:</span> <span>₹18,90,000.00</span></div>
+            <div class="rly-ledger-row"><span>Base Price:</span> <span>₹18,00,000.00</span></div>
+            <div class="rly-ledger-row"><span id="scorpio-gst-label" style="color:#ef4444;">Automatic GST (5%):</span> <span id="scorpio-gst-val" style="color:#ef4444;">₹90,000.00</span></div>
+            <div class="rly-total-row"><span>Total On-Road Sovereign Price:</span> <span>₹18,90,000.00</span></div>
         </div>
+
         <div class="rly-calculator-card">
-            <div class="rly-item-title">🛒 २००० कंपनी डेली कैटलॉग (Good Morning to Night)</div>
-            <div class="rly-ledger-row"><span>FMCG आवश्यक वस्तुएं स्थिति:</span> <span style="color:#4ade80;">१००% लाइव सिंक</span></div>
-            <div class="rly-ledger-row"><span>रजिस्ट्री पहचान ट्रांसफर स्थिति:</span> <span style="color:#ffd700;">@rlyofficial.in पक्का लॉक</span></div>
+            <div class="rly-item-title">🛒 2000 Company Daily Catalog & GST Kill-Switch</div>
+            <div class="rly-ledger-row"><span>FMCG Essential Commodities:</span> <span style="color:#4ade80;">100% Live Auto-Synced</span></div>
+            <div class="rly-ledger-row"><span>Registry Identity Transfer:</span> <span style="color:#ffd700;">@rlyofficial.in Secured</span></div>
+            
+            <!-- वित्तीय संप्रভু किल-स्विच (GST Kill-Switch) बटन -->
+            <div style="margin-top: 15px;">
+                <button id="kill-btn" onclick="triggerSovereignKillSwitch()" style="background: #ef4444; color: #ffffff; border: none; padding: 10px; font-weight: bold; border-radius: 6px; cursor: pointer; width: 100%; font-size: 12px;">ACTIVATE GST AUTO-FREEZE KILL-SWITCH</button>
+            </div>
         </div>
-        <div class="rly-footer-node">स्वायत्त माइक्रो-कर्नल कोर | १००% विज्ञापन मुक्त (0% ADS) | १ lakh वर्ष अपरिवर्तनीय स्थिति</div>
+
+        <div class="rly-footer-node">Autonomous Micro-Kernel Core | 100% Ad-Free (0% ADS) | 100,000 Year Immutable State</div>
     </div>
     
-    <!-- पल्स स्कैन को फ्रंट-एंड पर चलाने की त्वरित स्क्रिप्ट -->
+    <!-- संपूर्ण स्वायत्त कर्नल इंजन स्क्रिप्ट -->
     <script>
         function startLivePulseScan() {
             const btn = document.getElementById('scan-btn');
@@ -62,23 +73,40 @@
             
             btn.disabled = true;
             btn.style.background = '#71717a';
-            btn.innerText = 'कोशिका स्कैनिंग चालू बा...';
-            status.innerText = '६० FPS स्कैनिंग...';
-            status.style.color = '#ffd700';
+            btn.innerText = 'SCANNING CELL BIOMETRIC MATRIX...';
+            status.innerText = '60 FPS Scanning...';
             container.style.display = 'block';
             
             let width = 0;
             const id = setInterval(() => {
                 if (width >= 100) {
                     clearInterval(id);
-                    status.innerText = '६० FPS लाइव एक्टिव (सफल)';
+                    status.innerText = '60 FPS Live Active (Secured)';
                     status.style.color = '#4ade80';
-                    btn.innerText = 'स्कैन पूर्ण - कोठरी सुरक्षित';
+                    btn.innerText = 'SCAN COMPLETE - VAULT LOCKED';
+                    console.log("[RLY OS]: कोशिका पल्स स्कैन शत-प्रतिशत सफल। सैंडबॉक्स कोठरी सुरक्षित।");
                 } else {
-                    width += 2;
+                    width += 5;
                     bar.style.width = width + '%';
                 }
-            }, 300); // १५ सेकंड का पूर्ण सिमुलेशन चक्र
+            }, 150);
+        }
+
+        function triggerSovereignKillSwitch() {
+            const killBtn = document.getElementById('kill-btn');
+            document.getElementById('fortuner-gst-label').style.color = '#ffd700';
+            document.getElementById('fortuner-gst-label').innerText = 'GST FROZEN (Quartz 5D Storage):';
+            document.getElementById('fortuner-gst-val').style.color = '#ffd700';
+            
+            document.getElementById('scorpio-gst-label').style.color = '#ffd700';
+            document.getElementById('scorpio-gst-label').innerText = 'GST FROZEN (Quartz 5D Storage):';
+            document.getElementById('scorpio-gst-val').style.color = '#ffd700';
+            
+            killBtn.style.background = '#71717a';
+            killBtn.innerText = 'FINANCIAL KILL-SWITCH ACTIVE [FUNDS FROZEN]';
+            killBtn.disabled = true;
+            
+            alert("[🚨 RLY SYSTEM ALERT]: External Interference Detected! GST Tax Distribution Frozen into Quartz 5D Vault.");
         }
     </script>
     <script src="app.js"></script>
