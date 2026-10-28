@@ -1,1 +1,24 @@
+{
+  "short_name": "RLY Core",
+  "name": "आर एल वाई साम्राज्य ओम्नीमARTS",
+  "icons": [
+    {
+      "src": "https://rlyofficial.in",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://rlyofficial.in",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/index.html",
+  "background_color": "#0a0a0a",
+  "theme_color": "#FFD700",
+  "display": "standalone",
+  "orientation": "portrait"
+}
 
