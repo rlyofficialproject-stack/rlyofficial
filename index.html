@@ -1,1 +1,90 @@
 
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RLY DIGITAL — SOVEREIGN CORE</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="rly-vertical-frame">
+        
+        <!-- शीर्ष 15% ब्रांड एरिया - शुद्ध अंग्रेजी RLY एम्बोस्ड लोगो और राडार -->
+        <header class="rly-brand-header">
+            <div class="rly-radar-container">
+                <div class="rly-radar-pulse"></div>
+                <div class="rly-radar-line"></div>
+            </div>
+            <h1 class="rly-embossed-logo">RLY</h1>
+            <p class="rly-sub-text">SOVEREIGN CORE CORE-NODE-01</p>
+            <p class="rly-owner-id">@rlyofficial.in</p>
+        </header>
+
+        <!-- १००% विज्ञापन मुक्त (100% AD-FREE) लाइव ग्रीन बार -->
+        <div class="rly-adfree-bar">
+            <span>🛡️ RLY PROJECT — १००% विज्ञापन मुक्त (0% ADS)</span>
+        </div>
+
+        <!-- लाइव इन-स्क्रीन कोठरी टर्मिनल और इन-ऐप फॉर्म (व्हाइट अलर्ट रोकने हेतु) -->
+        <div style="background: #111; padding: 10px; border-bottom: 2px solid #d4af37;">
+            <div class="terminal-display" id="main-terminal" style="background: #000; border: 1px solid #ffd700; color: #ffd700; padding: 10px; font-family: monospace; font-size: 13px; text-align: left; border-radius: 4px; min-height: 40px; margin-bottom: 10px; white-space: pre-wrap;">
+                ⚙️ कर्नल संदेश: आर एल वाई ओम्नीमार्ट कमांड स्वीकार करने के लिए तैयार है...
+            </div>
+            <div id="rly-input-form-box" style="display: none; background: #000; border: 1px solid #39FF14; padding: 10px; border-radius: 4px;">
+                <h4 id="form-title" style="color: #FFD700; margin: 0 0 10px 0; font-size: 14px;">आर एल वाई कर्नल इनपुट</h4>
+                <div id="form-inputs-container"></div>
+                <button id="form-submit-btn" style="width: 100%; background: #ffd700; color: #000; border: none; padding: 8px; font-weight: bold; margin-top: 8px; border-radius: 4px;">कर्नल में लॉक करें</button>
+            </div>
+        </div>
+
+        <!-- मध्य अखंड स्क्रॉलिंग तिजोरी (24-इंजन कोर मैट्रिक्स) -->
+        <main class="engine-vault-core" style="overflow-y: auto; padding: 15px;">
+            
+            <!-- इंजन १ से ६: P2 बैंकिंग, यूटिलिटी व लाइव टिकटिंग -->
+            <section class="engine-node">
+                <h2>💳 इंजन १-६: P2 बैंकिंग व लाइव टिकटिंग टनल</h2>
+                <p>१ms त्वरित टनल | रिचार्ज, light, पानी, रेलवे व मेट्रो टिकटिंग</p>
+                <button style="margin-bottom: 10px;" onclick="openInAppForm('ACCOUNT')">डिजिटल सेविंग अकाउंट खोलें</button>
+                <button style="margin-bottom: 10px; background: linear-gradient(90deg, #45f3ff, #00ff88);" onclick="openInAppForm('UTILITY', 'MOBILE_RECHARGE')">📱 मोबाइल / DTH लाइव रिचार्ज करें</button>
+                <button style="background: linear-gradient(90deg, #45f3ff, #00ff88);" onclick="openInAppForm('UTILITY', 'BILL_PAYMENT')">💧 बिजली, पानी, गैस बिल पेमेंट (१ms)</button>
+            </section>
+
+            <!-- इंजन ७ से १२: २०००+ कंपनी उत्पाद एवं वैश्विक किसान योजना कैटलॉग -->
+            <section class="engine-node">
+                <h2>🌾 इंजन ७-१२: ओम्नीमार्ट उत्पाद व किसान योजना कैटलॉग</h2>
+                <p>0% कमीशन और 0% विज्ञापन | सीधे निर्माता से उपभोक्ता तक wholesale भाव</p>
+                <button style="margin-bottom: 10px; background: linear-gradient(90deg, #222, #333); color: #fff; border: 1px solid #45f3ff;" onclick="openInAppForm('SHOP', 'Mahindra Scorpio-N', 1800000, 0.05, 'VEHICLE')">Scorpio-N खरेदी (५% GST कर्नल)</button>
+                <button style="margin-bottom: 10px; background: linear-gradient(90deg, #222, #333); color: #fff; border: 1px solid #45f3ff;" onclick="openInAppForm('SHOP', 'Toyota Fortuner Legender', 4200000, 0.18, 'VEHICLE')">Fortuner Legender खरेदी (१८% GST)</button>
+                <button style="margin-bottom: 10px; background: linear-gradient(90deg, #222, #333); color: #fff; border: 1px solid #45f3ff;" onclick="openInAppForm('SHOP', 'स्मार्टफोन व एसेंशियल डेटा कोर', 50000, 0.18, 'ELECTRONICS')">स्मार्टफोन व गैजेट्स (१८% GST)</button>
+                <button style="margin-bottom: 10px; background: linear-gradient(90deg, #222, #333); color: #fff; border: 1px solid #45f3ff;" onclick="openInAppForm('SHOP', 'थोक किसान फसल अनाज बाज़ार', 2200, 0.00, 'KISAN')">किसान थोक अनाज (0% कर स्वराज्य)</button>
+            </section>
+
+            <!-- इंजन १३ से १८: १५-सेकंड लाइव कोशिका पल्स स्कैन सुरक्षा -->
+            <section class="engine-node" style="border-color: #ff3333;">
+                <h2>👁️ इंजन १३-१८: १५-सेकंड कोशिका पल्स स्कैन सुरक्षा</h2>
+                <p>६० FPS सुरक्षा | चेहरे का सूक्ष्म रक्त प्रवाह नापकर डीपफेक फ्रॉड 0% BLOCK</p>
+                <div id="scanner-box" style="height: 60px; background: #000; border: 2px dashed #00ff88; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #00ff88; font-family: monospace;">🛡️ कोठरी (Sandbox Vault) सुरक्षित एवं अचल है</div>
+                <button onclick="startPulseScan()">१५-सेकंड लाइव कोशिका स्कैन प्रारंभ करें</button>
+            </section>
+
+            <!-- इंजन १९ से २४: परमाणु क्लिस्टर मेश ऑफलाइन एवं पोस्ट-क्वांटम कवच -->
+            <section class="engine-node" style="border-color: #9400D3;">
+                <h2>🔒 इंजन १९-२४: परमाणु क्लिस्टर मेश व पोस्ट-क्वांटम कवच</h2>
+                <p>सिलिका परमाणु तरंगें | सरकारी IPC/BNS स्वचालित विधिक अनुकूलन लॉक</p>
+                <button style="background: #333; color: #ffd700; border: 1px solid #ffd700;" onclick="triggerSovereignLock()">⏳ १ लाख वर्ष "Read-Only" मास्टर लॉक सत्यापित करें</button>
+            </section>
+
+        </main>
+
+        <!-- 🔒 अभेद्य फिक्स बॉटम लॉकर पट्टी -->
+        <footer class="rly-core-footer-seal">
+            🔒 स्वायत्त माइक्रो-कर्नल कोर | १००% विज्ञापन मुक्त (0% ADS)
+        </footer>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
