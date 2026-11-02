@@ -1,1 +1,25 @@
+{
+  "short_name": "RLY Digital",
+  "name": "RLY Digital Samrat Samrajya",
+  "description": "आर एल वाई स्वतंत्र कोर बैंकिंग व ओम्नीमार्ट थोक व्यापार स्वराज्य",
+  "icons": [
+    {
+      "src": "rly_logo.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "rly_logo_512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "./index.html",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "display": "standalone",
+  "orientation": "portrait"
+}
 
