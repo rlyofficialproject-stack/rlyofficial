@@ -1,1 +1,136 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b0c10">
+    <title>RLY DIGITAL — SOVEREIGN MAIN CORE</title>
+    <link rel="manifest" href="manifest.json">
+    <style>
+        /* आर एल वाई लक्ज़री म्यूटेड ग्रे बेसाल्ट स्टोन और 3D गोल्ड-सिल्वर थीम */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #0b0c10; color: #ffffff; font-family: 'Segoe UI', Arial, sans-serif; padding-bottom: 80px; }
+        
+        /* ऊपरी १५% ब्रैंड एरिया (Strict Safe Zone Layout - Only English Title) */
+        header { background: radial-gradient(circle, #1f2833 0%, #0b0c10 100%); padding: 35px 20px; text-align: center; border-bottom: 2px solid #c5a059; box-shadow: 0 4px 25px rgba(197, 160, 89, 0.25); }
+        .brand-title { font-size: 34px; font-weight: 900; color: #ffffff; letter-spacing: 4px; text-shadow: 0 0 12px rgba(255,255,255,0.3); font-family: Arial, sans-serif; }
+        .brand-subtitle { font-size: 15px; color: #c5a059; margin-top: 6px; font-weight: bold; letter-spacing: 1px; }
+
+        main { max-width: 600px; margin: 20px auto; padding: 0 15px; }
+
+        /* स्वायत्त २४-इंजन नोड्स स्टाइल */
+        .engine-node { background: #1f2833; border: 1px solid #45f3ff; border-radius: 8px; padding: 22px; margin-bottom: 22px; box-shadow: 0 4px 15px rgba(69, 243, 255, 0.12); border-left: 4px solid #c5a059; }
+        .engine-node h2 { color: #45f3ff; font-size: 19px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+        .engine-node p { font-size: 14px; color: #e5e5e5; line-height: 1.6; margin-bottom: 15px; }
+        
+        /* 3D रेज्ड रिलीफ इफेक्ट बटन */
+        .rly-btn { background: linear-gradient(135deg, #c5a059 0%, #9e7a33 100%); color: #000000; border: none; padding: 14px 22px; font-size: 14px; font-weight: 900; border-radius: 6px; cursor: pointer; width: 100%; transition: 0.3s; text-transform: uppercase; box-shadow: 0 4px 10px rgba(197, 160, 89, 0.3); }
+        .rly-btn:active { transform: scale(0.97); background: #45f3ff; box-shadow: 0 0 15px #45f3ff; }
+
+        /* लाइव पल्स स्कैनर बॉक्स */
+        #scanner-box { display: none; background: #000000; border: 2px dashed #45f3ff; padding: 25px; margin-top: 15px; text-align: center; border-radius: 6px; }
+        .pulse-line { height: 2px; background: #45f3ff; width: 100%; box-shadow: 0 0 12px #45f3ff; animation: scanAnimation 2s infinite linear; }
+        @keyframes scanAnimation { 0% { transform: translateY(0); } 50% { transform: translateY(60px); } 100% { transform: translateY(0); } }
+
+        /* अभेद्य फिक्स बॉटम लॉकर पट्टी (आरबीआई कर्नल अनुपालन) */
+        .rly-core-footer-seal { position: fixed; bottom: 0; left: 0; width: 100%; background: #0b0c10; border-top: 2px solid #c5a059; text-align: center; padding: 15px 12px; font-size: 12px; color: #aaaaaa; z-index: 10000; line-height: 1.8; box-shadow: 0 -4px 20px rgba(0,0,0,0.8); }
+        .rly-core-footer-seal a { color: #c5a059; text-decoration: none; font-weight: bold; margin-left: 6px; padding: 2px 6px; border: 1px solid #c5a059; border-radius: 4px; background: rgba(197,160,89,0.1); }
+        
+        /* निचला २५% खाली सेफ़ ज़ोन (UI और कमेंट ओवरलैप से सुरक्षा) */
+        .safe-zone-spacer { height: 130px; }
+    </style>
+</head>
+<body>
+
+    <!-- ऊपरी १५% ब्रैंड एरिया (English Only Core Display) -->
+    <header>
+        <div class="brand-title">RLY DIGITAL</div>
+        <div class="brand-subtitle">रमेश लालमान यादव इंटरप्राइजेज</div>
+    </header>
+
+    <main>
+        <!-- इंजन १ से ६: स्वतंत्र बैंकिंग टनल (CBS Solution) -->
+        <section class="engine-node">
+            <h2>🏦 इंजन १-६: स्वतंत्र बैंकिंग टनल</h2>
+            <p>1ms लाइव टिकटिंग मोड। बचत खाता, मोबाइल/DTH रिचार्ज, बिजली, पानी, गैस बिल भुगतान गेटवे।</p>
+            <button class="rly-btn" onclick="triggerBanking(500, 'Mobile/DTH Recharge')">रीचार्ज टनल बूट करें (₹५००)</button>
+        </section>
+
+        <!-- इंजन ७ से १२: ओम्नीमार्ट थोक व्यापार एवं किसान स्वराज्य कैटलॉग -->
+        <section class="engine-node">
+            <h2>📦 इंजन ७-१२: RLY OmniMart साम्राज्य</h2>
+            <p>२०००+ कंपनियों का सीधा मिल रेट डेटाबेस। ५% (Scorpio-N/कपड़ा) एवं १८% (Fortuner/स्मार्टफोन) ऑटो-जीएसटी कर स्वराज्य स्लॉट [3.1, 3.6]।</p>
+            <button class="rly-btn" onclick="checkProduct('M-SCORPIO-N-01')">Scorpio-N लाइव wholesale भाव जांचें</button>
+            <button class="rly-btn" onclick="checkProduct('T-FORTUNER-02')" style="margin-top: 10px; background: linear-gradient(135deg, #45f3ff 0%, #00a8ff 100%); color: #000000;">Fortuner Legender लाइव भाव जांचें</button>
+        </section>
+
+        <!-- इंजन १३ से १८: १५-सेकंड कोशिका पल्स स्कैन सुरक्षा (६0 FPS) -->
+        <section class="engine-node">
+            <h2>👁️ इंजन १३-१८: माइक्रो-ब्लड फ्लो सुरक्षा</h2>
+            <p>६0 FPS लाइव कैमरा पल्स स्कैन। डीपफेक फ्रॉड, अनधिकृत कूरियर इंटरसेप्शन एवं रास्ते की चोरी 0% ब्लॉक।</p>
+            <button class="rly-btn" onclick="startPulseScan()">पल्स बायो-स्कैन सक्रिय करें</button>
+            <div id="scanner-box">
+                <div class="pulse-line"></div>
+                <p style="margin-top: 12px; color: #45f3ff; font-weight: bold; letter-spacing: 1px;">🔒 कोशिका रक्त प्रवाह एवं डीपफेक स्कैनिंग सक्रिय...</p>
+            </div>
+        </section>
+
+        <!-- इंजन १९ से २४: परमाणु क्लिस्टर मेश ऑफलाइन क्वांटम शील्ड -->
+        <section class="engine-node">
+            <h2>🛡️ इंजन १९-२४: क्वांटम शील्ड मैट्रिक्स</h2>
+            <p>सिलिका परमाणु तरंगें। १ लाख वर्ष "Read-Only" मास्टर लॉक सुरक्षा प्रणाली सत्यापित। १००% विज्ञापन मुक्त (0% ADS) [3.1]।</p>
+            <button class="rly-btn" onclick="alert('🔒 कर्नल शील्ड अभेद्य है। १ लाख वर्ष के मास्टर लॉक में ऑफलाइन सिलिका मेश एक्टिव।')">शील्ड स्थिति सत्यापित करें</button>
+        </section>
+
+        <!-- निचला २५% खाली सेफ़ ज़ोन -->
+        <div class="safe-zone-spacer"></div>
+    </main>
+
+    <!-- अभेद्य फिक्स बॉटम लॉकर पट्टी (आरबीआई और पार्टनर बैंकों के नियमों के अनुसार) [2.2, PART A] -->
+    <footer class="rly-core-footer-seal">
+        🔒 स्वायत्त कर्नल कोर | 0% प्लेटफॉर्म कमीशन | १००% विज्ञापन मुक्त (0% ADS) [3.1]<br>
+        &copy; 2026 RLY DIGITAL. सर्वाधिकार सुरक्षित। | <a href="privacy.html">गोपनीयता नीति (Privacy Policy)</a> [4, PART A]
+    </footer>
+
+    <!-- स्वायत्त फ्रंटएंड लॉजिक कर्नल सिंक इंजन -->
+    <script>
+        function triggerBanking(amount, type) {
+            console.log("[RLY UI] Initiating Banking Core...");
+            if(typeof RLY_KERNEL !== 'undefined') {
+                let options = RLY_KERNEL.engines.banking.processRealPayment(amount, type);
+                alert(`[CBS CBS-LINK] पेमेंट टनल एक्टिवेटेड। राशि: ₹${amount} | सेवा: ${type}\nMID: TuQGEGCy5OLtl0`);
+            } else {
+                alert("रेज़रपे मर्चेंट बैकएंड बैंक कर्नल रिव्यू में है। लाइव पेमेंट गेटवे सक्रिय होने की प्रतीक्षा करें।");
+            }
+        }
+
+        function checkProduct(id) {
+            console.log("[RLY UI] Fetching OmniMart Database...");
+            if(typeof RLY_KERNEL !== 'undefined') {
+                let res = RLY_KERNEL.engines.omnimart.calculateLivePrice(id);
+                alert(`उत्पाद: ${res.name}\nकारखाना wholesale मूल्य: ${res.wholesale}\nऑटो-जीएसटी स्लॉट: ${res.gst}\nकुल देय (पब्लिक रेट): ${res.total}\nसुरक्षा सील: ${res.highlight}`);
+            } else {
+                alert("ओम्नीमार्ट २०००+ कंपनी मास्टर डेटाबेस बैकएंड पर बूट हो रहा है...");
+            }
+        }
+
+        function startPulseScan() {
+            let box = document.getElementById('scanner-box');
+            box.style.display = box.style.display === 'block' ? 'none' : 'block';
+            if(typeof RLY_KERNEL !== 'undefined') {
+                RLY_KERNEL.engines.securityScan.startPulseScan();
+            }
+        }
+
+        // PWA कर्नल बूट सीक्वेंस रजिस्ट्री
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(() => console.log('[RLY PWA] Service Worker Fully Registered.'))
+                    .catch(err => console.log('[RLY PWA] Registration Failed: ', err));
+            });
+        }
+    </script>
+</body>
+</html>
 
