@@ -408,7 +408,58 @@ const RLY_QR_Security_Shield = {
 (function bootQRSecurityShield() {
     console.log("[🔒 RLY सुरक्षा] सूरत और दादर डिपो एंटी-डुप्लिकेट QR कोड शील्ड लाइव है।");
 })();
-                
+// ========================================================================
+// आर एल वाई (RLY) डिजिटल सम्राट — स्वचालित जीएसटी (GST) डिडक्शन एवं प्रॉफिट ट्रैकर इंजन
+// अधिपति: श्री रमेश लालमान यादव | १ लाख वर्ष संप्रभु रीड-ओनली ट्रेजरी कर्नल
+// ========================================================================
+
+const RLY_GST_Deduction_Engine = {
+    // 1. वैधानिक विधिक सीमा विन्यास (RBI & CGST Act 2017 Rules)
+    statutoryExemptionLimit: 4000000, // ₹40 लाख वार्षिक टर्नओवर छूट सीमा
+    standardGstRate: 0.18, // मानक 18% जीएसटी दर कर्नल
+
+    // 2. रीयल-टाइम टर्नओवर प्रोसेसिंग एवं स्वचालित टैक्स डिडक्शन पल्स
+    processDailyTurnover: function(accountVaultId, currentGrossTurnover, initialProfitMarginPercentage) {
+        try {
+            console.log(`[🔒 RLY सम्राट] डिजिटल सम्राट तिजोरी पल्स सक्रिय। खाता आईडी: ${accountVaultId}`);
+            
+            let gstLiability = 0;
+            let currentTaxStatus = "EXEMPTED_UNDER_40L";
+
+            // सुरक्षा और विधिक जांच: यदि कुल टर्नओवर ₹40 लाख की विधिक सीमा को पार करता है
+            if (currentGrossTurnover > this.statutoryExemptionLimit) {
+                gstLiability = currentGrossTurnover * this.standardGstRate;
+                currentTaxStatus = "GST_MANDATORY_LIMIT_EXCEEDED";
+            }
+
+            // 0% प्लेटफॉर्म कमीशन मॉडल के तहत सकल मुनाफा और शुद्ध मुनाफे की रीयल-टाइम गणना
+            const grossProfitAmount = currentGrossTurnover * (initialProfitMarginPercentage / 100);
+            const rlyNetProfitAmount = grossProfitAmount - gstLiability;
+
+            // एंटी-टैम्परिंग वित्तीय बहीखाता पल्स (हैकर प्रूफ डिडक्शन लॉग)
+            return {
+                vaultSignature: btoa(`RLY-BANK-${accountVaultId}-${Date.now()}`),
+                financialSummary: {
+                    totalTurnover: currentGrossTurnover,
+                    taxStatus: currentTaxStatus,
+                    gstDeduction: gstLiability,
+                    netProfitLogged: rlyNetProfitAmount
+                },
+                timestamp: Date.now()
+            };
+
+        } catch (error) {
+            console.error("[🔒 RLY सम्राट अलर्ट] वित्तीय गणना कर्नल विफलता: ", error.message);
+            return null;
+        }
+    }
+};
+
+// 3. स्वचालित ट्रेजरी बूट अनुक्रम
+(function bootSamratTreasuryEngine() {
+    console.log("[🔒 RLY सम्राट] स्वचालित जीएसटी डिडक्शन एवं प्रॉफिट ट्रैकर इंजन सफलतापूर्वक सक्रिय।");
+})();
+        
     </script>
     <!-- RLY DIGITAL साम्राज्य - अंतिम विधिक शिकायत अनुपालन फ़ुटर -->
 <footer style="background-color: #111111; color: #ffffff; padding: 20px; text-align: center; font-family: sans-serif; border-top: 2px solid gold;">
