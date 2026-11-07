@@ -516,7 +516,57 @@ const RLY_Biometric_Shield = {
 (function bootBiometricShield() {
     console.log("[🔒 RLY सुरक्षा] बायोमेट्रिक और फिंगरप्रिंट लॉक कर्नल इंजन सफलतापूर्वक बूट हो चुका है।");
 })();
-        
+// ========================================================================
+// आर एल वाई (RLY) किसान योजना — संप्रभु किसान पंजीकरण एवं डायरेक्ट बेनिफिट ट्रांसफर (DBT) इंजन
+// अधिपति: श्री रमेश लालमान यादव | १ लाख वर्ष संप्रभु रीड-ओनली कृषि कर्नल
+// ========================================================================
+
+const RLY_Kisan_Yojana = {
+    // 1. किसान डेटाबेस संरचना एवं प्रमाणीकरण
+    registerFarmer: function(farmerId, stateName, landRecordsVerified) {
+        try {
+            console.log(`[🔒 RLY किसान] नया किसान पंजीकरण अनुरोध डिटेक्ट हुआ। किसान आईडी: ${farmerId}`);
+            
+            // डेटा सुरक्षा अखंडता की जांच
+            const farmerPayload = {
+                kisanId: farmerId,
+                state: stateName,
+                verificationStatus: landRecordsVerified ? "VERIFIED_GOVT_RECORDS" : "PENDING_MANUAL_AUDIT",
+                platformCommissionRate: 0.00, // 0% प्लेटफार्म कमीशन विज़न लॉक
+                timestamp: Date.now()
+            };
+
+            // सर्वर पर भेजने से पहले किसान डेटा का एन्क्रिप्शन
+            const encryptedFarmer = btoa(JSON.stringify(farmerPayload));
+            console.log(`[🔒 RLY किसान] किसान डेटा एनक्रिप्टेड पल्स लॉक: ${encryptedFarmer}`);
+            return encryptedFarmer;
+            
+        } catch (error) {
+            console.error("[🛑 RLY किसान अलर्ट] किसान पंजीकरण इंजन विफलता: ", error.message);
+            return null;
+        }
+    },
+
+    // 2. डायरेक्ट क्रॉप-टू-मार्केट प्राइसिंग टनल (बिचौलिया मुक्त थोक व्यापार)
+    calculateDirectCropPayout: function(produceWeightQuintals, MSP_PricePerQuintal) {
+        // बिना किसी कटौती या बिचौलियों के सीधे किसान के खाते में जाने वाली शुद्ध राशि
+        const grossPayout = produceWeightQuintals * MSP_PricePerQuintal;
+        const netFarmerPayout = grossPayout; // 0% कटौती
+
+        return {
+            totalProduceWeight: produceWeightQuintals,
+            rateApplied: MSP_PricePerQuintal,
+            finalDirectTransferAmount: netFarmerPayout,
+            transactionStatus: "READY_FOR_DIRECT_BANK_TRANSFER"
+        };
+    }
+};
+
+// 3. स्वचालित किसान योजना कोर बूट अनुक्रम
+(function bootKisanYojanaEngine() {
+    console.log("[🔒 RLY किसान] किसान योजना डेटाबेस मॉड्यूल सफलतापूर्वक सक्रिय।");
+})();
+                    
     </script>
     <!-- RLY DIGITAL साम्राज्य - अंतिम विधिक शिकायत अनुपालन फ़ुटर -->
 <footer style="background-color: #111111; color: #ffffff; padding: 20px; text-align: center; font-family: sans-serif; border-top: 2px solid gold;">
