@@ -566,6 +566,102 @@ const RLY_Kisan_Yojana = {
 (function bootKisanYojanaEngine() {
     console.log("[🔒 RLY किसान] किसान योजना डेटाबेस मॉड्यूल सफलतापूर्वक सक्रिय।");
 })();
+// ========================================================================
+// आर एल वाई (RLY) ओम्नीमार्ट — २००० कंपनी लाइव मूल्य नियंत्रण एवं रेट मैनेजर इंजन
+// अधिपति: श्री रमेश लालमान यादव | १ लाख वर्ष संप्रभु रीड-ओनली मूल्य नियंत्रण कर्नल
+// ========================================================================
+
+const RLY_Live_Pricing_Manager = {
+    // 1. मूल्य नियंत्रण एल्गोरिथम विन्यास (Core Pricing Settings)
+    pricingPolicy: {
+        maxDiscountLimitPercentage: 80, // जनता को अधिकतम ८०% तक थोक छूट लॉक
+        platformServiceFeeAmount: 0.00,  // 0% प्लेटफार्म फीस कर्नल लॉक
+        minimumPublicSavingsThreshold: 5 // न्यूनतम ५% की बचत अनिवार्य
+    },
+
+    // 2. रीयल-टाइम डायनेमिक होलसेल प्राइस रेगुलेटर (Dynamic Rate Controls)
+    // यह फ़ंक्शन २००० कंपनियों के करोड़ों उत्पादों के पिछले और वर्तमान मूल्यों को नियंत्रित करता है
+    regulateProductPrice: function(sku, companyName, mrp, currentWholesalePrice, publicDemandPulse) {
+        try {
+            console.log(`[🔒 RLY मूल्य] उत्पाद मूल्य पल्स जांची जा रही है: SKU: ${sku} | कंपनी: ${companyName}`);
+
+            let optimizedWholesalePrice = parseFloat(currentWholesalePrice);
+            const maximumRetailPrice = parseFloat(mrp);
+
+            // सुरक्षा जांच १: यदि वर्तमान थोक मूल्य MRP से अधिक हो जाए (डाटा एरर शील्ड)
+            if (optimizedWholesalePrice >= maximumRetailPrice) {
+                // स्वतः मूल्य को MRP से २०% नीचे सेट करें ताकि यूज़र को तुरंत लाभ मिले
+                optimizedWholesalePrice = maximumRetailPrice * 0.80;
+            }
+
+            // सुरक्षा जांच २: सार्वजनिक मांग (Demand Pulse) के आधार पर मूल्य नियंत्रण
+            // यदि उत्पाद की मांग बहुत अधिक (HIGH) है, तो थोक कीमतों को कृत्रिम महंगाई से बचाने के लिए स्थिर रखना
+            if (publicDemandPulse === "HIGH_VOLUME_DEMAND") {
+                // आम जनता के लाभ के लिए थोक मूल्य में ५% की अतिरिक्त छूट इन्जेक्ट करना
+                optimizedWholesalePrice = optimizedWholesalePrice * 0.95;
+            }
+
+            // विधिक गणना: वर्तमान छूट और शुद्ध सार्वजनिक बचत (Net Public Savings)
+            const totalDiscountAmount = maximumRetailPrice - optimizedWholesalePrice;
+            const absoluteDiscountPercentage = Math.round((totalDiscountAmount / maximumRetailPrice) * 100);
+
+            // सुरक्षा जांच ३: यदि छूट सीमा विधिक नीति (80%) से अधिक हो रही है
+            if (absoluteDiscountPercentage > this.pricingPolicy.maxDiscountLimitPercentage) {
+                // मूल्य को अधिकतम अनुमत ८०% छूट सीमा पर लॉक कर देना
+                optimizedWholesalePrice = maximumRetailPrice * 0.20;
+            }
+
+            return {
+                sku: sku,
+                company: companyName,
+                pricingLogs: {
+                    mrp: maximumRetailPrice,
+                    finalWholesalePrice: parseFloat(optimizedWholesalePrice.toFixed(2)),
+                    publicSavingsAmount: parseFloat((maximumRetailPrice - optimizedWholesalePrice).toFixed(2)),
+                    publicDiscountPercentage: Math.max(absoluteDiscountPercentage, this.pricingPolicy.minimumPublicSavingsThreshold)
+                },
+                priceStatus: "PRICING_CONTROL_STABLE_VERIFIED",
+                timestamp: Date.now()
+            };
+
+        } catch (error) {
+            console.error("[🛑 RLY मूल्य अलर्ट] मूल्य नियंत्रण प्रसंस्करण विफलता: ", error.message);
+            return null;
+        }
+    },
+
+    // 3. वैश्विक मूल्य सिंकिंग टनल (करोड़ों उत्पादों का एक साथ रेट अपडेशन)
+    syncGlobalCatalogPricing: function(rawCatalogStream) {
+        console.log("[🔒 RLY कर्नल] २००० कंपनियों का लाइव मूल्य नियंत्रण बूट हो रहा है...");
+        
+        const validatedPricingCatalog = [];
+        let itemsRegulated = 0;
+
+        rawCatalogStream.forEach(product => {
+            const regulatedNode = this.regulateProductPrice(
+                product.sku,
+                product.company_name,
+                product.maximum_retail_price,
+                product.current_wholesale_price,
+                product.demand_status || "NORMAL"
+            );
+
+            if (regulatedNode) {
+                validatedPricingCatalog.push(regulatedNode);
+                itemsRegulated++;
+            }
+        });
+
+        console.log(`[🔒 RLY सफलता] कुल ${itemsRegulated} उत्पादों का मूल्य सफलतापूर्वक नियंत्रित और सिंक हो गया है।`);
+        return validatedPricingCatalog;
+    }
+};
+
+// 4. स्वचालित मूल्य नियंत्रण कोर बूट अनुक्रम
+(function bootPricingManagerEngine() {
+    console.log("[🔒 RLY मूल्य] स्वचालित लाइव मूल्य नियंत्रण एवं रेट मैनेजर इंजन पूर्ण रूप से लॉक है।");
+})();
+
                     
     </script>
     <!-- RLY DIGITAL साम्राज्य - अंतिम विधिक शिकायत अनुपालन फ़ुटर -->
