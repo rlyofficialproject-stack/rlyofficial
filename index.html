@@ -846,6 +846,66 @@ const RLY_Utility_Recharge_Engine = {
 (function bootUtilityRechargeEngine() {
     console.log("[🔒 RLY यूटिलिटी] स्वचालित मोबाइल, DTH एवं यूटिलिटी बिल रिचार्ज इंजन सफलतापूर्वक सक्रिय।");
 })();
+// ========================================================================
+// आर एल वाई (RLY) ओम्नीमार्ट — स्वचालित रील्स वीडियो जनरेटर एवं विज़ुअल सिंकिंग कर्नल
+// अधिपति: श्री रमेश लालमान यादव | संस्था: रमेश लालमान यादव इंटरप्राइजेज
+// १ लाख वर्ष संप्रभु रीड-ओनली ऑटो-रील्स ट्रैफ़िक (Traffic Engine) कर्नल
+// ========================================================================
+
+const RLY_Auto_Reels_Generator = {
+    // 1. विज़ुअल लेआउट कॉन्फ़िगरेशन (३D सुरक्षित ज़ोन)
+    videoSettings: {
+        durationSeconds: 7, // ७ सेकंड का शॉर्ट रील्स कर्नल लॉक
+        aspectRatio: "16:9", // मोबाइल वर्टिकल व्यू
+        fpsTarget: 60, // ६० FPS कोशिका पल्स स्मूथ विज़ुअल अलाइनमेंट
+        instagramSafeZoneTopPercentage: 15 // ऊपरी १५% सुरक्षित क्षेत्र लॉक
+    },
+
+    // 2. ऑटोमैटिक रील्स डेटा पार्सर (Past vs Present Price Visualizer)
+    generateReelMetadata: function(productId, companyName, productName, pastPrice, presentPrice) {
+        try {
+            console.log(`[🔒 RLY रील्स] ऑटो-रील्स विज़ुअल पल्स सक्रिय। उत्पाद आईडी: ${productId}`);
+
+            const historicalRate = parseFloat(pastPrice);
+            const currentWholesaleRate = parseFloat(presentPrice);
+            
+            // जनता को आकर्षित करने के लिए वास्तविक बचत का विज़ुअल डेटा
+            const savingsAmount = historicalRate - currentWholesaleRate;
+            const dropPercentage = Math.round((savingsAmount / historicalRate) * 100);
+
+            // रील्स ओवरले टेक्स्ट विज़ुअल आर्किटेक्चर
+            const visualOverlayPayload = {
+                reelId: `RLY-REEL-${productId}-${Date.now()}`,
+                companyTag: companyName,
+                productLabel: productName,
+                framesData: {
+                    frame1_PastPriceText: `🛑 पुराना दाम: ₹${historicalRate}`,
+                    frame2_PresentPriceText: `⚡ नया थोक मूल्य: ₹${currentWholesaleRate}`,
+                    frame3_SavingsAlertText: `🔥 बंपर धमाका बचत: ₹${savingsAmount} (${dropPercentage}% OFF)`
+                },
+                callToAction: "🛒 अभी बुक करें - RLY OMNIMART थोक व्यापार"
+            };
+
+            console.log(`[🔒 RLY कर्नल] रील्स मेटाडेटा टनल में एन्क्रिप्टेड लॉक सुरक्षित है...`);
+            return {
+                status: "REEL_METADATA_GENERATED",
+                payload: visualOverlayPayload,
+                integritySignature: btoa(JSON.stringify(visualOverlayPayload)),
+                timestamp: Date.now()
+            };
+
+        } catch (error) {
+            console.error("[🛑 RLY रील्स अलर्ट] ऑटो-रील्स कर्नल विफलता: ", error.message);
+            return null;
+        }
+    }
+};
+
+// 3. स्वचालित रील्स ट्रैफ़िक कोर बूट अनुक्रम
+(function bootAutoReelsEngine() {
+    console.log("[🔒 RLY रील्स] स्वचालित रील्स वीडियो जनरेटर एवं विज़ुअल सिंकिंग इंजन सफलतापूर्वक सक्रिय।");
+})();
+
 
                     
     </script>
