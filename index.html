@@ -1042,6 +1042,38 @@ const RLY_Cloud_Database_Tunnel = {
         
 
                     
+<!-- RLY DIGITAL - CASHFREE PAYMENT INTEGRATION KERNEL (NODE 14) -->
+<script src="https://cashfree.com"></script>
+
+<script>
+// कैशफ्री इनिशियलाइजेशन कर्नल
+const cashfree = Cashfree({
+    mode: "sandbox" // कूट समीक्षा अवधि के दौरान टेस्टिंग हेतु, लाइव होने पर "production" करेंगे
+});
+
+// पेमेंट इनीशिएशन नोड (RLY OmniMart Checkout Logic)
+function initializeRLYPayment(orderToken) {
+    if (!orderToken) {
+        console.error("RLY Error: ऑर्डर टोकन अनुपलब्ध है।");
+        return;
+    }
+    
+    let checkoutOptions = {
+        paymentSessionId: orderToken,
+        redirectTarget: "_self" // मालिक के मोबाइल ब्राउज़र अनुकूलन हेतु लाइव रिडायरेक्ट लॉकिंग
+    };
+    
+    // कैशफ्री गेटवे कर्नल एक्टिवेशन
+    cashfree.checkout(checkoutOptions).then(function(result) {
+        if(result.error) {
+            alert("भुगतान त्रुटि: " + result.error.message);
+        }
+        if(result.redirect) {
+            console.log("RLY टनल: रीडायरेक्ट सक्रिय मोड");
+        }
+    });
+}
+
     </script>
     <!-- RLY DIGITAL साम्राज्य - अंतिम विधिक शिकायत अनुपालन फ़ुटर -->
 <footer style="background-color: #111111; color: #ffffff; padding: 20px; text-align: center; font-family: sans-serif; border-top: 2px solid gold;">
