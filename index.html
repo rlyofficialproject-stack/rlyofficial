@@ -119,6 +119,105 @@
         </optgroup>
     </select>
 </div>
+    <!-- ========================================================================== -->
+<!-- 🚨 RLY DIGITAL - SOVEREIGN PWA MOBILE INSTALL SHIELD & PLAY STORE READY KERNEL -->
+<!-- ========================================================================== -->
+<!-- विज़ुअल ३डी लग्ज़री इंस्टॉल बैनर (टॉप १५% सेफ ज़ोन हेतु अनुकूलित) -->
+<div id="rly-app-install-shield" style="
+    display: none; 
+    width: 90%; 
+    margin: 15px auto; 
+    padding: 14px; 
+    background: linear-gradient(135deg, #111111 0%, #222222 100%); 
+    border: 2px solid #FFD700; 
+    border-radius: 12px; 
+    box-shadow: 0px 8px 20px rgba(0,0,0,0.7), inset 0px 2px 4px rgba(255,215,0,0.3); 
+    text-align: center; 
+    box-sizing: border-box;
+    position: relative;
+    z-index: 99999;
+">
+    <p style="
+        color: #FFFFFF; 
+        font-family: sans-serif; 
+        font-size: 15px; 
+        font-weight: bold; 
+        margin: 0 0 10px 0;
+        text-shadow: 0px 2px 4px rgba(0,0,0,0.8);
+    ">📱 RLY DIGITAL ऑफिशियल ऐप इंस्टॉल करें</p>
+    
+    <p style="
+        color: #aaaaaa; 
+        font-family: 'Courier New', monospace; 
+        font-size: 11px; 
+        margin: 0 0 12px 0;
+    ">0% विज्ञापन | 100% सुरक्षित संप्रभु इकोसिस्टम</p>
+
+    <div style="display: flex; gap: 10px; justify-content: center;">
+        <!-- वेबसाइट से डायरेक्ट डाउनलोड बटन -->
+        <button id="rly-pwa-install-btn" style="
+            flex: 1;
+            padding: 12px; 
+            background: linear-gradient(180deg, #FFD700 0%, #B8860B 100%); 
+            color: #000000; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 13px; 
+            font-weight: 900; 
+            cursor: pointer;
+            box-shadow: 0px 4px 0px #8B6508;
+            text-transform: uppercase;
+        ">वेबसाइट से इंस्टॉल</button>
+
+        <!-- भविष्य का प्ले स्टोर रेडी बटन (बैलेंस आने पर एक्टिवेट करने हेतु ढांचा तैयार) -->
+        <button onclick="alert('RLY घोषणा: प्ले स्टोर लिंकेज प्रक्रिया प्रगति पर है। वर्तमान में कृपया वेबसाइट बटन का उपयोग करें।')" style="
+            flex: 1;
+            padding: 12px; 
+            background: #333333; 
+            color: #888888; 
+            border: 1px solid #555555; 
+            border-radius: 8px; 
+            font-size: 13px; 
+            font-weight: bold; 
+            cursor: pointer;
+        ">Play Store (शीघ्र)</button>
+    </div>
+</div>
+
+<script>
+// PWA मोबाइल इंस्टॉल शील्ड बैकएंड लॉजिक कर्नल
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+    // डिफ़ॉल्ट ब्राउज़र प्रॉम्प्ट को रोकना
+    e.preventDefault();
+    deferredPrompt = e;
+    // मालिक के ३डी विज़ुअल शील्ड बैनर को स्क्रीन पर दिखाना
+    const installShield = document.getElementById('rly-app-install-shield');
+    if(installShield) installShield.style.display = 'block';
+});
+
+document.getElementById('rly-pwa-install-btn')?.addEventListener('click', async () => {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`[🔒 RLY ऐप वितरण नोड] यूजर इंस्टॉलेशन निर्णय: ${outcome}`);
+        deferredPrompt = null;
+        const installShield = document.getElementById('rly-app-install-shield');
+        if(installShield) installShield.style.display = 'none';
+    } else {
+        // यदि ब्राउज़र PWA को सपोर्ट नहीं कर रहा है तो डायरेक्ट डाउनलोड गाइडेंस नोड
+        alert("आर एल वाई निर्देश: अपने मोबाइल ब्राउज़र के मेनू (तीन डॉट्स) पर क्लिक करें और 'Add to Home Screen' या 'ऐप इंस्टॉल करें' को चुनें।");
+    }
+});
+
+window.addEventListener('appinstalled', () => {
+    console.log('[🔒 RLY ऐप वितरण नोड] RLY DIGITAL ऐप मोबाइल पर सफलतापूर्वक इंस्टॉल हो गया है।');
+    const installShield = document.getElementById('rly-app-install-shield');
+    if(installShield) installShield.style.display = 'none';
+});
+</script>
+<!-- ========================================================================== -->
+    
 <!-- ========================================================================== -->
     
     <main>
