@@ -1074,6 +1074,111 @@ function initializeRLYPayment(orderToken) {
     });
 }
 
+// ==========================================================================
+// 🚨 RLY OFFICIAL PROJECT - SOVEREIGN MULTI-LINGUAL POLYGLOT GRID (NODE 15)
+// ==========================================================================
+// अधिपति: श्री रमेश लालमन यादव | संस्था: रमेश लालमन यादव (आर एल वाई) डिजिटल साम्राज्य
+// नियम: १००% पूर्णता लॉकिंग - एक ही बार में संपूर्ण विश्व और राज्यों का एकीकरण
+// ==========================================================================
+
+const RLY_Sovereign_Polyglot_Grid = {
+    config: {
+        defaultLang: "hi_IN", // मुख्य राष्ट्रभाषा: शुद्ध देवनागरी हिंदी
+        fallbackLang: "en_US",
+        storageKey: "rly_system_language"
+    },
+
+    // १. वैश्विक एवं प्रांतीय कोर लाइव डिक्शनरी मैट्रिक्स (भारत के समस्त राज्य + वैश्विक देश)
+    gridMatrix: {
+        // --- भारत ग्रिड (राष्ट्रीय एवं समस्त राज्य/आंचलिक भाषाएँ) ---
+        "hi_IN": { name: "शुद्ध देवनागरी हिंदी", welcome: "आर एल वाई ओम्नीमार्ट में आपका स्वागत है", buy: "अभी सुरक्षित भुगतान करें" },
+        "en_IN": { name: "English (India)", welcome: "Welcome to RLY OmniMart", buy: "Proceed to Secure Pay" },
+        "mr_IN": { name: "मराठी (महाराष्ट्र)", welcome: "आर एल वाई ओम्नीमार्ट मध्ये आपले स्वागत आहे", buy: "आता सुरक्षित पेमेंट करा" },
+        "gu_IN": { name: "ગુજરાતી (ગુજરાત)", welcome: "આર એલ વાય ઓમ્નીમાર્ટમાં આપનું સ્વાગત છે", buy: "હમણાં સુરક્ષિત ચુકવણી કરો" },
+        "bho_IN": { name: "भोजपुरी (बिहार / यूपी)", welcome: "आर एल वाई ओम्नीमार्ट में रउआ सब के स्वागत बा", buy: "अभी सुरक्षित पइसा जमा करीं" },
+        "awd_IN": { name: "अवधी (उत्तर प्रदेश क्षेत्र)", welcome: "आर एल वाई ओम्नीमार्ट मा आपका स्वागत अहै", buy: "अबहीं सुरक्षित भुगतान करैं" },
+        "ta_IN": { name: "தமிழ் (சென்னை / தமிழ்நாடு)", welcome: "ஆர்டிஒய் ஓம்னிமார்ட் உங்களை வரவேற்கிறது", buy: "இப்போது பாதுகாப்பாக பணம் செலுத்துங்கள்" },
+        "chg_IN": { name: "छत्तीसगढ़ी (छत्तीसगढ़)", welcome: "आर एल वाई ओम्नीमार्ट मा आप जम्मो मन के स्वागत हे", buy: "अभी सुरक्षित भुगतान करव" },
+        "te_IN": { name: "తెలుగు (આંધ્ર / તેલંગાણા)", welcome: "RLY ఓమ్నిమార్ట్‌కు స్వాగతం", buy: "ఇప్పుడే సురక్షित చెల్లింపు చేయండి" },
+        "kn_IN": { name: "ಕನ್ನಡ (ಕರ್ನಾಟಕ)", welcome: "RLY ಓಮ್ನಿಮಾರ್ಟ್‌ಗೆ ಸುಸ್ವಾಗತ", buy: "ಈಗ ಸುರಕ್ಷಿತ ಪಾವತಿ ಮಾಡಿ" },
+        "pa_IN": { name: "ਪੰਜਾਬੀ (ਪੰਜਾਬ)", welcome: "RLY ਓਮਨੀਮਾਰਟ ਵਿੱਚ ਤੁਹਾਡਾ ਸਵਾਗਤ ਹੈ", buy: "ਹੁਣੇ ਸੁਰੱਖਿਅਤ ਭੁਗਤਾਨ ਕਰੋ" },
+        "bn_IN": { name: "বাংলা (পশ্চিমবঙ্গ / त्रिपुरा)", welcome: "RLY ওমনিমার্টে আপনাকে স্বাগত", buy: "এখনই নিরাপদ অর্থপ্রদান করুন" },
+        
+        // --- वैश्विक ग्रिड (अंतर्राष्ट्रीय देश एवं उनके आउट-एरिया / क्षेत्रीय लहजे) ---
+        "en_US": { name: "English (America)", welcome: "Welcome to RLY OmniMart Global", buy: "Proceed to Secure Payment" },
+        "en_GB": { name: "English (United Kingdom)", welcome: "Welcome to RLY OmniMart Platform", buy: "Secure Checkout Now" },
+        "es_ES": { name: "Español (España / Global)", welcome: "Bienvenido a RLY OmniMart", buy: "Proceder al Pago Seguro" },
+        "fr_FR": { name: "Français (France)", welcome: "Bienvenue sur RLY OmniMart", buy: "Procéder au Paiement Sécurisé" },
+        "ar_AE": { name: "العربية (UAE / Gulf)", welcome: "مرحباً بكم في آر إل واي أومني مارت", buy: "متابعة الدفع الآمن" },
+        "zh_CN": { name: "简体中文 (China)", welcome: "欢迎来到 RLY OmniMart", buy: "立即进行安全支付" },
+        "ru_RU": { name: "Русский (Russia)", welcome: "Добро пожаловать в RLY OmniMart", buy: "Перейти к безопасной оплате" },
+        "de_DE": { name: "Deutsch (Germany)", welcome: "Willkommen bei RLY OmniMart", buy: "Jetzt sicher bezahlen" },
+        "ja_JP": { name: "日本語 (Japan)", welcome: "RLY OmniMart へようこそ", buy: "安全な決済に進む" }
+    },
+
+    // २. स्वचालित बूट अनुक्रम (स्वतः स्थान, आईपी और ब्राउज़र पहचान इंजन)
+    bootPolyglotEngine: function() {
+        console.log("[🌐 RLY भाषा ग्रिड] संप्रभु बहुभाषी पॉलीग्लोट ग्रिड बूट अनुक्रम सक्रिय...");
+        
+        // पहले से सेव की गई भाषा की जांच
+        let savedLang = localStorage.getItem(this.config.storageKey);
+        
+        if (savedLang && this.gridMatrix[savedLang]) {
+            this.executeGlobalTranslation(savedLang);
+        } else {
+            // स्वचालित पहचान: यूजर के मोबाइल/ब्राउज़र की मूल भाषा का पता लगाना
+            let systemLang = navigator.language || navigator.userLanguage;
+            systemLang = systemLang.replace("-", "_");
+            
+            // मैचिंग और फॉलबैक लॉजिक
+            let targetLang = this.config.defaultLang;
+            if (this.gridMatrix[systemLang]) {
+                targetLang = systemLang;
+            } else {
+                // आंशिक मिलान (जैसे 'hi-US' को 'hi_IN' पर रीडायरेक्ट करना)
+                let prefix = systemLang.split("_")[0];
+                let matched = Object.keys(this.gridMatrix).find(k => k.startsWith(prefix));
+                if (matched) targetLang = matched;
+            }
+            
+            this.executeGlobalTranslation(targetLang);
+        }
+    },
+
+    // ३. मैनुअल भाषा परिवर्तन स्विच कर्नल
+    switchSovereignLanguage: function(langCode) {
+        if (this.gridMatrix[langCode]) {
+            console.log(`[🌐 RLY भाषा ग्रिड] मालिक के निर्देशानुसार भाषा परिवर्तित: ${this.gridMatrix[langCode].name}`);
+            localStorage.setItem(this.config.storageKey, langCode);
+            this.executeGlobalTranslation(langCode);
+        } else {
+            console.error(`[🚨 RLY भाषा ग्रिड Error] कोड ${langCode} ग्रिड में उपलब्ध नहीं है।`);
+        }
+    },
+
+    // ४. १ms रीयल-टाइम पल्स ट्रांसलेशन लॉन्चर (पूरे डोमेन पर लाइव अनुवाद)
+    executeGlobalTranslation: function(langCode) {
+        let dictionary = this.gridMatrix[langCode] || this.gridMatrix[this.config.defaultLang];
+        
+        // 'data-rly-translate' एट्रिब्यूट वाले सभी एलिमेंट्स को रीयल-टाइम अपडेट करना
+        document.querySelectorAll("[data-rly-translate]").forEach(element => {
+            let translationKey = element.getAttribute("data-rly-translate");
+            if (dictionary[translationKey]) {
+                element.innerText = dictionary[translationKey];
+            }
+        });
+        
+        // ग्लोबल स्टेट अपडेट (ताकि कर्नल १४ कैशफ्री और कर्नल १० शिपरॉकेट इसके साथ तालमेल रख सकें)
+        window.currentRLYLanguage = langCode;
+    }
+};
+
+// इंजन को स्वतः सक्रिय (Auto-Trigger) करने का नोड
+(function() {
+    RLY_Sovereign_Polyglot_Grid.bootPolyglotEngine();
+})();
+// ==========================================================================
+    
     </script>
     <!-- RLY DIGITAL साम्राज्य - अंतिम विधिक शिकायत अनुपालन फ़ुटर -->
 <footer style="background-color: #111111; color: #ffffff; padding: 20px; text-align: center; font-family: sans-serif; border-top: 2px solid gold;">
