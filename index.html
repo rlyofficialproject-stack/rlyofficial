@@ -1624,7 +1624,20 @@ function executeRLYSecureCheckout() {
 }
 // ==========================================================================
     
-    </script>
+// ==========================================================================
+// 🚨 RLY MASTER UI LOCK - PERMANENT WHITE ALERT BLOCK & IN-APP 3D WINDOW
+// ==========================================================================
+window.alert = function(message) {
+    const modal = document.getElementById('rly-custom-modal');
+    const msgParam = document.getElementById('rly-modal-message');
+    if (modal && msgParam) {
+        msgParam.innerText = message;
+        modal.style.display = 'flex';
+    }
+};
+// ==========================================================================
+    
+</script>
     <!-- RLY DIGITAL साम्राज्य - अंतिम विधिक शिकायत अनुपालन फ़ुटर -->
 <footer style="background-color: #111111; color: #ffffff; padding: 20px; text-align: center; font-family: sans-serif; border-top: 2px solid gold;">
     
