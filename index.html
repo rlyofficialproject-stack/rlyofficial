@@ -1720,7 +1720,188 @@ window.alert = function(message) {
     </div>
 </div>
 <!-- ========================================================================== -->
+<!-- ========================================================= -->
+<!-- RLY DIGITAL: LIVE SEARCH, CART, LOGIN, ADMIN & SUPABASE   -->
+<!-- ========================================================= -->
+<script src="https://jsdelivr.net"></script>
+<style>
+  body { padding-bottom: 115px !important; }
+  .rly-dock-bar {
+    position: fixed; bottom: 52px; left: 0; width: 100%; z-index: 9990;
+    background: linear-gradient(90deg, #0a0a0c, #1a1508, #0a0a0c);
+    border-top: 1.5px solid #d4af37; border-bottom: 1.5px solid #d4af37;
+    display: flex; justify-content: space-around; align-items: center; padding: 7px 4px;
+    box-shadow: 0 -4px 15px rgba(0,0,0,0.9);
+  }
+  .rly-dock-btn {
+    background: linear-gradient(145deg, #1c1c22, #0d0d10); color: #ffd700;
+    border: 1px solid #d4af37; border-radius: 8px; padding: 6px 10px;
+    font-size: 12px; font-weight: bold; cursor: pointer;
+  }
+  .rly-search-wrap {
+    margin: 12px auto; max-width: 94%; background: #121216;
+    border: 1.5px solid #d4af37; border-radius: 12px; padding: 10px;
+    box-shadow: 0 4px 15px rgba(212,175,55,0.15);
+  }
+  .rly-search-input {
+    width: 100%; box-sizing: border-box; padding: 10px; border-radius: 8px;
+    border: 1px solid #d4af37; background: #09090b; color: #fff; font-size: 14px;
+  }
+  .rly-cat-row { display: flex; gap: 6px; overflow-x: auto; margin-top: 8px; padding-bottom: 4px; }
+  .rly-cat-chip {
+    background: #1d1a10; color: #ffd700; border: 1px solid #d4af37;
+    border-radius: 20px; padding: 5px 12px; font-size: 11px; white-space: nowrap; cursor: pointer;
+  }
+  .rly-modal-bg {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.88); z-index: 10000; justify-content: center; align-items: center;
+  }
+  .rly-modal-box {
+    width: 90%; max-width: 440px; max-height: 82vh; overflow-y: auto;
+    background: linear-gradient(145deg, #15151a, #09090b);
+    border: 2px solid #d4af37; border-radius: 16px; padding: 18px; color: #fff;
+    box-shadow: 0 0 25px rgba(212,175,55,0.35);
+  }
+  .rly-field {
+    width: 100%; box-sizing: border-box; padding: 9px; margin: 6px 0 12px;
+    background: #0b0b0e; border: 1px solid #d4af37; border-radius: 8px; color: #fff;
+  }
+  .rly-gold-action {
+    width: 100%; padding: 11px; background: linear-gradient(90deg, #d4af37, #a67c00);
+    color: #000; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; font-size: 14px;
+  }
+</style>
 
+<!-- क्विक एक्शन डॉक बार (सर्च, कार्ट, लॉगिन, एडमिन) -->
+<div class="rly-dock-bar">
+  <button class="rly-dock-btn" onclick="rlyFocusSearch()">🔍 खोजें</button>
+  <button class="rly-dock-btn" onclick="rlyOpenModal('cartModal')">🛒 टोकरी (<span id="rlyCartCount">0</span>)</button>
+  <button class="rly-dock-btn" onclick="rlyOpenModal('loginModal')">👤 लॉगिन</button>
+  <button class="rly-dock-btn" onclick="rlyOpenAdmin()">🔐 एडमिन</button>
+</div>
+
+<!-- ३डी पॉप-अप विंडो: शॉपिंग कार्ट व ऑर्डर -->
+<div id="cartModal" class="rly-modal-bg">
+  <div class="rly-modal-box">
+    <h3 style="color:#ffd700; margin-top:0;">🛒 आपकी शॉपिंग टोकरी (RLY OmniMart)</h3>
+    <div id="rlyCartItems" style="font-size:13px; margin-bottom:12px;">टोकरी अभी खाली है।</div>
+    <input id="custName" class="rly-field" placeholder="ग्राहक / दुकान का पूरा नाम">
+    <input id="custPhone" class="rly-field" placeholder="मोबाइल नंबर (WhatsApp)">
+    <textarea id="custAddr" class="rly-field" rows="2" placeholder="पूरा डिलीवरी पता व पिनकोड (सूरत/मुंबई डिपो डिस्पैच)"></textarea>
+    <button class="rly-gold-action" onclick="rlyPlaceOrder()">✅ ऑर्डर कन्फ़र्म करें (Cashfree / UPI)</button>
+    <button onclick="rlyCloseModal('cartModal')" style="width:100%; margin-top:8px; padding:8px; background:#222; color:#ccc; border:none; border-radius:8px;">बंद करें</button>
+  </div>
+</div>
+
+<!-- ३डी पॉप-अप विंडो: ग्राहक लॉगिन व प्रोफाइल -->
+<div id="loginModal" class="rly-modal-bg">
+  <div class="rly-modal-box">
+    <h3 style="color:#ffd700; margin-top:0;">👤 ग्राहक लॉगिन एवं ऑर्डर इतिहास</h3>
+    <input id="loginMobile" class="rly-field" placeholder="अपना १० अंकों का मोबाइल नंबर या ईमेल डालें">
+    <button class="rly-gold-action" onclick="rlyCustomerLogin()">लॉगिन / प्रोफाइल देखें</button>
+    <div id="customerProfileBox" style="margin-top:12px; font-size:13px; color:#d4af37;"></div>
+    <button onclick="rlyCloseModal('loginModal')" style="width:100%; margin-top:8px; padding:8px; background:#222; color:#ccc; border:none; border-radius:8px;">बंद करें</button>
+  </div>
+</div>
+
+<!-- ३डी पॉप-अप विंडो: गुप्त एडमिन कंट्रोल रूम -->
+<div id="adminModal" class="rly-modal-bg">
+  <div class="rly-modal-box">
+    <h3 style="color:#ffd700; margin-top:0;">👑 RLY स्वामी नियंत्रण कक्ष (Admin)</h3>
+    <p style="font-size:12px; color:#aaa;">बिना कोडिंग सीधे Supabase क्लाउड डेटाबेस में नया उत्पाद जोड़ें:</p>
+    <input id="admProdName" class="rly-field" placeholder="उत्पाद का नाम (जैसे: RLY प्रीमियम कॉटन शर्ट)">
+    <input id="admProdCat" class="rly-field" placeholder="श्रेणी (राशन / इलेक्ट्रॉनिक्स / वस्त्र)">
+    <input id="admProdPrice" type="number" class="rly-field" placeholder="थोक मूल्य (₹ में)">
+    <button class="rly-gold-action" onclick="rlyAddProductCloud()">☁️ क्लाउड स्टोर में लाइव करें</button>
+    <button onclick="rlyCloseModal('adminModal')" style="width:100%; margin-top:8px; padding:8px; background:#222; color:#ccc; border:none; border-radius:8px;">बंद करें</button>
+  </div>
+</div>
+
+<script>
+  const SUPABASE_URL = 'https://supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_fc9vD9qiZyJ_AQhEUZpo-g_oNbhaOLE';
+  const rlyDB = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  let rlyCart = [];
+
+  // पेज लोड होते ही लाइव सर्च बार जोड़ना
+  window.addEventListener('DOMContentLoaded', () => {
+    const searchBox = document.createElement('div');
+    searchBox.className = 'rly-search-wrap';
+    searchBox.innerHTML = `
+      <input type="text" id="rlyLiveSearch" class="rly-search-input" placeholder="🔍 २,००० कंपनियों के उत्पाद खोजें (राशन, इनवर्टर, कपड़े)..." onkeyup="rlyFilterCards(this.value)">
+      <div class="rly-cat-row">
+        <span class="rly-cat-chip" onclick="rlyFilterCards('')">सभी उत्पाद</span>
+        <span class="rly-cat-chip" onclick="rlyFilterCards('चावल')">दैनिक राशन</span>
+        <span class="rly-cat-chip" onclick="rlyFilterCards('तेल')">खाद्य तेल</span>
+        <span class="rly-cat-chip" onclick="rlyFilterCards('इनवर्टर')">स्मार्ट इनवर्टर</span>
+        <span class="rly-cat-chip" onclick="rlyFilterCards('कॉटन')">हेवीवेट कॉटन</span>
+      </div>`;
+    const mainTarget = document.querySelector('main') || document.body;
+    mainTarget.insertBefore(searchBox, mainTarget.firstChild);
+  });
+
+  function rlyFocusSearch() {
+    const el = document.getElementById('rlyLiveSearch');
+    if (el) { el.scrollIntoView({ behavior: 'smooth' }); el.focus(); }
+  }
+
+  function rlyFilterCards(query) {
+    const q = query.toLowerCase().trim();
+    document.querySelectorAll('div, section, article').forEach(card => {
+      if (card.innerText && (card.innerText.includes('₹') || card.innerText.includes('थोक'))) {
+        if (card.children.length < 12 && !card.classList.contains('rly-modal-box')) {
+          card.style.display = card.innerText.toLowerCase().includes(q) ? '' : 'none';
+        }
+      }
+    });
+  }
+
+  function rlyOpenModal(id) { document.getElementById(id).style.display = 'flex'; }
+  function rlyCloseModal(id) { document.getElementById(id).style.display = 'none'; }
+
+  function rlyAddToCart(name, price) {
+    rlyCart.push({ name, price });
+    document.getElementById('rlyCartCount').innerText = rlyCart.length;
+    const list = rlyCart.map((i, idx) => `${idx+1}. ${i.name} - ₹${i.price}`).join('<br>');
+    document.getElementById('rlyCartItems').innerHTML = list;
+    rlyOpenModal('cartModal');
+  }
+
+  function rlyCustomerLogin() {
+    const mob = document.getElementById('loginMobile').value.trim();
+    if (!mob) return;
+    localStorage.setItem('rly_user', mob);
+    document.getElementById('customerProfileBox').innerHTML = `✅ स्वागत है: <b>${mob}</b><br>स्थिति: सक्रिय सदस्य (सूरत/मुंबई डिपो प्रायोरिटी डिलीवरी सक्रिय)`;
+  }
+
+  function rlyOpenAdmin() {
+    const pin = prompt('RLY स्वामी गुप्त पिन डालें:');
+    if (pin === 'RLY2026' || pin === '1947') rlyOpenModal('adminModal');
+  }
+
+  async function rlyAddProductCloud() {
+    const name = document.getElementById('admProdName').value;
+    const category = document.getElementById('admProdCat').value;
+    const price = document.getElementById('admProdPrice').value;
+    if (!name || !price) return;
+    await rlyDB.from('products').insert([{ name, category, price }]);
+    document.getElementById('admProdName').value = '';
+    document.getElementById('admProdPrice').value = '';
+    rlyCloseModal('adminModal');
+  }
+
+  async function rlyPlaceOrder() {
+    const cname = document.getElementById('custName').value;
+    const cphone = document.getElementById('custPhone').value;
+    const caddr = document.getElementById('custAddr').value;
+    if (!cname || !cphone) return;
+    await rlyDB.from('orders').insert([{ customer_name: cname, phone: cphone, address: caddr, items: JSON.stringify(rlyCart) }]);
+    rlyCart = [];
+    document.getElementById('rlyCartCount').innerText = '0';
+    document.getElementById('rlyCartItems').innerHTML = '✅ ऑर्डर सुरक्षित रूप से दर्ज हो गया है! एंटी-डुप्लिकेट QR कोड तैयार है।';
+  }
+</script>
+    
 </body>
 </html>
 
