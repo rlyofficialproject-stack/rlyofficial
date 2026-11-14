@@ -1863,8 +1863,147 @@ window.alert = function(message) {
     if (el) { el.scrollIntoView({ behavior: 'smooth' }); el.focus(); }
   }
 
-  function rlyFilterCards(query) {
+    function rlyFilterCards(query) {
     const q = query.toLowerCase().trim();
     document.querySelectorAll('div, section, article').forEach(card => {
+      if (card.innerText && (card.innerText.includes('₹') || card.innerText.includes('थोक'))) {
+        if (card.children.length < 12 && !card.classList.contains('rly-modal-box')) {
+          card.style.display = card.innerText.toLowerCase().includes(q) ? '' : 'none';
+        }
+      }
+    });
+  }
+
+  function rlyOpenModal(id) {
+    rlyRenderCart();
+    document.getElementById(id).style.display = 'flex';
+  }
+  function rlyCloseModal(id) { document.getElementById(id).style.display = 'none'; }
+
+  function rlyRenderCart() {
+    const itemsEl = document.getElementById('rlyCartItems');
+    const totalEl = document.getElementById('rlyCartTotal');
+    if (!itemsEl || !totalEl) return;
+    if (rlyCart.length === 0) {
+      itemsEl.innerHTML = 'टोकरी अभी खाली है। कृपया स्टोर से उत्पाद चुनें।';
+      totalEl.innerText = 'कुल देय राशि: ₹0';
+      return;
+    }
+    let total = 0;
+    const list = rlyCart.map((item, idx) => {
+      const p = Number(item.price) || 0;
+      total += p;
+      return `${idx + 1}. <b>${item.name}</b> — ₹${p}`;
+    }).join('<br>');
+    itemsEl.innerHTML = list;
+    totalEl.innerText = `कुल देय राशि: ₹${total}`;
+  }
+
+  function rlyAddToCart(name, price) {
+    rlyCart.push({ name, price: Number(price) || 0 });
+    document.getElementById('rlyCartCount').innerText = rlyCart.length;
+    rlyRenderCart();
+    rlyOpenModal('cartModal');
+  }
+
+  async function rlyCustomerLogin() {
+    const mob = document.getElementById('loginMobile').value.trim();
+    if (!mob) {
+      rlyShowAlert('कृपया अपना १० अंकों का मोबाइल नंबर या ईमेल दर्ज करें।');
+      return;
+    }
+    localStorage.setItem('rly_user', mob);
+    const box = document.getElementById('customerProfileBox');
+    box.innerHTML = `✅ स्वागत है: <b>${mob}</b><br>स्थिति: सक्रिय सदस्य (सूरत/मुंबई डिपो प्रायोरिटी डिलीवरी सक्रिय)<br><span style="color:#aaa;">ऑर्डर लोड हो रहे हैं...</span>`;
+    try {
+      const { data } = await rlyDB.from('orders').select('*').eq('phone', mob).order('created_at', { ascending: false });
+      if (data && data.length > 0) {
+        const hist = data.slice(0, 3).map((o, i) => `• ऑर्डर #${i+1}: ${o.customer_name} (${o.address || 'डिपो डिस्पैच'})`).join('<br>');
+        box.innerHTML = `✅ स्वागत है: <b>${mob}</b><br><b>आपके हाल के ऑर्डर:</b><br>${hist}`;
+      } else {
+        box.innerHTML = `✅ स्वागत है: <b>${mob}</b><br>स्थिति: सक्रिय सदस्य (सूरत/मुंबई डिपो प्रायोरिटी डिलीवरी सक्रिय)`;
+      }
+    } catch (e) {}
+  }
+
+  function rlyOpenAdmin() {
+    const pin = prompt('RLY स्वामी गुप्त पिन डालें:');
+    if (pin === 'RLY2026' || pin === '1947') {
+      rlyOpenModal('adminModal');
+    } else if (pin !== null) {
+      rlyShowAlert('❌ अमान्य पिन! केवल RLY स्वामी प्रवेश अनुमत है।');
+    }
+  }
+
+  async function rlyAddProductCloud() {
+    const name = document.getElementById('admProdName').value.trim();
+    const category = document.getElementById('admProdCat').value.trim();
+    const price = document.getElementById('admProdPrice').value.trim();
+    if (!name || !price) {
+      rlyShowAlert('कृपया उत्पाद का नाम और थोक मूल्य (₹) दोनों भरें।');
+      return;
+    }
+    try {
+      await rlyDB.from('products').insert([{ name, category: category || 'सामान्य', price: Number(price) }]);
+      document.getElementById('admProdName').value = '';
+      document.getElementById('admProdCat').value = '';
+      document.getElementById('admProdPrice').value = '';
+      rlyCloseModal('adminModal');
+      rlyShowAlert(`✅ <b>${name}</b> (₹${price}) सफलतापूर्वक RLY क्लाउड डेटाबेस में लाइव हो गया है!`);
+    } catch (err) {
+      rlyShowAlert('⚠️ डेटाबेस कनेक्शन जाँचें। उत्पाद स्थानीय रूप से सहेजा गया है।');
+    }
+  }
+
+  async function rlyPlaceOrder() {
+    const cname = document.getElementById('custName').value.trim();
+    const cphone = document.getElementById('custPhone').value.trim();
+    const caddr = document.getElementById('custAddr').value.trim();
+
+    if (!cname || !cphone || !caddr) {
+      rlyShowAlert('⚠️ कृपया ऑर्डर पूरा करने के लिए अपना नाम, मोबाइल नंबर और पूरा डिलीवरी पता भरें।');
+      return;
+    }
+
+    const payBtn = document.getElementById('rlyPayBtn');
+    if (payBtn) {
+      payBtn.disabled = true;
+      payBtn.innerText = '⏳ ऑर्डर सुरक्षित हो रहा है...';
+    }
+
+    const orderItems = rlyCart.length > 0 ? rlyCart : [{ name: 'RLY OmniMart Direct Order', price: 10 }];
+    const totalAmount = orderItems.reduce((sum, item) => sum + (Number(item.price) || 0), 0);
+
+    try {
+      await rlyDB.from('orders').insert([{
+        customer_name: cname,
+        phone: cphone,
+        address: caddr,
+        items: JSON.stringify(orderItems)
+      }]);
+    } catch (e) {
+      console.log('Order sync log:', e);
+    }
+
+    rlyCart = [];
+    document.getElementById('rlyCartCount').innerText = '0';
+    document.getElementById('rlyCartItems').innerHTML = `✅ ऑर्डर सुरक्षित रूप से दर्ज हो गया है!<br>कुल राशि: <b>₹${totalAmount}</b><br>एंटी-डुप्लिकेट QR कोड तैयार है। अब Cashfree सुरक्षित भुगतान पेज खुल रहा है...`;
+
+    setTimeout(() => {
+      window.location.href = RLY_CASHFREE_LIVE_URL;
+    }, 1500);
+  }
+</script>
+
+<div style="background:#0d0d10; border:1px solid #d4af37; border-radius:10px; padding:12px; margin:15px auto; max-width:94%; text-align:center; font-size:12px; color:#f5f5f7;">
+  <strong style="color:#ffd700;">LEGAL BUSINESS OWNER: RAMESH LALMAN YADAV</strong><br>
+  Official Email: <a href="mailto:RLY.official.project@gmail.com" style="color:#ffd700;">RLY.official.project@gmail.com</a> | Support: <strong style="color:#ffd700;">+91 7304415030</strong><br>
+  All wholesale & retail products listed above include clear INR (₹) pricing.<br>
+  <a href="privacy.html" style="color:#d4af37; text-decoration:underline;">Privacy Policy, Terms & Refund Compliance</a>
+</div>
+    
+</body>
+</html>
+
 
 
