@@ -1948,25 +1948,143 @@ window.alert = function(message) {
     }
   }
 
+    // Supabase से सभी उत्पादों को वेबसाइट पर लाइव 3D कार्ड्स में लोड करना
+  async function rlyLoadLiveCatalog() {
+    try {
+      const { data, error } = await rlyDB.from('products').select('*').order('id', { ascending: false });
+      if (error || !data || data.length === 0) return;
+
+      let catalogWrap = document.getElementById('rlyLiveCatalogGrid');
+      if (!catalogWrap) {
+        catalogWrap = document.createElement('div');
+        catalogWrap.id = 'rlyLiveCatalogGrid';
+        catalogWrap.style.cssText = 'max-width:94%; margin:14px auto; padding:12px; background:#0d0d10; border:1.5px solid #d4af37; border-radius:14px;';
+        const searchEl = document.getElementById('rlyLiveSearch');
+        if (searchEl && searchEl.parentNode) {
+          searchEl.parentNode.insertAdjacentElement('afterend', catalogWrap);
+        } else {
+          document.body.insertBefore(catalogWrap, document.body.firstChild);
+        }
+      }
+
+      const cardsHtml = data.map(item => {
+        const comp = item.company_name || 'RLY Verified Mill';
+        const mrpHtml = item.mrp ? `<span style="text-decoration:line-through; color:#888; font-size:12px; margin-left:6px;">MRP ₹${item.mrp}</span>` : '';
+        const desc = item.description || '१००% प्रमाणित, दोषमुक्त एवं एंटी-डुप्लिकेट QR सुरक्षा शील्ड युक्त।';
+        const depot = item.depot || 'सूरत / मुंबई डिपो';
+        const code = item.batch_code || ('RLY-' + item.id);
+        const safeName = String(item.name).replace(/'/g, "\\'");
+
+        return `
+          <div style="background:linear-gradient(145deg, #16161c, #0a0a0d); border:1px solid #d4af37; border-radius:12px; padding:14px; margin-bottom:12px; box-shadow:0 4px 12px rgba(0,0,0,0.8);">
+            <div style="display:flex; justify-content:space-between; align-items:center; font-size:11px; color:#d4af37; margin-bottom:4px;">
+              <span>🏭 ${comp}</span>
+              <span>🛡️ कोड: ${code} | 📍 ${depot}</span>
+            </div>
+            <div style="font-size:15px; font-weight:bold; color:#ffffff; margin-bottom:6px;">${item.name}</div>
+            <div style="font-size:12px; color:#cccccc; line-height:1.4; margin-bottom:8px;">${desc}</div>
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; border-top:1px solid #2a2a32; padding-top:8px;">
+              <div>
+                <span style="color:#ffd700; font-size:16px; font-weight:900;">थोक रेट: ₹${item.price}</span>
+                ${mrpHtml}
+              </div>
+              <button onclick="rlyAddToCart('${safeName}', ${item.price})" style="background:linear-gradient(90deg, #ffd700, #b8860b); color:#000; border:none; border-radius:8px; padding:8px 14px; font-size:12px; font-weight:900; cursor:pointer;">🛒 टोकरी में जोड़ें</button>
+            </div>
+          </div>`;
+      }).join('');
+
+      catalogWrap.innerHTML = `
+        <div style="text-align:center; margin-bottom:12px;">
+          <h3 style="color:#ffd700; margin:0; font-size:16px;">🏛️ RLY OmniMart लाइव थोक बाज़ार (${data.length} सत्यापित उत्पाद)</h3>
+          <p style="color:#aaa; font-size:11px; margin:4px 0 0;">सीधे निर्माता मिल से • एंटी-डुप्लिकेट QR सुरक्षा शील्ड • सूरत एवं मुंबई डिपो डिस्पैच</p>
+        </div>
+        ${cardsHtml}`;
+    } catch (e) {
+      console.log('Catalog load info:', e);
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(rlyLoadLiveCatalog, 600);
+  });
+
   async function rlyAddProductCloud() {
+    const company_name = document.getElementById('admCompName').value.trim() || 'RLY Verified Enterprise';
     const name = document.getElementById('admProdName').value.trim();
-    const category = document.getElementById('admProdCat').value.trim();
+    const category = document.getElementById('admProdCat').value.trim() || 'सामान्य';
     const price = document.getElementById('admProdPrice').value.trim();
+    const mrp = document.getElementById('admProdMrp').value.trim();
+    const description = document.getElementById('admProdDesc').value.trim() || '१००% शुद्ध एवं दोषमुक्त उत्पाद, सूरत/मुंबई डिपो डिस्पैच।';
+
     if (!name || !price) {
       rlyShowAlert('कृपया उत्पाद का नाम और थोक मूल्य (₹) दोनों भरें।');
       return;
     }
     try {
-      await rlyDB.from('products').insert([{ name, category: category || 'सामान्य', price: Number(price) }]);
+      await rlyDB.from('products').insert([{
+        company_name,
+        name,
+        category,
+        price: Number(price),
+        mrp: mrp ? Number(mrp) : null,
+        description,
+        batch_code: 'RLY-' + Math.floor(1000 + Math.random() * 9000)
+      }]);
+      document.getElementById('admCompName').value = '';
       document.getElementById('admProdName').value = '';
       document.getElementById('admProdCat').value = '';
       document.getElementById('admProdPrice').value = '';
+      document.getElementById('admProdMrp').value = '';
+      document.getElementById('admProdDesc').value = '';
       rlyCloseModal('adminModal');
-      rlyShowAlert(`✅ <b>${name}</b> (₹${price}) सफलतापूर्वक RLY क्लाउड डेटाबेस में लाइव हो गया है!`);
+      rlyLoadLiveCatalog();
+      rlyShowAlert(`✅ <b>${name}</b> (₹${price}) सफलतापूर्वक लाइव हो गया है!`);
     } catch (err) {
-      rlyShowAlert('⚠️ डेटाबेस कनेक्शन जाँचें। उत्पाद स्थानीय रूप से सहेजा गया है।');
+      rlyShowAlert('⚠️ डेटाबेस कनेक्शन जाँचें।');
     }
   }
+
+  // एक ही क्लिक में सैकड़ों/हज़ारों उत्पादों को Supabase में अपलोड करने वाला इंजन
+  async function rlyBulkUploadCloud() {
+    const raw = document.getElementById('admBulkData').value.trim();
+    if (!raw) {
+      rlyShowAlert('⚠️ कृपया बल्क बॉक्स में कम से कम एक उत्पाद की जानकारी डालें।');
+      return;
+    }
+    const lines = raw.split('\n').filter(l => l.trim().length > 0);
+    const records = [];
+    lines.forEach((line, idx) => {
+      const parts = line.split('|').map(p => p.trim());
+      if (parts.length >= 4) {
+        records.push({
+          company_name: parts[0] || 'RLY Partner Mill',
+          name: parts[1],
+          category: parts[2] || 'थोक व्यापार',
+          price: Number(parts[3]) || 0,
+          mrp: parts[4] ? Number(parts[4]) : null,
+          description: parts[5] || '१००% प्रमाणित, दोषमुक्त एवं एंटी-डुप्लिकेट QR सुरक्षा शील्ड युक्त।',
+          batch_code: 'RLY-BLK-' + (100 + idx)
+        });
+      }
+    });
+
+    if (records.length === 0) {
+      rlyShowAlert('⚠️ प्रारूप सही नहीं है। कृपया बीच में | चिह्न लगाकर जानकारी दें।');
+      return;
+    }
+
+    try {
+      await rlyDB.from('products').insert(records);
+      document.getElementById('admBulkData').value = '';
+      rlyCloseModal('adminModal');
+      rlyLoadLiveCatalog();
+      rlyShowAlert(`🚀 बधाई हो स्वामी! एक ही क्लिक में <b>${records.length} नए उत्पाद</b> सफलतापूर्वक लाइव कर दिए गए हैं!`);
+    } catch (e) {
+      rlyShowAlert('⚠️ बल्क अपलोड में त्रुटि आई। कृपया इंटरनेट जाँचें।');
+    }
+  }
+
+    
 
   async function rlyPlaceOrder() {
     const cname = document.getElementById('custName').value.trim();
