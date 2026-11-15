@@ -1853,7 +1853,21 @@ window.alert = function(message) {
       mWrap.style.display = 'flex';
     }
   }
-
+  // पुराने "आर एल वाई सुरक्षित भुगतान" बटन को सीधे Live Cashfree गेटवे से जोड़ना
+  window.addEventListener('load', () => {
+    document.querySelectorAll('button').forEach(btn => {
+      if (btn.innerText && btn.innerText.includes('सुरक्षित भुगतान')) {
+        btn.onclick = () => {
+          rlyShowAlert('✅ <b>RLY DIGITAL Live Payment Gateway सक्रिय है!</b><br>अब आपको सुरक्षित Cashfree भुगतान पृष्ठ पर ले जाया जा रहा है...');
+          setTimeout(() => { window.location.href = RLY_CASHFREE_LIVE_URL; }, 1200);
+        };
+      }
+    });
+    if (typeof rlyLoadLiveCatalog === 'function') {
+      rlyLoadLiveCatalog();
+    }
+  });
+    
   // पेज लोड होते ही लाइव सर्च बार जोड़ना
   window.addEventListener('DOMContentLoaded', () => {
     if (!document.getElementById('rlyLiveSearch')) {
