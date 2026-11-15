@@ -1805,16 +1805,26 @@ window.alert = function(message) {
   </div>
 </div>
 
-<!-- ३डी पॉप-अप विंडो: गुप्त एडमिन कंट्रोल रूम -->
+<!-- ३डी पॉप-अप विंडो: गुप्त एडमिन कंट्रोल रूम (सिंगल + 2,000 कंपनी बल्क अपलोडर) -->
 <div id="adminModal" class="rly-modal-bg">
   <div class="rly-modal-box">
     <h3 style="color:#ffd700; margin-top:0;">👑 RLY स्वामी नियंत्रण कक्ष (Admin)</h3>
-    <p style="font-size:12px; color:#aaa;">बिना कोडिंग सीधे Supabase क्लाउड डेटाबेस में नया उत्पाद जोड़ें:</p>
+    <p style="font-size:12px; color:#aaa; margin-bottom:6px;">१. एक नया उत्पाद सीधे क्लाउड स्टोर में जोड़ें:</p>
+    <input id="admCompName" class="rly-field" placeholder="निर्माता कंपनी का नाम (जैसे: RLY Textiles Mills)">
     <input id="admProdName" class="rly-field" placeholder="उत्पाद का नाम (जैसे: RLY प्रीमियम कॉटन शर्ट)">
-    <input id="admProdCat" class="rly-field" placeholder="श्रेणी (राशन / इलेक्ट्रॉनिक्स / वस्त्र)">
-    <input id="admProdPrice" type="number" class="rly-field" placeholder="थोक मूल्य (₹ में)">
-    <button class="rly-gold-action" onclick="rlyAddProductCloud()">☁️ क्लाउड स्टोर में लाइव करें</button>
-    <button onclick="rlyCloseModal('adminModal')" style="width:100%; margin-top:8px; padding:8px; background:#222; color:#ccc; border:none; border-radius:8px; cursor:pointer;">बंद करें</button>
+    <input id="admProdCat" class="rly-field" placeholder="श्रेणी (वस्त्र / राशन / इलेक्ट्रॉनिक्स / किसान योजना)">
+    <input id="admProdPrice" type="number" class="rly-field" placeholder="थोक मिल रेट (₹ में)">
+    <input id="admProdMrp" type="number" class="rly-field" placeholder="बाजार मूल्य MRP (₹ में)">
+    <input id="admProdDesc" class="rly-field" placeholder="गुणवत्ता विवरण (जैसे: 100% शुद्ध, जीरो डिफेक्ट, QR शील्ड)">
+    <button class="rly-gold-action" onclick="rlyAddProductCloud()">☁️ सिंगल उत्पाद लाइव करें</button>
+
+    <hr style="border:0; border-top:1px solid #333; margin:14px 0;">
+    <p style="font-size:12px; color:#ffd700; margin-bottom:6px;">२. 1-क्लिक बल्क अपलोडर (एक साथ सैकड़ों/हज़ारों उत्पाद जोड़ें):</p>
+    <p style="font-size:11px; color:#aaa; margin-top:0;">प्रारूप (हर नई लाइन में): <code>कंपनी | उत्पाद नाम | श्रेणी | थोक रेट | MRP | विवरण</code></p>
+    <textarea id="admBulkData" class="rly-field" rows="4" placeholder="उदाहरण:&#10;RLY Mills | हेवी कॉटन पैंट | वस्त्र | 350 | 899 | 100% शुद्ध कॉटन, सूरत डिपो&#10;RLY Agro | शुद्ध देसी घी 15L | राशन | 6800 | 8500 | शुद्ध गाय का घी, सीलबंद टीन"></textarea>
+    <button class="rly-gold-action" style="background:linear-gradient(90deg, #ffd700, #d4af37);" onclick="rlyBulkUploadCloud()">🚀 एक क्लिक में सभी उत्पाद लाइव करें</button>
+
+    <button onclick="rlyCloseModal('adminModal')" style="width:100%; margin-top:10px; padding:8px; background:#222; color:#ccc; border:none; border-radius:8px; cursor:pointer;">बंद करें</button>
   </div>
 </div>
 
