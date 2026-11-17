@@ -2162,6 +2162,66 @@ const RLY_CASHFREE_LIVE_URL = "https:" + "//" + RLY_CF_HOST + "/forms/rlyomnimar
     setTimeout(() => {
       window.location.href = RLY_CASHFREE_LIVE_URL;
     }, 1500);
+// RLY डिजिटल पेमेंट बैंक व यूटिलिटी हब नियंत्रण इंजन
+function rlySelectBankService(serviceName) {
+  document.getElementById('rlyServiceType').value = serviceName;
+  document.getElementById('rly-service-badge').innerText = "चयनित सेवा: " + serviceName;
+  const box = document.getElementById('rlyDynamicServiceFields');
+
+  if (serviceName === 'Bank Money Transfer') {
+    box.innerHTML = '<input type="text" id="rlyBankAccNo" placeholder="लाभार्थी बैंक खाता नंबर (Account Number)" style="width:100%;padding:10px;margin-bottom:8px;background:#161616;border:1px solid #555;color:#fff;border-radius:8px;box-sizing:border-box;">' +
+                    '<input type="text" id="rlyBankIfsc" placeholder="IFSC कोड एवं बैंक का नाम" style="width:100%;padding:10px;margin-bottom:8px;background:#161616;border:1px solid #555;color:#fff;border-radius:8px;box-sizing:border-box;">';
+  } else if (serviceName === 'Mobile / DTH Recharge') {
+    box.innerHTML = '<input type="text" id="rlyBankAccNo" placeholder="रिचार्ज मोबाइल नंबर या DTH सब्सक्राइबर ID" style="width:100%;padding:10px;margin-bottom:8px;background:#161616;border:1px solid #555;color:#fff;border-radius:8px;box-sizing:border-box;">' +
+                    '<input type="text" id="rlyBankIfsc" placeholder="ऑपरेटर व सर्कल (उदा. Airtel / Jio / Tata Play)" style="width:100%;padding:10px;margin-bottom:8px;background:#161616;border:1px solid #555;color:#fff;border-radius:8px;box-sizing:border-box;">';
+  } else if (serviceName === 'Electricity / Utility Bill') {
+    box.innerHTML = '<input type="text" id="rlyBankAccNo" placeholder="कंज्यूमर नंबर / मीटर खाते की संख्या" style="width:100%;padding:10px;margin-bottom:8px;background:#161616;border:1px solid #555;color:#fff;border-radius:8px;box-sizing:border-box;">' +
+                    '<input type="text" id="rlyBankIfsc" placeholder="बिजली बोर्ड / कंपनी का नाम (उदा. Adani / Tata / MSEDCL)" style="width:100%;padding:10px;margin-bottom:8px;background:#161616;border:1px solid #555;color:#fff;border-radius:8px;box-sizing:border-box;">';
+  } else {
+    box.innerHTML = '<input type="text" id="rlyBankAccNo" placeholder="कहाँ से कहाँ तक (उदा. Mumbai से Varanasi)" style="width:100%;padding:10px;margin-bottom:8px;background:#161616;border:1px solid #555;color:#fff;border-radius:8px;box-sizing:border-box;">' +
+                    '<input type="text" id="rlyBankIfsc" placeholder="यात्रा की तारीख व यात्री विवरण (उदा. 20 Nov, 1 Adult)" style="width:100%;padding:10px;margin-bottom:8px;background:#161616;border:1px solid #555;color:#fff;border-radius:8px;box-sizing:border-box;">';
+  }
+}
+
+async function rlySubmitBankingService() {
+  const sType = document.getElementById('rlyServiceType').value;
+  const cName = document.getElementById('rlyBankCustName').value.trim();
+  const cPhone = document.getElementById('rlyBankCustPhone').value.trim();
+  const detail1 = document.getElementById('rlyBankAccNo').value.trim();
+  const detail2 = document.getElementById('rlyBankIfsc').value.trim();
+  const amt = document.getElementById('rlyServiceAmount').value.trim();
+
+  if (!cName || !cPhone || !detail1 || !amt || Number(amt) < 10) {
+    if (typeof rlyShowAlert === 'function') {
+      rlyShowAlert("⚠️ <b>आवश्यक सूचना:</b> कृपया ग्राहक का नाम, फ़ोन नंबर, सेवा विवरण और कम से कम ₹10 राशि सही-सही भरें।");
+    }
+    return;
+  }
+
+  const orderSummary = "[BANKING/UTILITY: " + sType + "] विवरण: " + detail1 + " (" + detail2 + ") | राशि: ₹" + amt;
+
+  try {
+    if (typeof rlyDB !== 'undefined') {
+      await rlyDB.from('orders').insert([{
+        customer_name: cName,
+        phone: cPhone,
+        address: orderSummary,
+        items: JSON.stringify([{ service: sType, ref: detail1, extra: detail2, amount: amt }]),
+        total_amount: Number(amt)
+      }]);
+    }
+  } catch (e) {
+    console.log("Service order sync:", e);
+  }
+
+  if (typeof rlyShowAlert === 'function') {
+    rlyShowAlert("✅ <b>रिक्वेस्ट दर्ज हो गई है!</b><br>आपकी ₹" + amt + " की सेवा रिक्वेस्ट सुरक्षित हो गई है। अब आप Cashfree अनलिमिटेड गेटवे पर जा रहे हैं...");
+  }
+  setTimeout(function() {
+    window.location.href = RLY_CASHFREE_LIVE_URL;
+  }, 1500);
+}
+      
   }
 </script>
 
