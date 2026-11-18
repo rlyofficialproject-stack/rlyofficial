@@ -1907,7 +1907,13 @@ const RLY_CASHFREE_LIVE_URL = "https:" + "//" + RLY_CF_HOST + "/forms?code=lyomn
       mWrap.style.display = 'flex';
     }
   }
-  // पुराने "आर एल वाई सुरक्षित भुगतान" बटन को सीधे Live Cashfree गेटवे से जोड़ना
+window.alert = function(msg) {
+  if (typeof rlyShowAlert === 'function') {
+    rlyShowAlert(String(msg));
+  }
+};
+
+    // पुराने "आर एल वाई सुरक्षित भुगतान" बटन को सीधे Live Cashfree गेटवे से जोड़ना
   window.addEventListener('load', () => {
     document.querySelectorAll('button').forEach(btn => {
       if (btn.innerText && btn.innerText.includes('सुरक्षित भुगतान')) {
