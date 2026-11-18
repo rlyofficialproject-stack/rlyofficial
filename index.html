@@ -270,7 +270,33 @@ window.addEventListener('appinstalled', () => {
     <button type="button" onclick="rlySubmitBankingService()" style="width: 100%; background: linear-gradient(90deg, #d4af37, #ffd700, #b8860b); color: #000; font-weight: 900; padding: 14px; border: none; border-radius: 10px; font-size: 15px; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);">✅ रिक्वेस्ट सुरक्षित करें व लाइव पेमेंट करें</button>
   </div>
 </section>
+<!-- लाइन 273: 100% सत्यापित RLY किसान योजना एवं कृषि सेवा पोर्टल -->
+<section id="rly-kisan-hub" style="background: linear-gradient(145deg, #0d0d0d, #0f1a0a); border: 2px solid #d4af37; border-radius: 16px; padding: 18px; margin: 16px 0; box-shadow: 0 8px 25px rgba(212, 175, 55, 0.25);">
+  <h2 style="color: #ffd700; text-align: center; font-size: 20px; margin-bottom: 6px; text-shadow: 0 2px 4px #000;">🌾 RLY किसान योजना एवं कृषि सहायता पोर्टल</h2>
+  <p style="color: #e0e0e0; text-align: center; font-size: 13px; margin-bottom: 14px;">भारत के किसानों के लिए सीधा सरकारी योजना पंजीकरण, फसल बीमा व सब्सिडी केंद्र</p>
 
+  <!-- 4 प्रमुख किसान योजना बटन -->
+  <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 15px;">
+    <button type="button" onclick="rlySelectKisanScheme('PM-Kisan Samman Nidhi (₹6000/वर्ष)')" style="background: linear-gradient(180deg, #ffd700, #b8860b); color: #000; font-weight: bold; padding: 12px 8px; border: none; border-radius: 10px; font-size: 13px; cursor: pointer;">🌱 पीएम किसान सम्मान निधि</button>
+    <button type="button" onclick="rlySelectKisanScheme('Pradhan Mantri Fasal Bima Yojana')" style="background: linear-gradient(180deg, #222, #111); color: #ffd700; border: 1px solid #d4af37; font-weight: bold; padding: 12px 8px; border-radius: 10px; font-size: 13px; cursor: pointer;">🛡️ प्रधानमंत्री फसल बीमा</button>
+    <button type="button" onclick="rlySelectKisanScheme('Kisan Credit Card (KCC लोन)')" style="background: linear-gradient(180deg, #222, #111); color: #ffd700; border: 1px solid #d4af37; font-weight: bold; padding: 12px 8px; border-radius: 10px; font-size: 13px; cursor: pointer;">💳 किसान क्रेडिट कार्ड (KCC)</button>
+    <button type="button" onclick="rlySelectKisanScheme('Solar Pump & Krishi Yantra Subsidy')" style="background: linear-gradient(180deg, #222, #111); color: #ffd700; border: 1px solid #d4af37; font-weight: bold; padding: 12px 8px; border-radius: 10px; font-size: 13px; cursor: pointer;">☀️ सोलर पंप व कृषि यंत्र सब्सिडी</button>
+  </div>
+
+  <!-- लाइव किसान आवेदन व सहायता फॉर्म -->
+  <div style="background: #0a0a0a; border: 1px solid #8a6d1b; border-radius: 12px; padding: 14px;">
+    <div id="rly-kisan-badge" style="color: #ffd700; font-weight: bold; font-size: 14px; margin-bottom: 10px;">चयनित योजना: PM-Kisan Samman Nidhi (₹6000/वर्ष)</div>
+    <input type="hidden" id="rlyKisanSchemeType" value="PM-Kisan Samman Nidhi (₹6000/वर्ष)">
+
+    <input type="text" id="rlyKisanName" placeholder="किसान का पूरा नाम (आधार के अनुसार)" style="width: 100%; padding: 10px; margin-bottom: 8px; background: #161616; border: 1px solid #555; color: #fff; border-radius: 8px; box-sizing: border-box;">
+    <input type="tel" id="rlyKisanPhone" placeholder="किसान का मोबाइल नंबर (10 अंक)" style="width: 100%; padding: 10px; margin-bottom: 8px; background: #161616; border: 1px solid #555; color: #fff; border-radius: 8px; box-sizing: border-box;">
+    <input type="text" id="rlyKisanAddress" placeholder="गाँव, तहसील, जिला व राज्य का नाम" style="width: 100%; padding: 10px; margin-bottom: 8px; background: #161616; border: 1px solid #555; color: #fff; border-radius: 8px; box-sizing: border-box;">
+    <input type="text" id="rlyKisanLand" placeholder="भूमि रकबा (एकड़/बीघा में) एवं बैंक खाता विवरण" style="width: 100%; padding: 10px; margin-bottom: 12px; background: #161616; border: 1px solid #d4af37; color: #ffd700; border-radius: 8px; box-sizing: border-box;">
+
+    <button type="button" onclick="rlySubmitKisanYojana()" style="width: 100%; background: linear-gradient(90deg, #d4af37, #ffd700, #b8860b); color: #000; font-weight: 900; padding: 14px; border: none; border-radius: 10px; font-size: 15px; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);">🌾 किसान योजना आवेदन सुरक्षित करें (निःशुल्क पंजीकरण)</button>
+  </div>
+</section>
+        
         <!-- इंजन ७ से १२: ओम्नीमार्ट थोक व्यापार एवं किसान स्वराज्य कैटलॉग -->
         <section class="engine-node">
             <h2>📦 इंजन ७-१२: RLY OmniMart साम्राज्य</h2>
