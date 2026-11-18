@@ -209,14 +209,43 @@ body {
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
     // डिफ़ॉल्ट ब्राउज़र प्रॉम्प्ट को रोकना
-    e.preventDefault();
-    deferredPrompt = e;
-    // मालिक के ३डी विज़ुअल शील्ड बैनर को स्क्रीन पर दिखाना
-    const installShield = document.getElementById('rly-app-install-shield');
-    if(installShield) installShield.style.display = 'block';
-});
+function rlyOpenAdmin() {
+  let oldPinBox = document.getElementById('rly-3d-pin-modal');
+  if (oldPinBox) oldPinBox.remove();
 
-document.getElementById('rly-pwa-install-btn')?.addEventListener('click', async () => {
+  const modal = document.createElement('div');
+  modal.id = 'rly-3d-pin-modal';
+  modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.92);z-index:999999;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;';
+
+  modal.innerHTML = '<div style="background:linear-gradient(145deg,#0d0d0d,#1c1600);border:2px solid #ffd700;border-radius:18px;padding:24px;width:100%;max-width:340px;text-align:center;box-shadow:0 12px 35px rgba(255,215,0,0.35);">' +
+    '<div style="font-size:32px;margin-bottom:8px;">👑</div>' +
+    '<h3 style="color:#ffd700;margin:0 0 6px 0;font-size:18px;">RLY स्वामी सुरक्षा कक्ष</h3>' +
+    '<p style="color:#ccc;font-size:13px;margin:0 0 16px 0;">कृपया अपना गुप्त स्वामी पिन दर्ज करें</p>' +
+    '<input type="password" id="rly3dPinInput" placeholder="गुप्त पिन डालें" style="width:100%;padding:12px;background:#111;border:1px solid #d4af37;color:#ffd700;font-size:16px;text-align:center;border-radius:10px;margin-bottom:16px;box-sizing:border-box;outline:none;">' +
+    '<div style="display:flex;gap:10px;">' +
+      '<button type="button" onclick="document.getElementById(\'rly-3d-pin-modal\').remove()" style="flex:1;padding:12px;background:#222;color:#fff;border:1px solid #555;border-radius:10px;font-weight:bold;cursor:pointer;">रद्द करें</button>' +
+      '<button type="button" onclick="rlyVerify3dPin()" style="flex:1;padding:12px;background:linear-gradient(90deg,#d4af37,#ffd700);color:#000;border:none;border-radius:10px;font-weight:900;cursor:pointer;">प्रवेश करें</button>' +
+    '</div>' +
+  '</div>';
+
+  document.body.appendChild(modal);
+  setTimeout(function() { document.getElementById('rly3dPinInput').focus(); }, 100);
+}
+
+function rlyVerify3dPin() {
+  const val = document.getElementById('rly3dPinInput').value.trim();
+  const modal = document.getElementById('rly-3d-pin-modal');
+  if (val === 'RLY2026' || val === '1947') {
+    if (modal) modal.remove();
+    rlyOpenModal('adminModal');
+  } else {
+    if (modal) modal.remove();
+    if (typeof rlyShowAlert === 'function') {
+      rlyShowAlert('❌ <b>अमान्य पिन!</b> केवल RLY स्वामी ही इस कक्ष में प्रवेश कर सकते हैं।');
+    }
+  }
+}
+
     if (deferredPrompt) {
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
