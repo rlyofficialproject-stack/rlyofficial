@@ -208,6 +208,13 @@ body {
 // PWA मोबाइल इंस्टॉल शील्ड बैकएंड लॉजिक कर्नल
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    const installShield = document.getElementById('rly-pwa-install-shield');
+    if(installShield) installShield.style.display = 'block';
+});
+
+document.getElementById('rly-pwa-install-btn').addEventListener('click', async () => {
     // डिफ़ॉल्ट ब्राउज़र प्रॉम्प्ट को रोकना
 
     if (deferredPrompt) {
