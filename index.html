@@ -2115,42 +2115,42 @@ function rlyVerify3dPin() {
 
   async function rlyAddProductCloud() {
     const company_name = document.getElementById('admCompName').value.trim() || 'RLY Verified Enterprise';
-    const name = document.getElementById('admProdName').value.trim();
-    const category = document.getElementById('admProdCat').value.trim() || 'सामान्य';
-    const price = document.getElementById('admProdPrice').value.trim();
-    const mrp = document.getElementById('admProdMrp').value.trim();
-    const description = document.getElementById('admProdDesc').value.trim() || '१००% शुद्ध एवं दोषमुक्त उत्पाद, सूरत/मुंबई डिपो डिस्पैच।';
+   function rlyClose3dPin() {
+  var m = document.getElementById("rly-3d-pin-modal");
+  if (m) m.remove();
+}
 
-    if (!name || !price) {
-      rlyShowAlert('कृपया उत्पाद का नाम और थोक मूल्य (₹) दोनों भरें।');
-      return;
-    }
-    try {
-      await rlyDB.from('products').insert([{
-        company_name,
-        name,
-        category,
-        price: Number(price),
-        mrp: mrp ? Number(mrp) : null,
-        description,
-        batch_code: 'RLY-' + Math.floor(1000 + Math.random() * 9000)
-      }]);
-      document.getElementById('admCompName').value = '';
-      document.getElementById('admProdName').value = '';
-      document.getElementById('admProdCat').value = '';
-      document.getElementById('admProdPrice').value = '';
-      document.getElementById('admProdMrp').value = '';
-      document.getElementById('admProdDesc').value = '';
-      rlyCloseModal('adminModal');
-      rlyLoadLiveCatalog();
-      rlyShowAlert(`✅ <b>${name}</b> (₹${price}) सफलतापूर्वक लाइव हो गया है!`);
-    } catch (err) {
-      rlyShowAlert('⚠️ डेटाबेस कनेक्शन जाँचें।');
-    }
+function rlyOpenAdmin() {
+  rlyClose3dPin();
+  var modal = document.createElement("div");
+  modal.id = "rly-3d-pin-modal";
+  modal.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.92);z-index:999999;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;";
+
+  modal.innerHTML = '<div style="background:linear-gradient(145deg,#0d0d0d,#1c1600);border:2px solid #ffd700;border-radius:18px;padding:24px;width:100%;max-width:340px;text-align:center;box-shadow:0 12px 35px rgba(255,215,0,0.35);">' +
+    '<div style="font-size:32px;margin-bottom:8px;">👑</div>' +
+    '<h3 style="color:#ffd700;margin:0 0 6px 0;font-size:18px;">RLY स्वामी सुरक्षा कक्ष</h3>' +
+    '<p style="color:#ccc;font-size:13px;margin:0 0 16px 0;">कृपया अपना गुप्त स्वामी पिन दर्ज करें</p>' +
+    '<input type="password" id="rly3dPinInput" placeholder="गुप्त पिन डालें" style="width:100%;padding:12px;background:#111;border:1px solid #d4af37;color:#ffd700;font-size:16px;text-align:center;border-radius:10px;margin-bottom:16px;box-sizing:border-box;outline:none;">' +
+    '<div style="display:flex;gap:10px;">' +
+      '<button type="button" onclick="rlyClose3dPin()" style="flex:1;padding:12px;background:#222;color:#fff;border:1px solid #555;border-radius:10px;font-weight:bold;cursor:pointer;">रद्द करें</button>' +
+      '<button type="button" onclick="rlyVerify3dPin()" style="flex:1;padding:12px;background:linear-gradient(90deg,#d4af37,#ffd700);color:#000;border:none;border-radius:10px;font-weight:900;cursor:pointer;">प्रवेश करें</button>' +
+    '</div>' +
+  '</div>';
+
+  document.body.appendChild(modal);
+}
+
+function rlyVerify3dPin() {
+  var inp = document.getElementById("rly3dPinInput");
+  var val = inp ? inp.value.trim() : "";
+  rlyClose3dPin();
+  if (val === "RLY2026" || val === "1947") {
+    rlyOpenModal("adminModal");
+  } else if (typeof rlyShowAlert === "function") {
+    rlyShowAlert("❌ <b>अमान्य पिन!</b> केवल RLY स्वामी ही इस कक्ष में प्रवेश कर सकते हैं।");
   }
-
-  // एक ही क्लिक में सैकड़ों/हज़ारों उत्पादों को Supabase में अपलोड करने वाला इंजन
-  async function rlyBulkUploadCloud() {
+}
+ 
     const raw = document.getElementById('admBulkData').value.trim();
     if (!raw) {
       rlyShowAlert('⚠️ कृपया बल्क बॉक्स में कम से कम एक उत्पाद की जानकारी डालें।');
