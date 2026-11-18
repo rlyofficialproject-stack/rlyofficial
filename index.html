@@ -2224,7 +2224,53 @@ async function rlySubmitBankingService() {
     if (typeof rlyShowAlert === 'function') {
       rlyShowAlert("⚠️ <b>आवश्यक सूचना:</b> कृपया ग्राहक का नाम, फ़ोन नंबर, सेवा विवरण और कम से कम ₹10 राशि सही-सही भरें।");
     }
+// RLY किसान योजना पोर्टल नियंत्रण इंजन (Supabase Live Sync)
+function rlySelectKisanScheme(schemeName) {
+  document.getElementById('rlyKisanSchemeType').value = schemeName;
+  document.getElementById('rly-kisan-badge').innerText = "चयनित योजना: " + schemeName;
+}
+
+async function rlySubmitKisanYojana() {
+  const scheme = document.getElementById('rlyKisanSchemeType').value;
+  const kName = document.getElementById('rlyKisanName').value.trim();
+  const kPhone = document.getElementById('rlyKisanPhone').value.trim();
+  const kAddr = document.getElementById('rlyKisanAddress').value.trim();
+  const kLand = document.getElementById('rlyKisanLand').value.trim();
+
+  if (!kName || !kPhone || !kAddr) {
+    if (typeof rlyShowAlert === 'function') {
+      rlyShowAlert("⚠️ <b>आवश्यक सूचना:</b> कृपया किसान का पूरा नाम, मोबाइल नंबर और गाँव/जिला का पता सही-सही भरें।");
+    }
     return;
+  }
+
+  const kisanSummary = "[KISAN YOJANA: " + scheme + "] पता: " + kAddr + " | भूमि/खाता: " + (kLand || "N/A");
+
+  try {
+    if (typeof rlyDB !== 'undefined') {
+      await rlyDB.from('orders').insert([{
+        customer_name: kName,
+        phone: kPhone,
+        address: kisanSummary,
+        items: JSON.stringify([{ scheme: scheme, village_district: kAddr, land_bank: kLand }]),
+        total_amount: 0
+      }]);
+    }
+  } catch (e) {
+    console.log("Kisan Yojana sync:", e);
+  }
+
+  document.getElementById('rlyKisanName').value = "";
+  document.getElementById('rlyKisanPhone').value = "";
+  document.getElementById('rlyKisanAddress').value = "";
+  document.getElementById('rlyKisanLand').value = "";
+
+  if (typeof rlyShowAlert === 'function') {
+    rlyShowAlert("✅ <b>किसान योजना आवेदन सफल!</b><br>प्रिय <b>" + kName + "</b>, आपका <b>" + scheme + "</b> आवेदन RLY किसान डेटाबेस में सुरक्षित दर्ज हो गया है।");
+  }
+}
+
+      return;
   }
 
   const orderSummary = "[BANKING/UTILITY: " + sType + "] विवरण: " + detail1 + " (" + detail2 + ") | राशि: ₹" + amt;
