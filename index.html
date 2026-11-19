@@ -1852,7 +1852,10 @@ window.alert = function(message) {
     <p style="font-size:11px; color:#aaa; margin-top:0;">प्रारूप (हर नई लाइन में): <code>कंपनी | उत्पाद नाम | श्रेणी | थोक रेट | MRP | विवरण</code></p>
     <textarea id="admBulkData" class="rly-field" rows="4" placeholder="उदाहरण:&#10;RLY Mills | हेवी कॉटन पैंट | वस्त्र | 350 | 899 | 100% शुद्ध कॉटन, सूरत डिपो&#10;RLY Agro | शुद्ध देसी घी 15L | राशन | 6800 | 8500 | शुद्ध गाय का घी, सीलबंद टीन"></textarea>
     <button class="rly-gold-action" style="background:linear-gradient(90deg, #ffd700, #d4af37);" onclick="rlyBulkUploadCloud()">🚀 एक क्लिक में सभी उत्पाद लाइव करें</button>
-
+<hr style="border:0;border-top:1px solid #444;margin:12px 0;">
+<button type="button" class="rly-gold-action" style="background:linear-gradient(180deg,#ffd700,#d4af37);margin-bottom:8px;" onclick="rlyLoadAdminOrders()">📋 सभी लाइव ग्राहक ऑर्डर व किसान आवेदन देखें</button>
+<div id="admLiveOrdersBox" style="max-height:180px;overflow-y:auto;text-align:left;font-size:11px;color:#eee;background:#080808;padding:8px;border-radius:8px;border:1px solid #555;display:none;margin-bottom:8px;"></div>
+      
     <button onclick="rlyCloseModal('adminModal')" style="width:100%; margin-top:10px; padding:8px; background:#222; color:#ccc; border:none; border-radius:8px; cursor:pointer;">बंद करें</button>
   </div>
 </div>
