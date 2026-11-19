@@ -351,64 +351,38 @@ window.addEventListener('appinstalled', () => {
         आर एल वाई सुरक्षित भुगतान
     </button>
 </div>
-<!-- ========================================================================== -->
-<!-- 🚨 RLY DIGITAL - OMNIMART WHOLESALE INVENTORY & INVERTER CODE MODULE -->
-<!-- ========================================================================== -->
-<div id="rly-omnimart-wholesale-catalog" style="
-    width: 90%; 
-    margin: 20px auto; 
-    padding: 15px; 
-    background: #111111; 
-    border: 2px solid #FFD700; 
-    border-radius: 14px; 
-    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.7);
-    box-sizing: border-box;
-">
-    <h3 style="
-        color: #FFD700; 
-        font-family: sans-serif; 
-        font-size: 18px; 
-        text-align: center; 
-        margin-top: 0;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    ">📦 RLY थोक व्यापार कैटलॉग (२४-घंटे लाइव)</h3>
+<!-- RLY PHASE-1 MASTER HUB: मंडी टिकर, ऑर्डर ट्रैकिंग, बचत गुल्लक, VIP व रेफ़रल -->
+<div id="rly-phase1-hub" style="width:94%;margin:16px auto;box-sizing:border-box;">
+  <!-- 1. लाइव मंडी भाव पट्टी -->
+  <div style="background:#0d0d0d;border:1.5px solid #ffd700;border-radius:10px;padding:8px 12px;margin-bottom:12px;overflow:hidden;white-space:nowrap;box-shadow:0 4px 12px rgba(255,215,0,0.15);">
+    <marquee behavior="scroll" direction="left" scrollamount="5" style="color:#ffd700;font-size:13px;font-weight:bold;">
+      🌾 लाइव मंडी व मिल रेट अपडेट: सरसों तेल (15L) ₹1,850 | बासमती चावल (25kg) ₹1,200 | गेहूं मिल रेट ₹2,480/क्विंटल | शुद्ध कॉटन टी-शर्ट ₹145 | स्मार्ट इनवर्टर 1500VA ₹7,450 | 0% विज्ञापन | सीधा बैंक सेटलमेंट
+    </marquee>
+  </div>
 
-    <!-- श्रेणी १: भारी इलेक्ट्रॉनिक्स एवं स्मार्ट इनवर्टर (Inverter Core Node) -->
-    <div class="rly-inventory-section" style="margin-bottom: 20px; border-bottom: 1px dashed #555; padding-bottom: 15px;">
-        <h4 style="color: #45f3ff; margin: 0 0 10px 0; font-size: 14px;">⚡ भारी इलेक्ट्रॉनिक्स एवं पावर बैकअप</h4>
-        <div style="background: #1a1a1a; padding: 12px; border-radius: 8px; border-left: 4px solid #45f3ff;">
-            <span style="color: #FFFFFF; font-weight: bold; display: block; font-size: 14px;">RLY स्मार्ट डिजिटल इनवर्टर (Pure Sine Wave)</span>
-            <span style="color: #aaaaaa; font-size: 12px; display: block; margin: 4px 0;">कोड: RLY-INV-2026-X1 | क्षमता: 1500VA | २40V ग्रिड सिंक</span>
-            <span style="color: #FFD700; font-weight: bold; font-size: 15px;">थोक मिल रेट: ₹7,450 <span style="font-size: 11px; color: #888;">(बाजार मूल्य: ₹12,000)</span></span>
-        </div>
+  <!-- 2. ग्राहक बचत गुल्लक वॉलेट एवं लाइव ऑर्डर ट्रैकिंग -->
+  <div style="background:linear-gradient(145deg,#141414,#090909);border:2px solid #d4af37;border-radius:14px;padding:14px;margin-bottom:14px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #333;padding-bottom:8px;margin-bottom:10px;">
+      <span style="color:#ffd700;font-weight:bold;font-size:14px;">💰 RLY बचत गुल्लक वॉलेट</span>
+      <span id="rlyWalletBal" style="background:#ffd700;color:#000;padding:3px 10px;border-radius:20px;font-weight:900;font-size:13px;">₹0 कैशबैक</span>
     </div>
+    <p style="color:#ccc;font-size:12px;margin:0 0 8px 0;">📦 <b>लाइव ऑर्डर व किसान आवेदन ट्रैकिंग:</b> अपना मोबाइल नंबर डालें:</p>
+    <div style="display:flex;gap:6px;">
+      <input type="tel" id="rlyTrackMobile" placeholder="10 अंकों का मोबाइल नंबर" style="flex:1;padding:10px;background:#000;border:1px solid #d4af37;border-radius:8px;color:#fff;font-size:13px;">
+      <button type="button" onclick="rlyTrackLiveOrder()" style="padding:10px 14px;background:linear-gradient(180deg,#ffd700,#b8860b);color:#000;font-weight:900;border:none;border-radius:8px;cursor:pointer;font-size:12px;">ट्रैक करें</button>
+    </div>
+    <div id="rlyTrackResult" style="margin-top:8px;font-size:12px;color:#ffd700;"></div>
+  </div>
 
-    <!-- श्रेणी २: सुबह से रात तक की आवश्यक वस्तुएं (Daily Essentials) -->
-    <div class="rly-inventory-section" style="margin-bottom: 20px; border-bottom: 1px dashed #555; padding-bottom: 15px;">
-        <h4 style="color: #45f3ff; margin: 0 0 10px 0; font-size: 14px;">🌾 दैनिक आवश्यक वस्तुएं (प्रातः से रात्रि)</h4>
-        <div style="display: flex; flex-direction: column; gap: 8px;">
-            <div style="background: #1a1a1a; padding: 10px; border-radius: 6px;">
-                <span style="color: #FFFFFF; font-weight: bold; display: block; font-size: 13px;">प्रीमियम कोल्हू शुद्ध सरसों तेल (१५ लीटर टीन)</span>
-                <span style="color: #FFD700; font-weight: bold; font-size: 14px;">थोक मिल रेट: ₹1,850 / प्रति टीन</span>
-            </div>
-            <div style="background: #1a1a1a; padding: 10px; border-radius: 6px;">
-                <span style="color: #FFFFFF; font-weight: bold; display: block; font-size: 13px;">लॉन्ग-ग्रेन बासमती चावल (२५ किलोग्राम बैग)</span>
-                <span style="color: #FFD700; font-weight: bold; font-size: 14px;">थोक मिल रेट: ₹1,200 / प्रति बैग</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- श्रेणी ३: प्रीमियम वस्त्र एवं टेक्सटाइल (Premium Apparel) -->
-    <div class="rly-inventory-section" style="margin-bottom: 10px;">
-        <h4 style="color: #45f3ff; margin: 0 0 10px 0; font-size: 14px;">👕 प्रीमियम वस्त्र (दोषमुक्त, भारी कॉटन)</h4>
-        <div style="background: #1a1a1a; padding: 12px; border-radius: 8px; border-left: 4px solid #FFD700;">
-            <span style="color: #FFFFFF; font-weight: bold; display: block; font-size: 14px;">RLY ब्रांडेड हेवीवेट कॉटन टी-शर्ट (बल्क पैक)</span>
-            <span style="color: #aaaaaa; font-size: 12px; display: block; margin: 4px 0;">विशेषता: १००% फिनिश्ड, टिकाऊ धागा, जीरो डिफेक्ट गारंटी</span>
-            <span style="color: #FFD700; font-weight: bold; font-size: 15px;">थोक मिल रेट: ₹145 / प्रति पीस <span style="font-size: 11px; color: #888;">(न्यूनतम ऑर्डर: ५० पीस)</span></span>
-        </div>
-    </div>
+  <!-- 3. लाइव मोल-भाव (Make an Offer) एवं 4. अतिरिक्त आय (VIP सदस्यता, रेफ़रल व कंपनी लिस्टिंग) -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+    <button type="button" onclick="rlyOpenModal('bargainModal')" style="padding:12px 8px;background:linear-gradient(145deg,#1c180d,#0b0b0b);border:1.5px solid #ffd700;border-radius:10px;color:#ffd700;font-weight:bold;font-size:12px;cursor:pointer;">🤝 लाइव मोल-भाव (Offer)</button>
+    <button type="button" onclick="rlyOpenModal('vipModal')" style="padding:12px 8px;background:linear-gradient(145deg,#1c180d,#0b0b0b);border:1.5px solid #ffd700;border-radius:10px;color:#ffd700;font-weight:bold;font-size:12px;cursor:pointer;">👑 VIP थोक सदस्यता</button>
+    <button type="button" onclick="rlyOpenModal('referModal')" style="padding:12px 8px;background:linear-gradient(145deg,#1c180d,#0b0b0b);border:1.5px solid #ffd700;border-radius:10px;color:#ffd700;font-weight:bold;font-size:12px;cursor:pointer;">🤝 रेफ़रल व कमाएं</button>
+    <button type="button" onclick="rlyOpenModal('brandListModal')" style="padding:12px 8px;background:linear-gradient(145deg,#1c180d,#0b0b0b);border:1.5px solid #ffd700;border-radius:10px;color:#ffd700;font-weight:bold;font-size:12px;cursor:pointer;">🏢 कंपनी लिस्टिंग अनुरोध</button>
+  </div>
 </div>
+
 <!-- ========================================================================== -->
 
             
