@@ -1855,7 +1855,10 @@ window.alert = function(message) {
 <hr style="border:0;border-top:1px solid #444;margin:12px 0;">
 <button type="button" class="rly-gold-action" style="background:linear-gradient(180deg,#ffd700,#d4af37);margin-bottom:8px;" onclick="rlyLoadAdminOrders()">📋 सभी लाइव ग्राहक ऑर्डर व किसान आवेदन देखें</button>
 <div id="admLiveOrdersBox" style="max-height:180px;overflow-y:auto;text-align:left;font-size:11px;color:#eee;background:#080808;padding:8px;border-radius:8px;border:1px solid #555;display:none;margin-bottom:8px;"></div>
-      
+    <button onclick="rlyCloseModal('adminModal')" style="width:100%;padding:8px;margin-top:6px;background:#222;color:#ffd700;border:1px solid #ffd700;border-radius:8px;">बंद करें</button>
+  </div>
+</div>
+    
 <!-- फ्लोटिंग 24x7 RLY AI सहायक व हिंदी वॉइस शॉपिंग बटन -->
 <div style="position:fixed;bottom:112px;right:12px;z-index:99990;display:flex;flex-direction:column;gap:8px;">
   <button type="button" onclick="rlyStartHindiVoice()" title="बोलकर हिंदी में खोजें" style="width:46px;height:46px;border-radius:50%;background:linear-gradient(145deg,#ffd700,#b8860b);border:2px solid #fff;color:#000;font-size:20px;box-shadow:0 4px 15px rgba(255,215,0,0.5);cursor:pointer;">🎤</button>
