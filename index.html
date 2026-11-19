@@ -1856,7 +1856,84 @@ window.alert = function(message) {
 <button type="button" class="rly-gold-action" style="background:linear-gradient(180deg,#ffd700,#d4af37);margin-bottom:8px;" onclick="rlyLoadAdminOrders()">📋 सभी लाइव ग्राहक ऑर्डर व किसान आवेदन देखें</button>
 <div id="admLiveOrdersBox" style="max-height:180px;overflow-y:auto;text-align:left;font-size:11px;color:#eee;background:#080808;padding:8px;border-radius:8px;border:1px solid #555;display:none;margin-bottom:8px;"></div>
       
-    <button onclick="rlyCloseModal('adminModal')" style="width:100%; margin-top:10px; padding:8px; background:#222; color:#ccc; border:none; border-radius:8px; cursor:pointer;">बंद करें</button>
+<!-- फ्लोटिंग 24x7 RLY AI सहायक व हिंदी वॉइस शॉपिंग बटन -->
+<div style="position:fixed;bottom:112px;right:12px;z-index:99990;display:flex;flex-direction:column;gap:8px;">
+  <button type="button" onclick="rlyStartHindiVoice()" title="बोलकर हिंदी में खोजें" style="width:46px;height:46px;border-radius:50%;background:linear-gradient(145deg,#ffd700,#b8860b);border:2px solid #fff;color:#000;font-size:20px;box-shadow:0 4px 15px rgba(255,215,0,0.5);cursor:pointer;">🎤</button>
+  <button type="button" onclick="rlyOpenModal('aiBotModal')" title="24x7 RLY AI सहायक" style="width:46px;height:46px;border-radius:50%;background:linear-gradient(145deg,#111,#000);border:2px solid #ffd700;color:#ffd700;font-size:20px;box-shadow:0 4px 15px rgba(255,215,0,0.5);cursor:pointer;">🤖</button>
+</div>
+
+<!-- 3D पॉप-अप: 24x7 सुरक्षित RLY AI ग्राहक एवं किसान सहायक -->
+<div id="aiBotModal" class="rly-modal-bg">
+  <div class="rly-modal-box">
+    <h3 style="color:#ffd700;margin-top:0;">🤖 24x7 RLY AI सहायक</h3>
+    <div id="rlyAiChatLog" style="height:180px;overflow-y:auto;background:#070707;border:1px solid #d4af37;border-radius:8px;padding:10px;text-align:left;font-size:12px;color:#fff;margin-bottom:8px;">
+      <p style="color:#ffd700;margin:0 0 6px 0;"><b>RLY AI:</b> नमस्ते! मैं RLY Digital का 24x7 सुरक्षित सहायक हूँ। आप थोक सामान, पेमेंट, या किसान योजना के बारे में पूछ सकते हैं।</p>
+    </div>
+    <div style="display:flex;gap:6px;margin-bottom:8px;">
+      <input type="text" id="rlyAiInput" class="rly-field" placeholder="अपना सवाल लिखें..." style="margin:0;">
+      <button type="button" onclick="rlyAskSafeAI()" style="padding:0 14px;background:#ffd700;color:#000;font-weight:bold;border:none;border-radius:8px;cursor:pointer;">पूछें</button>
+    </div>
+    <button type="button" onclick="rlyCloseModal('aiBotModal')" style="width:100%;padding:8px;background:#222;color:#ffd700;border:1px solid #ffd700;border-radius:8px;">बंद करें</button>
+  </div>
+</div>
+
+<!-- 3D पॉप-अप: लाइव मोल-भाव (Make an Offer) -->
+<div id="bargainModal" class="rly-modal-bg">
+  <div class="rly-modal-box">
+    <h3 style="color:#ffd700;margin-top:0;">🤝 लाइव थोक मोल-भाव (Make an Offer)</h3>
+    <input type="text" id="bgProdName" class="rly-field" placeholder="उत्पाद का नाम (जैसे: सरसों तेल 50 टीन)">
+    <input type="number" id="bgOfferRate" class="rly-field" placeholder="आपका प्रस्तावित थोक रेट (₹)">
+    <input type="tel" id="bgPhone" class="rly-field" placeholder="आपका मोबाइल नंबर">
+    <button type="button" class="rly-gold-action" onclick="rlySubmitOffer()">✅ अपना ऑफर दर्ज करें</button>
+    <button type="button" onclick="rlyCloseModal('bargainModal')" style="width:100%;padding:8px;margin-top:6px;background:#222;color:#ffd700;border:1px solid #ffd700;border-radius:8px;">बंद करें</button>
+  </div>
+</div>
+
+<!-- 3D पॉप-अप: VIP थोक सदस्यता कार्ड -->
+<div id="vipModal" class="rly-modal-bg">
+  <div class="rly-modal-box">
+    <h3 style="color:#ffd700;margin-top:0;">👑 RLY VIP थोक सदस्यता कार्ड</h3>
+    <p style="font-size:12px;color:#ddd;">दुकानदारों व थोक व्यापारियों के लिए हर ऑर्डर पर अतिरिक्त 5% मिल छूट + प्राथमिकता डिलीवरी (वार्षिक शुल्क: ₹499)।</p>
+    <input type="text" id="vipShopName" class="rly-field" placeholder="आपका नाम / दुकान का नाम">
+    <input type="tel" id="vipMobile" class="rly-field" placeholder="मोबाइल नंबर">
+    <button type="button" class="rly-gold-action" onclick="rlyActivateVIP()">👑 VIP कार्ड सक्रिय करें व पेमेंट करें (₹499)</button>
+    <button type="button" onclick="rlyCloseModal('vipModal')" style="width:100%;padding:8px;margin-top:6px;background:#222;color:#ffd700;border:1px solid #ffd700;border-radius:8px;">बंद करें</button>
+  </div>
+</div>
+
+<!-- 3D पॉप-अप: रेफ़रल व ग्राम-उद्यमी नेटवर्क -->
+<div id="referModal" class="rly-modal-bg">
+  <div class="rly-modal-box">
+    <h3 style="color:#ffd700;margin-top:0;">🤝 RLY ग्राम-उद्यमी एवं रेफ़रल नेटवर्क</h3>
+    <p style="font-size:12px;color:#ddd;">नए दुकानदार या किसान जोड़ें और हर सफल ऑर्डर पर सीधे अपने बैंक या बचत गुल्लक में कमीशन पाएं।</p>
+    <input type="tel" id="refMyMobile" class="rly-field" placeholder="अपना मोबाइल नंबर डालकर रेफ़रल कोड बनाएं">
+    <button type="button" class="rly-gold-action" onclick="rlyGenerateReferral()">🔗 अपना रेफ़रल लिंक बनाएं व कॉपी करें</button>
+    <button type="button" onclick="rlyCloseModal('referModal')" style="width:100%;padding:8px;margin-top:6px;background:#222;color:#ffd700;border:1px solid #ffd700;border-radius:8px;">बंद करें</button>
+  </div>
+</div>
+
+<!-- 3D पॉप-अप: ब्रांड / कंपनी फीचर्ड लिस्टिंग अनुरोध -->
+<div id="brandListModal" class="rly-modal-bg">
+  <div class="rly-modal-box">
+    <h3 style="color:#ffd700;margin-top:0;">🏢 ब्रांड / कंपनी टॉप लिस्टिंग अनुरोध</h3>
+    <input type="text" id="brCompName" class="rly-field" placeholder="कंपनी या मिल का नाम">
+    <input type="text" id="brCategory" class="rly-field" placeholder="उत्पाद श्रेणी (कपड़ा / राशन / इलेक्ट्रॉनिक्स)">
+    <input type="tel" id="brPhone" class="rly-field" placeholder="संपर्क मोबाइल नंबर">
+    <button type="button" class="rly-gold-action" onclick="rlySubmitBrandReq()">🚀 लिस्टिंग अनुरोध भेजें</button>
+    <button type="button" onclick="rlyCloseModal('brandListModal')" style="width:100%;padding:8px;margin-top:6px;background:#222;color:#ffd700;border:1px solid #ffd700;border-radius:8px;">बंद करें</button>
+  </div>
+</div>
+
+<!-- 3D पॉप-अप: डिजिटल रसीद एवं QR सुरक्षा शील्ड -->
+<div id="receiptModal" class="rly-modal-bg">
+  <div class="rly-modal-box">
+    <h3 style="color:#ffd700;margin-top:0;">🧾 RLY डिजिटल सुरक्षा रसीद (QR शील्ड)</h3>
+    <div id="rlyDigitalReceiptBody" style="background:#080808;border:1.5px solid #ffd700;border-radius:10px;padding:12px;text-align:left;font-size:12px;color:#fff;margin-bottom:10px;"></div>
+    <button type="button" class="rly-gold-action" onclick="rlyProceedCashfree()">💳 अभी सुरक्षित पेमेंट पर जाएं</button>
+  </div>
+</div>
+
+      <button onclick="rlyCloseModal('adminModal')" style="width:100%; margin-top:10px; padding:8px; background:#222; color:#ccc; border:none; border-radius:8px; cursor:pointer;">बंद करें</button>
   </div>
 </div>
 
