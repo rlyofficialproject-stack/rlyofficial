@@ -2585,86 +2585,143 @@ setInterval(() => {
     rlyDB.from('products').select('id').limit(1).then(() => {});
   }
 }, 240000);
-// =========================================================================
-// 👑 RLY MASTER FIX: KEYBOARD ANTI-OVERLAP + 2,000+ PRODUCTS + AUTO-HD VISUALS
-// =========================================================================
+// ============================================================================
+// 👑 RLY MASTER ENGINE V7.0: UNLIMITED HD VISUALS, INSTANT KEYBOARD & ZERO-LAG
+// ============================================================================
 (function() {
-  // 1. मोबाइल कीबोर्ड खुलते ही नीचे की पट्टियों को छुपाना ताकि स्क्रीन कभी न ढके
-  const fixStyle = document.createElement('style');
-  fixStyle.innerHTML = `
+  'use strict';
+
+  // 1. स्टाइल इंजेक्टर (HD बैनर और मोबाइल कीबोर्ड सुरक्षा)
+  const masterStyle = document.createElement('style');
+  masterStyle.innerHTML = `
+    .rly-hd-visual-box {
+      width: 100%; height: 112px; border-radius: 10px; margin-bottom: 10px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      border: 1px solid rgba(255, 215, 0, 0.45);
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.55);
+    }
+    .rly-hd-tag {
+      position: absolute; top: 6px; right: 6px;
+      background: rgba(0, 0, 0, 0.85); color: #ffd700;
+      font-size: 9px; font-weight: 800; padding: 2px 6px;
+      border-radius: 4px; border: 1px solid #d4af37;
+    }
+    .rly-hd-svg { width: 58px; height: 58px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6)); }
     body.rly-kb-open .rly-dock-bar,
     body.rly-kb-open footer,
     body.rly-kb-open [style*="position:fixed"],
-    body.rly-kb-open [style*="position: fixed"] {
-      display: none !important;
-    }
-    .rly-hd-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: linear-gradient(135deg, #1a1a22, #0d0d12);
-      border: 1px solid #ffd700; border-radius: 10px;
-      padding: 6px 10px; margin-bottom: 8px; font-size: 20px;
+    body.rly-kb-open [style*="position: fixed"] { display: none !important; }
+    input, textarea {
+      -webkit-user-select: text !important; user-select: text !important;
+      pointer-events: auto !important; touch-action: manipulation !important;
     }
   `;
-  document.head.appendChild(fixStyle);
+  document.head.appendChild(masterStyle);
+
+  // 2. अनलिमिटेड प्रोडक्ट्स के लिए श्रेणी-आधारित HD रंगीन चित्र इंजन
+  const RLY_HD_CATS = [
+    { k: ['कपड़ा', 'वस्त्र', 'टी-शर्ट', 'साड़ी', 'कुर्ता', 'shirt', 'saree', 'wear', 'textile'], bg: 'linear-gradient(135deg,#4a0e4e,#9d174d,#db2777)', tag: 'TEXTILE HD', svg: '<path fill="#ffd700" d="M16 8l6-4h20l6 4 10 8-6 10-6-4v34H16V22l-6 4-6-10 10-8z"/>' },
+    { k: ['राशन', 'चावल', 'गेहूं', 'दाल', 'आटा', 'मसाले', 'तेल', 'घी', 'ड्राई', 'oil', 'rice', 'grocery'], bg: 'linear-gradient(135deg,#14532d,#15803d,#b45309)', tag: 'GROCERY HD', svg: '<path fill="#fef08a" d="M20 12h24l4 10v30a4 4 0 01-4 4H20a4 4 0 01-4-4V22l4-10zm4 16v18h16V28H24z"/>' },
+    { k: ['पूजा', 'सनातन', 'अगरबत्ती', 'धूप', 'दीपक', 'मंदिर', 'pooja', 'sanatan'], bg: 'linear-gradient(135deg,#7f1d1d,#c2410c,#f59e0b)', tag: 'SANATAN HD', svg: '<path fill="#fffbeb" d="M32 8c4 8 10 12 10 20a10 10 0 11-20 0c0-8 6-12 10-20zm-16 34h32l-4 10H20l-4-10z"/>' },
+    { k: ['इलेक्ट्रॉनिक्स', 'इनवर्टर', 'बैटरी', 'मोबाइल', 'led', 'inverter', 'battery', 'mobile'], bg: 'linear-gradient(135deg,#0f172a,#1d4ed8,#0284c7)', tag: 'TECH HD', svg: '<path fill="#38bdf8" d="M36 6L14 36h16l-2 22 22-30H34l2-22z"/>' },
+    { k: ['कृषि', 'किसान', 'स्प्रे', 'पंप', 'सोलर', 'agri', 'farm', 'solar', 'pump'], bg: 'linear-gradient(135deg,#064e3b,#047857,#65a30d)', tag: 'AGRI HD', svg: '<path fill="#fde047" d="M32 10c12 0 22 10 22 22H10c0-12 10-22 22-22zm-4 24h8v20h-8V34z"/>' }
+  ];
+
+  function getCardHDTheme(txt) {
+    const lower = (txt || '').toLowerCase();
+    for (let i = 0; i < RLY_HD_CATS.length; i++) {
+      if (RLY_HD_CATS[i].k.some(word => lower.includes(word))) return RLY_HD_CATS[i];
+    }
+    return { bg: 'linear-gradient(135deg,#111827,#374151,#92400e)', tag: 'RLY HD', svg: '<path fill="#ffd700" d="M32 6l22 10v16c0 14-9.5 26.5-22 30C19.5 58.5 10 46 10 32V16L32 6z"/>' };
+  }
+
+  function applyUnlimitedHDVisuals() {
+    const allDivs = document.querySelectorAll('#productGrid > div, .product-card, div[style*="border"]');
+    for (let i = 0; i < allDivs.length; i++) {
+      const c = allDivs[i];
+      if (c.getAttribute('data-vis') === '1' || c.children.length > 10) continue;
+      const t = c.innerText || '';
+      if (t.indexOf('थोक रेट:') !== -1 && t.indexOf('₹') !== -1) {
+        c.setAttribute('data-vis', '1');
+        const theme = getCardHDTheme(t);
+        const box = document.createElement('div');
+        box.className = 'rly-hd-visual-box';
+        box.style.background = theme.bg;
+        box.innerHTML = '<span class="rly-hd-tag">' + theme.tag + '</span><svg class="rly-hd-svg" viewBox="0 0 64 64">' + theme.svg + '</svg>';
+        c.insertBefore(box, c.firstChild);
+      }
+    }
+  }
+
+  // 3. स्वामी सुरक्षा कक्ष में कीबोर्ड तुरंत खोलने की प्रणाली
+  function forceOpenAdminKeyboard(el) {
+    if (!el) return;
+    el.removeAttribute('readonly');
+    el.removeAttribute('disabled');
+    el.setAttribute('inputmode', 'text');
+    document.body.classList.add('rly-kb-open');
+    setTimeout(() => { el.focus(); el.click(); }, 80);
+  }
 
   document.addEventListener('focusin', (e) => {
     if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) {
       document.body.classList.add('rly-kb-open');
-      setTimeout(() => { e.target.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 150);
     }
   });
   document.addEventListener('focusout', () => {
-    setTimeout(() => { document.body.classList.remove('rly-kb-open'); }, 200);
+    setTimeout(() => { document.body.classList.remove('rly-kb-open'); }, 250);
   });
+  document.addEventListener('click', (e) => {
+    if (e.target && (e.target.id === 'rlyAdminPinInput' || e.target.type === 'password')) {
+      forceOpenAdminKeyboard(e.target);
+    }
+  }, true);
 
-  // 2. पीले ताले वाली पट्टी को Fixed से हटाकर सामान्य फुटर बनाना
+  // 4. पीले ताले वाली पट्टी को नीचे स्थिर करना
   window.addEventListener('load', () => {
-    document.querySelectorAll('div, footer, section').forEach(el => {
-      if (el.innerText && el.innerText.includes('स्वायत्त कर्नेल कोर') && el.innerText.length < 300) {
-        el.style.position = 'relative';
-        el.style.bottom = 'auto';
-        el.style.zIndex = '1';
+    document.querySelectorAll('div, footer').forEach(el => {
+      if (el.innerText && el.innerText.indexOf('स्वायत्त कर्नल कोर') !== -1 && el.offsetHeight < 90) {
+        el.style.position = 'relative'; el.style.bottom = 'auto'; el.style.zIndex = '1';
       }
     });
-
-    // 3. डेटाबेस से पूरे 2,000+ उत्पाद लोड करना (1,000 लिमिट हटाकर)
-    setTimeout(async () => {
-      if (typeof rlyDB !== 'undefined') {
-        try {
-           const { count } = await rlyDB.from('products').select('*', { count: 'exact', head: true });
-          if (count && count > 0) {
-            const formattedCount = count.toLocaleString('en-IN');
-            document.querySelectorAll('h2, h3, span, div, p').forEach(node => {
-              if (node.children.length === 0 && node.innerText && node.innerText.includes('सत्यापित उत्पाद')) {
-                node.innerText = node.innerText.replace(/[\d,]+\s*सत्यापित उत्पाद/, formattedCount + ' सत्यापित उत्पाद');
-              }
-            });
-          }
-         
-          
-        } catch (err) {}
-      }
-    }, 1200);
   });
-  // 4. सुरक्षित HD प्रोडक्ट विजुअल इंजन
-  setInterval(function() {
-    var cards = document.querySelectorAll('div');
-    for (var i = 0; i < cards.length; i++) {
-      var c = cards[i];
-      if (c.getAttribute('data-vis') === '1') continue;
-      var t = c.innerText || '';
-      if (t.indexOf('थोक रेट:') !== -1 && t.indexOf('MRP') !== -1 && c.children.length >= 3 && c.children.length <= 12) {
-        c.setAttribute('data-vis', '1');
-        var b = document.createElement('div');
-        b.style.cssText = 'display:flex;align-items:center;justify-content:space-between;background:#1a1812;border:1px solid #ffd700;border-radius:8px;padding:8px 10px;margin-bottom:8px;';
-        b.innerHTML = '<span style="color:#ffd700;font-size:11px;font-weight:bold;">🏛️ RLY सत्यापित थोक उत्पाद • लाइव रेट</span><span style="background:#ffd700;color:#000;font-size:10px;padding:2px 6px;border-radius:4px;font-weight:bold;">HD VERIFIED</span>';
-        c.insertBefore(b, c.firstChild);
+
+  // 5. अनलिमिटेड लाइव उत्पाद गिनती (1 करोड़ / 2 करोड़ तक सटीक गिनती)
+  async function updateUnlimitedProductCount() {
+    if (typeof rlyDB === 'undefined') return;
+    try {
+      const { count } = await rlyDB.from('products').select('*', { count: 'exact', head: true });
+      if (count && count > 0) {
+        const exactNum = count.toLocaleString('en-IN');
+        document.querySelectorAll('h1, h2, h3, span, div, b').forEach(node => {
+          if (node.children.length === 0 && /1,000|2,116/.test(node.innerText)) {
+            node.innerText = node.innerText.replace(/1,000|2,116/g, exactNum);
+          }
+        });
       }
-    }
-  }, 1000);
+    } catch (err) {}
+  }
 
+  // 6. मक्खन जैसी तेज़ स्पीड के लिए स्मार्ट ऑब्ज़र्वर (बिना किसी लैग के)
+  let rlySyncTimer = null;
+  function triggerFastVisualSync() {
+    clearTimeout(rlySyncTimer);
+    rlySyncTimer = setTimeout(applyUnlimitedHDVisuals, 50);
+  }
 
-    })();
+  window.addEventListener('DOMContentLoaded', () => {
+    applyUnlimitedHDVisuals();
+    updateUnlimitedProductCount();
+    const observer = new MutationObserver(triggerFastVisualSync);
+    observer.observe(document.body, { childList: true, subtree: true });
+  });
+
+  if (document.readyState !== 'loading') {
+    applyUnlimitedHDVisuals();
+    updateUnlimitedProductCount();
+  }
+})();
     
 </script>
 
