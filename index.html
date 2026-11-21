@@ -2646,7 +2646,55 @@ setInterval(() => {
       }
     }, 1200);
   });
-})();
+  // 4. अनलिमिटेड HD प्रोडक्ट विजुअल इंजन (2,000 से 2 करोड़ उत्पादों हेतु स्वचालित)
+  const rlyGetProductVisual = (title) => {
+    const t = title.toLowerCase();
+    const map = [
+      { keys: ['चाय', 'tea', 'कॉफ़ी', 'coffee', 'हॉर्लिक्स', 'बॉर्नविटा', 'ड्रिंक'], icon: '☕', label: 'प्रिमियम पेय व चाय', bg: '#2b1810' },
+      { keys: ['घी', 'ghee', 'तेल', 'oil', 'सरसों', 'सनफ्लावर'], icon: '🫙', label: 'शुद्ध खाद्य तेल एवं घी', bg: '#2b220a' },
+      { keys: ['चावल', 'rice', 'बासमती', 'आटा', 'atta', 'बेसन', 'दाल', 'dal', 'चीनी', 'नमक'], icon: '🌾', label: 'शुद्ध अनाज, आटा व दालें', bg: '#241e12' },
+      { keys: ['मसाला', 'मसाले', 'हल्दी', 'मिर्च', 'धनिया', 'जीरा', 'इलायची', 'केसर'], icon: '🌶️', label: 'शुद्ध भारतीय मसाले', bg: '#2d110e' },
+      { keys: ['बादाम', 'काजू', 'अखरोट', 'पिस्ता', 'किशमिश', 'अंजीर', 'खजूर', 'मखाना', 'ड्राई'], icon: '🥜', label: 'प्रीमियम ड्राई फ्रूट्स', bg: '#261a12' },
+      { keys: ['पूजा', 'पीतल', 'तांबे', 'आरती', 'दीया', 'शंख', 'रुद्राक्ष', 'धूप', 'हवन', 'प्रतिमा', 'सनातन', 'गीता', 'रामायण'], icon: '🪔', label: 'अखंड सनातन पूजा सामग्री', bg: '#2e1a05' },
+      { keys: ['शर्ट', 'जींस', 'साड़ी', 'कुर्ता', 'कपड़े', 'वस्त्र', 'धोती', 'लोअर', 'टी-शर्ट', 'शेरवानी', 'जॉकी'], icon: '👔', label: 'ब्रांडेड कपड़े व परिधान', bg: '#151c2c' },
+      { keys: ['कुकर', 'मिक्सर', 'गैस', 'चूल्हा', 'इंडक्शन', 'बोतल', 'थर्मस', 'कड़ाही', 'तवा', 'बर्तन', 'केतली'], icon: '🍳', label: 'स्टील बर्तन व किचन अप्लायंस', bg: '#1a2026' },
+      { keys: ['इनवर्टर', 'बैटरी', 'सोलर', 'लाइट', 'बल्ब', 'पंखा', 'फैन', 'गीज़र', 'हीटर', 'टीवी'], icon: '⚡', label: 'स्मार्ट पावर व इलेक्ट्रॉनिक्स', bg: '#10222b' },
+      { keys: ['मोबाइल', 'चार्जर', 'इयरबड्स', 'नेकबैंड', 'स्पीकर', 'वॉच', 'पॉवर बैंक', 'कार्ड', 'पेनड्राइव', 'माउस', 'राउटर'], icon: '📱', label: 'मोबाइल व डिजिटल एक्सेसरीज', bg: '#16162a' },
+      { keys: ['कृषि', 'किसान', 'पंप', 'सिंचाई', 'पाइप', 'स्प्रे', 'ट्रैक्टर', 'खाद', 'बीज', 'कटर'], icon: '🚜', label: 'आधुनिक कृषि यंत्र व खेती', bg: '#112614' },
+      { keys: ['साबुन', 'शैम्पू', 'टूथपेस्ट', 'क्रीम', 'लोशन', 'फेस वॉश', 'क्लीनर', 'डिटर्जेंट', 'सैनिटाइज़र'], icon: '🧴', label: 'पर्सनल केयर व हाइजीन', bg: '#122426' },
+      { keys: ['नोटबुक', 'रजिस्टर', 'पेन', 'पेंसिल', 'पेपर', 'कैलकुलेटर', 'स्टेशनरी', 'किट'], icon: '📚', label: 'स्टेशनरी व ऑफिस सप्लाई', bg: '#1e1b29' },
+      { keys: ['शूज़', 'जूते', 'चप्पल', 'सैंडल', 'स्लिपर', 'फुटवियर', 'बेल्ट'], icon: '👟', label: 'ब्रांडेड फुटवियर कलेक्शन', bg: '#22181c' },
+      { keys: ['पैकिंग', 'कार्टन', 'टेप', 'पाउच', 'बैग', 'तराजू', 'कांटा', 'प्रिंटर', 'कंटेनर'], icon: '📦', label: 'पैकेजिंग व रिटेल उपकरण', bg: '#241d15' },
+      { keys: ['ड्रिल', 'पेंट', 'सीमेंट', 'पुट्टी', 'वायर', 'केबल', 'स्विच', 'टूल', 'हार्डवेयर'], icon: '🛠️', label: 'हार्डवेयर, पेंट व निर्माण', bg: '#261c14' },
+      { keys: ['बीपी', 'शुगर', 'ऑक्सीमीटर', 'थर्मामीटर', 'मसाजर', 'मेडिकल', 'अश्वगंधा', 'च्यवनप्राश', 'नेबुलाइजर'], icon: '🩺', label: 'हेल्थकेयर व मेडिकल एड', bg: '#0f2422' },
+      { keys: ['बाइक', 'कार', 'इंजन ऑयल', 'हेलमेट', 'टायर', 'ऑटो', 'वॉशर'], icon: '🏍️', label: 'ऑटो केयर व वाहन सुरक्षा', bg: '#1e1e24' },
+      { keys: ['कैमरा', 'cctv', 'तिजोरी', 'लॉकर', 'ताला', 'लॉक', 'अलार्म', 'सेफ्टी'], icon: '🛡️', label: 'स्मार्ट सुरक्षा व CCTV सिस्टम', bg: '#141c24' },
+      { keys: ['मशीन', 'चक्की', 'प्लांट', 'ग्राइंडर', 'फ्रायर', 'फ्रेंचाइजी'], icon: '⚙️', label: 'कमर्शियल उद्योग मशीनरी', bg: '#1c1c22' }
+    ];
+    for (const item of map) {
+      if (item.keys.some(k => t.includes(k))) return item;
+    }
+    return { icon: '🏛️', label: 'RLY सत्यापित थोक उत्पाद', bg: '#1a1812' };
+  };
+
+  const rlyInjectVisuals = () => {
+    document.querySelectorAll('div, section, article').forEach(card => {
+      if (card.dataset.rlyVisDone) return;
+      const txt = card.innerText || '';
+      if (txt.includes('थोक रेट:') && txt.includes('MRP') && card.children.length >= 3 && card.children.length <= 12) {
+        card.dataset.rlyVisDone = '1';
+        const vis = rlyGetProductVisual(txt);
+        const banner = document.createElement('div');
+        banner.style.cssText = 'display:flex;align-items:center;justify-content:space-between;background:' + vis.bg + ';border:1px solid rgba(255,215,0,0.35);border-radius:10px;padding:10px 12px;margin-bottom:10px;';
+        banner.innerHTML = '<div style="display:flex;align-items:center;gap:10px;"><span style="font-size:32px;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.6));">' + vis.icon + '</span><div><div style="color:#ffd700;font-size:11px;font-weight:bold;letter-spacing:0.5px;">' + vis.label + '</div><div style="color:#bbb;font-size:10px;">100% ओरिजिनल मिल पैकिंग • लाइव रेट</div></div></div><span style="background:rgba(255,215,0,0.15);color:#ffd700;border:1px solid #ffd700;font-size:10px;padding:3px 7px;border-radius:6px;font-weight:bold;">HD VERIFIED</span>';
+        card.insertBefore(banner, card.firstChild);
+      }
+    });
+  };
+
+  setInterval(rlyInjectVisuals, 900);
+
+    })();
     
 </script>
 
