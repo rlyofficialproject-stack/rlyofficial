@@ -2631,15 +2631,16 @@ setInterval(() => {
     setTimeout(async () => {
       if (typeof rlyDB !== 'undefined') {
         try {
-          const { data: p1 } = await rlyDB.from('products').select('*').order('id', { ascending: false }).range(0, 999);
-          const { data: p2 } = await rlyDB.from('products').select('*').order('id', { ascending: false }).range(1000, 2999);
-          const allProds = [...(p1 || []), ...(p2 || [])];
-          if (allProds.length > 0) {
+           const { count } = await rlyDB.from('products').select('*', { count: 'exact', head: true });
+          if (count && count > 0) {
+            const formattedCount = count.toLocaleString('en-IN');
             document.querySelectorAll('h2, h3, span, div, p').forEach(node => {
               if (node.children.length === 0 && node.innerText && node.innerText.includes('सत्यापित उत्पाद')) {
-                node.innerText = node.innerText.replace(/\d+\s*सत्यापित उत्पाद/, allProds.length + ' सत्यापित उत्पाद');
+                node.innerText = node.innerText.replace(/[\d,]+\s*सत्यापित उत्पाद/, formattedCount + ' सत्यापित उत्पाद');
               }
             });
+          }
+         
           }
         } catch (err) {}
       }
