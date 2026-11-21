@@ -2796,9 +2796,21 @@ setInterval(() => {
     }, 60);
   }
 
-  window.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener('DOMContentLoaded', () => {
     fixBottomBarPosition();
     injectRealHDProductCards();
+    fetchUnlimitedProductCount();
+    const obs = new MutationObserver(scheduleFastSync);
+    obs.observe(document.body, { childList: true, subtree: true });
+  });
+
+  if (document.readyState !== 'loading') {
+    fixBottomBarPosition();
+    injectRealHDProductCards();
+    fetchUnlimitedProductCount();
+  }
+})();
+
 
     
 </script>
