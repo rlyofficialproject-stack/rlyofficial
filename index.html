@@ -2687,11 +2687,9 @@ setInterval(() => {
 
   function lockYellowStripAtBottom() {
     document.querySelectorAll('div, footer, section').forEach(el => {
-      if (el.innerText && el.innerText.indexOf('स्वायत्त कर्नल कोर') !== -1 && el.offsetHeight < 120) {
-        el.style.setProperty('position', 'relative', 'important');
+      
     
-
-      if (el.innerText && el.innerText.indexOf('स्वायत्त कर्नल कोर') !== -1 && el.offsetHeight < 120) {
+ if (el.innerText && el.innerText.indexOf('स्वायत्त कर्नल कोर') !== -1 && el.offsetHeight < 120) {
         el.style.setProperty('position', 'relative', 'important');
         el.style.setProperty('bottom', 'auto', 'important');
         el.style.setProperty('z-index', '1', 'important');
