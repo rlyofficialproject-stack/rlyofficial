@@ -2585,208 +2585,38 @@ function rlyProceedCashfree() {
 async function rlyLoadAdminOrders() {
   const box = document.getElementById('admLiveOrdersBox');
   if (!box) return;
-  box.style.display = 'block';
-  box.innerHTML = '⏳ लाइव ऑर्डर व किसान आवेदन लोड हो रहे हैं...';
-  try {
-    const { data, error } = await rlyDB.from('orders').select('*').order('created_at', { ascending: false }).limit(25);
-    if (error || !data || data.length === 0) {
-      box.innerHTML = 'अभी कोई ऑर्डर दर्ज नहीं है।';
-      return;
-    }
-    box.innerHTML = data.map((o, idx) =>
-      '<div style="border-bottom:1px solid #333;padding:6px 0;">' +
-      '<b style="color:#ffd700;">' + (idx + 1) + '. ' + (o.customer_name || '') + '</b> | 📞 ' + (o.phone || '') + '<br>' +
-      'राशि: ₹' + (o.total_amount || 0) + ' | ' + (o.address || '') +
-      '</div>'
-    ).join('');
-  } catch (e) {
-    box.innerHTML = '⚠️ डेटा लोड करने में त्रुटि आई।';
-  }
-}
-
-// 11. ऑफ़लाइन-फर्स्ट कैश और डेटाबेस ऑटो-कीप-अलाइव (24x7 सक्रिय रखने के लिए)
-setInterval(() => {
-  if (typeof rlyDB !== 'undefined') {
-    rlyDB.from('products').select('id').limit(1).then(() => {});
-  }
-}, 240000);
 // ============================================================================
-// 👑 RLY MASTER ENGINE V12.0: 100% UNLIMITED COUNT (ZERO 1000), HD ART & PIN SPEED
+// 👑 RLY ULTRA-FAST SEARCH & LAYOUT LOCK (ZERO DUPLICATE, PIN-LIKE TYPING)
 // ============================================================================
 (function() {
   'use strict';
-
-  // 1. संपूर्ण लेआउट लॉक, कीबोर्ड सुरक्षा और HD फोटो कार्ड स्टाइल
-  const v12Style = document.createElement('style');
-  v12Style.innerHTML = `
-    html, body {
-      overflow-x: hidden !important; max-width: 100vw !important;
-      width: 100% !important; position: relative !important;
-    }
+  const st = document.createElement('style');
+  st.innerHTML = `
+    html, body { overflow-x: hidden !important; max-width: 100vw !important; width: 100% !important; }
     * { box-sizing: border-box !important; }
-    [style*="position:fixed"][style*="bottom"],
-    [style*="position: fixed"][style*="bottom"],
-    .rly-dock-bar, .bottom-bar, footer {
-      position: relative !important; bottom: auto !important;
-      left: auto !important; right: auto !important; z-index: 1 !important;
+    [style*="position:fixed"][style*="bottom"], [style*="position: fixed"][style*="bottom"], .rly-dock-bar, .bottom-bar, footer {
+      position: relative !important; bottom: auto !important; left: auto !important; right: auto !important; z-index: 1 !important;
     }
-    .rly-v12-photo-box {
-      width: 100%; height: 155px; border-radius: 10px; margin-bottom: 10px;
-      position: relative; overflow: hidden; background: #141414;
-      border: 1.5px solid #ffd700; display: block !important;
-    }
-    .rly-v12-tag-tr {
-      position: absolute; top: 8px; right: 8px; z-index: 2;
-      background: rgba(0, 0, 0, 0.88); color: #ffd700;
-      font-size: 9px; font-weight: 800; padding: 3px 7px;
-      border-radius: 4px; border: 1px solid #ffd700;
-    }
-    .rly-v12-tag-bl {
-      position: absolute; bottom: 8px; left: 8px; z-index: 2;
-      background: rgba(0, 0, 0, 0.85); color: #ffffff;
-      font-size: 10px; font-weight: 700; padding: 3px 8px;
-      border-radius: 4px; border-left: 3px solid #ffd700;
-    }
-    input, textarea, select {
-      -webkit-user-select: text !important; user-select: text !important;
-      pointer-events: auto !important; touch-action: manipulation !important;
-      font-size: 16px !important;
-    }
+    input, textarea, select { font-size: 16px !important; touch-action: manipulation !important; }
   `;
-  document.head.appendChild(v12Style);
+  document.head.appendChild(st);
 
-  // 2. 100% अनब्रेकेबल डायरेक्ट रंगीन HD चित्र इंजन (कभी नहीं टूटेगा)
-  function buildHdArt(c1, c2, art) {
-    return `<svg xmlns="http://w3.org" viewBox="0 0 400 170" style="width:100%;height:100%;display:block;"><defs><linearGradient id="g_${c1.slice(1)}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/></linearGradient></defs><rect width="400" height="170" fill="url(#g_${c1.slice(1)})"/><circle cx="200" cy="85" r="56" fill="rgba(0,0,0,0.35)" stroke="#ffd700" stroke-width="2.5"/>${art}</svg>`;
-  }
-
-  const HD_GALLERY = [
-    { k: ['तिजोरी', 'लॉकर', 'वॉल्ट', 'safe', 'गोदरेज'], t: 'DIGITAL SAFE & SECURITY', svg: buildHdArt('#1e293b', '#0f172a', '<rect x="170" y="55" width="60" height="60" rx="8" fill="#ffd700"/><circle cx="200" cy="85" r="16" fill="#1e293b"/><circle cx="200" cy="85" r="6" fill="#ffd700"/><rect x="184" y="103" width="32" height="5" rx="2" fill="#38bdf8"/>') },
-    { k: ['कैमरा', 'सीसीटीवी', 'बुलेट', 'डोम', 'सीपी प्लस', 'camera'], t: 'CCTV & SURVEILLANCE', svg: buildHdArt('#0c4a6e', '#082f49', '<circle cx="200" cy="85" r="28" fill="#f1f5f9"/><circle cx="200" cy="85" r="15" fill="#0284c7"/><circle cx="206" cy="79" r="5" fill="#ffffff"/>') },
-    { k: ['कार', 'बाइक', 'वैक्स', 'कोटिंग', 'ऑटो', 'टायर', 'हेलमेट'], t: 'AUTO CARE & SAFETY', svg: buildHdArt('#7f1d1d', '#450a0a', '<path d="M160 96 L172 68 L228 68 L240 96 Z" fill="#ffd700"/><circle cx="176" cy="100" r="10" fill="#ffffff"/><circle cx="224" cy="100" r="10" fill="#ffffff"/>') },
-    { k: ['चावल', 'बासमती', 'गेहूं', 'दाल', 'आटा', 'राशन', 'चाय', 'न्यूट्रिशन'], t: 'WHOLESALE GROCERY', svg: buildHdArt('#14532d', '#052e16', '<rect x="174" y="54" width="52" height="62" rx="8" fill="#fbbf24"/><path d="M184 76 H216 M184 92 H216" stroke="#14532d" stroke-width="5" stroke-linecap="round"/>') },
-    { k: ['घी', 'तेल', 'सरसों', 'मक्खन', 'डेयरी', 'oil', 'ghee'], t: 'PURE OIL & GHEE', svg: buildHdArt('#78350f', '#451a03', '<path d="M200 50 C200 50 226 80 226 98 A26 26 0 0 1 174 98 C174 80 200 50 200 50 Z" fill="#fde047"/>') },
-    { k: ['शर्ट', 'टी-शर्ट', 'कपड़ा', 'साड़ी', 'कुर्ता', 'सूट', 'पैंट', 'कॉटन'], t: 'BRANDED GARMENTS', svg: buildHdArt('#581c87', '#3b0764', '<path d="M168 65 L188 54 L212 54 L232 65 L223 82 L214 78 L214 116 L186 116 L186 78 L177 82 Z" fill="#f9a8d4"/>') },
-    { k: ['इनवर्टर', 'बैटरी', 'सोलर', 'ट्यूबलाइट', 'led', 'इलेक्ट्रॉनिक्स', 'मशीन'], t: 'ELECTRONICS & POWER', svg: buildHdArt('#1e3a8a', '#172554', '<polygon points="205,52 178,90 198,90 193,120 222,82 202,82" fill="#fde047"/>') },
-    { k: ['कलश', 'तांबे', 'पीतल', 'आरती', 'धूप', 'पूजा', 'शंख', 'मंदिर', 'सनातन'], t: 'SANATAN POOJA', svg: buildHdArt('#9a3412', '#431407', '<path d="M200 50 C209 66 216 73 216 82 A16 16 0 0 1 184 82 C184 73 191 66 200 50 Z" fill="#ffd700"/><rect x="180" y="102" width="40" height="12" rx="4" fill="#fb923c"/>') },
-    { k: ['पंप', 'इंजन', 'स्प्रे', 'कृषि', 'किसान', 'ट्रैक्टर', 'खाद', 'बीज'], t: 'AGRI & FARM TOOLS', svg: buildHdArt('#065f46', '#022c22', '<path d="M172 110 Q200 56 228 110 Z" fill="#34d399"/><circle cx="200" cy="72" r="11" fill="#fde047"/>') }
-  ];
-  const DEFAULT_HD_SVG = buildHdArt('#27272a', '#09090b', '<polygon points="200,52 230,70 230,104 200,122 170,104 170,70" fill="none" stroke="#ffd700" stroke-width="4.5"/><circle cx="200" cy="87" r="13" fill="#ffd700"/>');
-
-  function chooseHdArt(txt) {
-    const low = (txt || '').toLowerCase();
-    for (let i = 0; i < HD_GALLERY.length; i++) {
-      if (HD_GALLERY[i].k.some(w => low.includes(w))) return HD_GALLERY[i];
+  window.rlyFilterCards = function(query) {
+    const q = (query || '').toLowerCase().trim();
+    const cards = document.querySelectorAll('.rly-prod-card');
+    let shown = 0;
+    for (let i = 0; i < cards.length; i++) {
+      const match = !q || (cards[i].innerText || '').toLowerCase().indexOf(q) !== -1;
+      if (match && shown < 80) {
+        cards[i].style.display = '';
+        shown++;
+      } else {
+        cards[i].style.display = 'none';
+      }
     }
-    return { t: 'RLY VERIFIED WHOLESALE', svg: DEFAULT_HD_SVG };
-  }
-
-  function renderHdArtOnCards() {
-    const buttons = document.querySelectorAll('button');
-    for (let i = 0; i < buttons.length; i++) {
-      const btn = buttons[i];
-      if ((btn.innerText || '').indexOf('टोकरी में जोड़ें') === -1) continue;
-      let card = btn.parentElement;
-      while (card && card.parentElement && (card.innerText || '').indexOf('थोक रेट:') === -1) {
-        card = card.parentElement;
-      }
-      if (card && card.parentElement && (card.parentElement.innerText || '').indexOf('कोड:') !== -1 && card.parentElement.children.length <= 4) {
-        card = card.parentElement;
-      }
-      if (!card || card.dataset.rlyArtV12 === '1') continue;
-      card.dataset.rlyArtV12 = '1';
-
-      const item = chooseHdArt(card.innerText);
-      const box = document.createElement('div');
-      box.className = 'rly-v12-photo-box';
-      box.innerHTML =
-        '<span class="rly-v12-tag-tr">RLY HD</span>' +
-        item.svg +
-        '<span class="rly-v12-tag-bl">' + item.t + '</span>';
-      card.insertBefore(box, card.firstChild);
-    }
-  }
-
-  // 3. पिन कोड जैसा सुपर-फ़ास्ट सर्च इंजन
-  function initPinSpeedSearch() {
-    const oldInp = document.querySelector('input[placeholder*="खोजें"], input[placeholder*="उत्पाद"], #searchInput');
-    if (!oldInp || oldInp.dataset.rlyPinV12 === '1') return;
-    const fastInp = oldInp.cloneNode(true);
-    fastInp.dataset.rlyPinV12 = '1';
-    oldInp.parentNode.replaceChild(fastInp, oldInp);
-
-    let timer = null;
-    fastInp.addEventListener('input', function() {
-      const q = this.value.trim().toLowerCase();
-      clearTimeout(timer);
-      timer = setTimeout(function() {
-        const cards = document.querySelectorAll('[data-rly-art-v12="1"]');
-        let shown = 0;
-        for (let i = 0; i < cards.length; i++) {
-          const c = cards[i];
-          const ok = !q || (c.innerText || '').toLowerCase().indexOf(q) !== -1;
-          if (ok && shown < 60) {
-            c.style.display = '';
-            shown++;
-          } else {
-            c.style.display = 'none';
-          }
-        }
-      }, 280);
-    });
-  }
-
-  // 4. 1000 का हमेशा के लिए अंत — केवल अनलिमिटेड असली लाइव गिनती (2,116+ से करोड़ों तक)
-  let unlimitedLiveCount = '2,116+';
-  function lockUnlimitedCountForever() {
-    document.querySelectorAll('h1, h2, h3, h4, span, div, b, p').forEach(el => {
-      if (el.children.length === 0 && el.innerText && el.innerText.indexOf('सत्यापित उत्पाद') !== -1) {
-        if (/1,?000/.test(el.innerText)) {
-          el.innerText = el.innerText.replace(/1,?000/g, unlimitedLiveCount);
-        }
-      }
-    });
-  }
-
-  async function syncUnlimitedCountFromDB() {
-    try {
-      const db = (typeof rlyDB !== 'undefined') ? rlyDB : window._rlySbClient;
-      if (!db) return;
-      const { count, error } = await db.from('products').select('*', { count: 'exact', head: true });
-      if (!error && typeof count === 'number' && count > 0) {
-        unlimitedLiveCount = count.toLocaleString('en-IN') + '+';
-        lockUnlimitedCountForever();
-      }
-    } catch (e) {}
-  }
-
-  // 5. मास्टर सिंक इंजन
-  let v12Timer = null;
-  function runV12Engine() {
-    clearTimeout(v12Timer);
-    v12Timer = setTimeout(() => {
-      initPinSpeedSearch();
-      renderHdArtOnCards();
-      lockUnlimitedCountForever();
-    }, 90);
-  }
-
-  window.addEventListener('DOMContentLoaded', () => {
-    lockUnlimitedCountForever();
-    initPinSpeedSearch();
-    renderHdArtOnCards();
-    syncUnlimitedCountFromDB();
-    const obs = new MutationObserver(runV12Engine);
-    obs.observe(document.body, { childList: true, subtree: true });
-  });
-
-  if (document.readyState !== 'loading') {
-    lockUnlimitedCountForever();
-    initPinSpeedSearch();
-    renderHdArtOnCards();
-    syncUnlimitedCountFromDB();
-  }
+  };
 })();
+
 
         </script>
     
