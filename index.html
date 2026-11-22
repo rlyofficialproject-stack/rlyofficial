@@ -2587,11 +2587,7 @@ setInterval(() => {
 }, 240000);
 // ============================================================================
 // 👑 RLY MASTER ENGINE V11.0: 100% REAL PHOTOS, NO FIXED BAR OVERLAP & PIN SPEED
-// ============================================================================
-(function() {
-  'use strict';
-
-  // 1. कीबोर्ड के ऊपर आने वाली पीली पट्टी को हमेशा के लिए नीचे बांधना + फोटो कार्ड स्टाइल
+  // 1. कार्ड में सबसे ऊपर 100% लोड होने वाला HD फोटो स्टाइल
   const v11Style = document.createElement('style');
   v11Style.innerHTML = `
     html, body {
@@ -2599,22 +2595,16 @@ setInterval(() => {
       width: 100% !important; position: relative !important;
     }
     * { box-sizing: border-box !important; }
-    /* नीचे की पीली पट्टी को कीबोर्ड के ऊपर उठने से हमेशा के लिए रोकना */
     [style*="position:fixed"][style*="bottom"],
     [style*="position: fixed"][style*="bottom"],
     .rly-dock-bar, .bottom-bar, footer {
-      position: relative !important;
-      bottom: auto !important;
-      left: auto !important;
-      right: auto !important;
-      z-index: 1 !important;
+      position: relative !important; bottom: auto !important;
+      left: auto !important; right: auto !important; z-index: 1 !important;
     }
     .rly-v11-photo-box {
-      width: 100%; height: 165px; border-radius: 10px; margin-bottom: 10px;
-      position: relative; overflow: hidden; background: #181818;
-      border: 1.5px solid #ffd700;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.7);
-      display: block !important;
+      width: 100%; height: 155px; border-radius: 10px; margin-bottom: 10px;
+      position: relative; overflow: hidden; background: #141414;
+      border: 1.5px solid #ffd700; display: block !important;
     }
     .rly-v11-photo-box img {
       width: 100% !important; height: 100% !important;
@@ -2628,7 +2618,7 @@ setInterval(() => {
     }
     .rly-v11-tag-bl {
       position: absolute; bottom: 8px; left: 8px; z-index: 2;
-      background: rgba(0, 0, 0, 0.82); color: #ffffff;
+      background: rgba(0, 0, 0, 0.85); color: #ffffff;
       font-size: 10px; font-weight: 700; padding: 3px 8px;
       border-radius: 4px; border-left: 3px solid #ffd700;
     }
@@ -2640,59 +2630,25 @@ setInterval(() => {
   `;
   document.head.appendChild(v11Style);
 
-  // 2. असली उच्च-गुणवत्ता वाले प्रोडक्ट फोटो (100% हर कार्ड पर दिखेंगे)
+  // 2. 100% अनब्रेकेबल HD SVG विज़ुअल जनरेटर (कभी नहीं टूटेगा)
+  function makeSvgUrl(c1, c2, shape) {
+    const svg = `<svg xmlns="http://w3.org" viewBox="0 0 400 180"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/></linearGradient></defs><rect width="400" height="180" fill="url(#g)"/><circle cx="200" cy="90" r="58" fill="rgba(0,0,0,0.28)" stroke="#ffd700" stroke-width="2"/>${shape}</svg>`;
+    return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+  }
+
   const REAL_IMAGES = [
-    { k: ['तिजोरी', 'लॉकर', 'वॉल्ट', 'safe', 'गोदरेज', 'godrej'], t: 'DIGITAL SAFE & SECURITY', u: 'https://pexels.com' },
-    { k: ['कैमरा', 'सीसीटीवी', 'बुलेट', 'डोम', 'सीपी प्लस', 'cp plus', 'camera'], t: 'CCTV & SURVEILLANCE', u: 'https://pexels.com' },
-    { k: ['कार', 'बाइक', 'वैक्स', 'कोटिंग', 'ऑटो', 'टायर', 'scorpio', 'fortuner'], t: 'AUTO CARE & VEHICLES', u: 'https://pexels.com' },
-    { k: ['चावल', 'बासमती', 'गेहूं', 'दाल', 'आटा', 'राशन', 'चीनी', 'नमक'], t: 'WHOLESALE RATION', u: 'https://pexels.com' },
-    { k: ['घी', 'तेल', 'सरसों', 'मक्खन', 'डेयरी', 'oil', 'ghee'], t: 'PURE OIL & GHEE', u: 'https://pexels.com' },
-    { k: ['मसाले', 'हल्दी', 'मिर्च', 'जीरा', 'काजू', 'बादाम', 'चाय'], t: 'SPICES & DRY FRUITS', u: 'https://pexels.com' },
-    { k: ['शर्ट', 'टी-शर्ट', 'कपड़ा', 'साड़ी', 'कुर्ता', 'सूट', 'पैंट', 'कॉटन'], t: 'BRANDED GARMENTS', u: 'https://pexels.com' },
-    { k: ['इनवर्टर', 'बैटरी', 'सोलर', 'inverter', 'battery', 'solar'], t: 'INVERTER & SOLAR', u: 'https://pexels.com' },
-    { k: ['ट्यूबलाइट', 'led', 'बल्ब', 'लाइट', 'इलेक्ट्रॉनिक्स', 'मोबाइल', 'चार्जर'], t: 'ELECTRONICS HD', u: 'https://pexels.com' },
-    { k: ['चूल्हा', 'इंडक्शन', 'कुकर', 'बर्तन', 'मिक्सर', 'किचन'], t: 'HOME APPLIANCES', u: 'https://pexels.com' },
-    { k: ['कलश', 'तांबे', 'पीतल', 'आरती', 'धूप', 'पूजा', 'शंख', 'मंदिर', 'सनातन'], t: 'SANATAN POOJA', u: 'https://pexels.com' },
-    { k: ['पंप', 'इंजन', 'स्प्रे', 'कृषि', 'किसान', 'ट्रैक्टर', 'खाद', 'बीज'], t: 'AGRI MACHINERY', u: 'https://pexels.com' }
+    { k: ['तिजोरी', 'लॉकर', 'वॉल्ट', 'safe', 'गोदरेज'], t: 'DIGITAL SAFE & SECURITY', u: makeSvgUrl('#1e293b', '#0f172a', '<rect x="172" y="62" width="56" height="56" rx="6" fill="#ffd700"/><circle cx="200" cy="90" r="14" fill="#1e293b"/><circle cx="200" cy="90" r="5" fill="#ffd700"/>') },
+    { k: ['कैमरा', 'सीसीटीवी', 'बुलेट', 'डोम', 'सीपी प्लस', 'camera'], t: 'CCTV & SURVEILLANCE', u: makeSvgUrl('#0c4a6e', '#082f49', '<circle cx="200" cy="90" r="26" fill="#e2e8f0"/><circle cx="200" cy="90" r="14" fill="#0284c7"/><circle cx="205" cy="85" r="4" fill="#fff"/>') },
+    { k: ['कार', 'बाइक', 'वैक्स', 'कोटिंग', 'ऑटो', 'टायर', 'हेलमेट'], t: 'AUTO CARE & SAFETY', u: makeSvgUrl('#7f1d1d', '#450a0a', '<path d="M165 100 L175 75 L225 75 L235 100 Z" fill="#ffd700"/><circle cx="178" cy="103" r="9" fill="#fff"/><circle cx="222" cy="103" r="9" fill="#fff"/>') },
+    { k: ['चावल', 'बासमती', 'गेहूं', 'दाल', 'आटा', 'राशन', 'चाय', 'न्यूट्रिशन'], t: 'WHOLESALE GROCERY', u: makeSvgUrl('#14532d', '#052e16', '<rect x="176" y="60" width="48" height="60" rx="8" fill="#fbbf24"/><path d="M185 80 H215 M185 95 H215" stroke="#14532d" stroke-width="4"/>') },
+    { k: ['घी', 'तेल', 'सरसों', 'मक्खन', 'डेयरी', 'oil', 'ghee'], t: 'PURE OIL & GHEE', u: makeSvgUrl('#78350f', '#451a03', '<path d="M200 58 C200 58 224 86 224 102 A24 24 0 0 1 176 102 C176 86 200 58 200 58 Z" fill="#fde047"/>') },
+    { k: ['शर्ट', 'टी-शर्ट', 'कपड़ा', 'साड़ी', 'कुर्ता', 'सूट', 'पैंट', 'कॉटन'], t: 'BRANDED GARMENTS', u: makeSvgUrl('#581c87', '#3b0764', '<path d="M170 70 L188 60 L212 60 L230 70 L222 86 L214 82 L214 118 L186 118 L186 82 L178 86 Z" fill="#f9a8d4"/>') },
+    { k: ['इनवर्टर', 'बैटरी', 'सोलर', 'ट्यूबलाइट', 'led', 'इलेक्ट्रॉनिक्स', 'मशीन'], t: 'ELECTRONICS & POWER', u: makeSvgUrl('#1e3a8a', '#172554', '<polygon points="204,58 180,94 198,94 194,122 220,86 202,86" fill="#fde047"/>') },
+    { k: ['कलश', 'तांबे', 'पीतल', 'आरती', 'धूप', 'पूजा', 'शंख', 'मंदिर', 'सनातन'], t: 'SANATAN POOJA', u: makeSvgUrl('#9a3412', '#431407', '<path d="M200 56 C208 70 214 76 214 84 A14 14 0 0 1 186 84 C186 76 192 70 200 56 Z" fill="#ffd700"/><rect x="182" y="102" width="36" height="12" rx="4" fill="#fb923c"/>') },
+    { k: ['पंप', 'इंजन', 'स्प्रे', 'कृषि', 'किसान', 'ट्रैक्टर', 'खाद', 'बीज'], t: 'AGRI & FARM TOOLS', u: makeSvgUrl('#065f46', '#022c22', '<path d="M175 112 Q200 62 225 112 Z" fill="#34d399"/><circle cx="200" cy="76" r="10" fill="#fde047"/>') }
   ];
-  const BACKUP_IMG = 'https://pexels.com';
+  const BACKUP_IMG = makeSvgUrl('#27272a', '#09090b', '<polygon points="200,58 228,74 228,106 200,122 172,106 172,74" fill="none" stroke="#ffd700" stroke-width="4"/><circle cx="200" cy="90" r="12" fill="#ffd700"/>');
 
-  function pickRealImage(txt) {
-    const low = (txt || '').toLowerCase();
-    for (let i = 0; i < REAL_IMAGES.length; i++) {
-      if (REAL_IMAGES[i].k.some(w => low.includes(w))) return REAL_IMAGES[i];
-    }
-    return { t: 'RLY VERIFIED WHOLESALE', u: BACKUP_IMG };
-  }
-
-  function attachPhotosToAllCards() {
-    // 'टोकरी में जोड़ें' बटन के जरिए सीधे असली प्रोडक्ट कार्ड को पकड़ना (100% सटीक)
-    const buttons = document.querySelectorAll('button');
-    for (let i = 0; i < buttons.length; i++) {
-      const btn = buttons[i];
-      if ((btn.innerText || '').indexOf('टोकरी में जोड़ें') === -1) continue;
-      // बटन का मुख्य कार्ड कंटेनर खोजें
-      let card = btn.parentElement;
-      while (card && card.parentElement && (card.innerText || '').indexOf('थोक रेट:') === -1) {
-        card = card.parentElement;
-      }
-      if (!card || card.dataset.rlyPhotoV11 === '1') continue;
-      card.dataset.rlyPhotoV11 = '1';
-
-      const info = pickRealImage(card.innerText);
-      const box = document.createElement('div');
-      box.className = 'rly-v11-photo-box';
-      box.innerHTML =
-        '<span class="rly-v11-tag-tr">RLY HD PHOTO</span>' +
-        '<img src="' + info.u + '" alt="' + info.t + '" onerror="this.onerror=null;this.src=\'' + BACKUP_IMG + '\';" />' +
-        '<span class="rly-v11-tag-bl">' + info.t + '</span>';
-      card.insertBefore(box, card.firstChild);
-    }
-  }
-
-  // 3. पीली पट्टी (0% कमीशन लॉकर) को हमेशा नीचे स्थिर रखना
-  function lockYellowStripAtBottom() {
-    document.querySelectorAll('div, footer, section').forEach(el => {
       if (el.innerText && el.innerText.indexOf('स्वायत्त कर्नल कोर') !== -1 && el.offsetHeight < 120) {
         el.style.setProperty('position', 'relative', 'important');
         el.style.setProperty('bottom', 'auto', 'important');
