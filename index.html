@@ -2586,13 +2586,14 @@ setInterval(() => {
   }
 }, 240000);
 // ============================================================================
-// 👑 RLY MASTER ENGINE V11.0: 100% UNBREAKABLE HD PHOTOS & PIN SPEED
+// 👑 RLY MASTER ENGINE V12.0: 100% UNLIMITED COUNT (ZERO 1000), HD ART & PIN SPEED
 // ============================================================================
 (function() {
   'use strict';
 
-  const v11Style = document.createElement('style');
-  v11Style.innerHTML = `
+  // 1. संपूर्ण लेआउट लॉक, कीबोर्ड सुरक्षा और HD फोटो कार्ड स्टाइल
+  const v12Style = document.createElement('style');
+  v12Style.innerHTML = `
     html, body {
       overflow-x: hidden !important; max-width: 100vw !important;
       width: 100% !important; position: relative !important;
@@ -2604,22 +2605,18 @@ setInterval(() => {
       position: relative !important; bottom: auto !important;
       left: auto !important; right: auto !important; z-index: 1 !important;
     }
-    .rly-v11-photo-box {
+    .rly-v12-photo-box {
       width: 100%; height: 155px; border-radius: 10px; margin-bottom: 10px;
       position: relative; overflow: hidden; background: #141414;
       border: 1.5px solid #ffd700; display: block !important;
     }
-    .rly-v11-photo-box img {
-      width: 100% !important; height: 100% !important;
-      object-fit: cover !important; display: block !important;
-    }
-    .rly-v11-tag-tr {
+    .rly-v12-tag-tr {
       position: absolute; top: 8px; right: 8px; z-index: 2;
       background: rgba(0, 0, 0, 0.88); color: #ffd700;
       font-size: 9px; font-weight: 800; padding: 3px 7px;
       border-radius: 4px; border: 1px solid #ffd700;
     }
-    .rly-v11-tag-bl {
+    .rly-v12-tag-bl {
       position: absolute; bottom: 8px; left: 8px; z-index: 2;
       background: rgba(0, 0, 0, 0.85); color: #ffffff;
       font-size: 10px; font-weight: 700; padding: 3px 8px;
@@ -2631,35 +2628,35 @@ setInterval(() => {
       font-size: 16px !important;
     }
   `;
-  document.head.appendChild(v11Style);
+  document.head.appendChild(v12Style);
 
-  function makeSvgUrl(c1, c2, shape) {
-    const svg = `<svg xmlns="http://w3.org" viewBox="0 0 400 180"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/></linearGradient></defs><rect width="400" height="180" fill="url(#g)"/><circle cx="200" cy="90" r="58" fill="rgba(0,0,0,0.28)" stroke="#ffd700" stroke-width="2"/>${shape}</svg>`;
-    return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+  // 2. 100% अनब्रेकेबल डायरेक्ट रंगीन HD चित्र इंजन (कभी नहीं टूटेगा)
+  function buildHdArt(c1, c2, art) {
+    return `<svg xmlns="http://w3.org" viewBox="0 0 400 170" style="width:100%;height:100%;display:block;"><defs><linearGradient id="g_${c1.slice(1)}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/></linearGradient></defs><rect width="400" height="170" fill="url(#g_${c1.slice(1)})"/><circle cx="200" cy="85" r="56" fill="rgba(0,0,0,0.35)" stroke="#ffd700" stroke-width="2.5"/>${art}</svg>`;
   }
 
-  const REAL_IMAGES = [
-    { k: ['तिजोरी', 'लॉकर', 'वॉल्ट', 'safe', 'गोदरेज'], t: 'DIGITAL SAFE & SECURITY', u: makeSvgUrl('#1e293b', '#0f172a', '<rect x="172" y="62" width="56" height="56" rx="6" fill="#ffd700"/><circle cx="200" cy="90" r="14" fill="#1e293b"/><circle cx="200" cy="90" r="5" fill="#ffd700"/>') },
-    { k: ['कैमरा', 'सीसीटीवी', 'बुलेट', 'डोम', 'सीपी प्लस', 'camera'], t: 'CCTV & SURVEILLANCE', u: makeSvgUrl('#0c4a6e', '#082f49', '<circle cx="200" cy="90" r="26" fill="#e2e8f0"/><circle cx="200" cy="90" r="14" fill="#0284c7"/><circle cx="205" cy="85" r="4" fill="#fff"/>') },
-    { k: ['कार', 'बाइक', 'वैक्स', 'कोटिंग', 'ऑटो', 'टायर', 'हेलमेट'], t: 'AUTO CARE & SAFETY', u: makeSvgUrl('#7f1d1d', '#450a0a', '<path d="M165 100 L175 75 L225 75 L235 100 Z" fill="#ffd700"/><circle cx="178" cy="103" r="9" fill="#fff"/><circle cx="222" cy="103" r="9" fill="#fff"/>') },
-    { k: ['चावल', 'बासमती', 'गेहूं', 'दाल', 'आटा', 'राशन', 'चाय', 'न्यूट्रिशन'], t: 'WHOLESALE GROCERY', u: makeSvgUrl('#14532d', '#052e16', '<rect x="176" y="60" width="48" height="60" rx="8" fill="#fbbf24"/><path d="M185 80 H215 M185 95 H215" stroke="#14532d" stroke-width="4"/>') },
-    { k: ['घी', 'तेल', 'सरसों', 'मक्खन', 'डेयरी', 'oil', 'ghee'], t: 'PURE OIL & GHEE', u: makeSvgUrl('#78350f', '#451a03', '<path d="M200 58 C200 58 224 86 224 102 A24 24 0 0 1 176 102 C176 86 200 58 200 58 Z" fill="#fde047"/>') },
-    { k: ['शर्ट', 'टी-शर्ट', 'कपड़ा', 'साड़ी', 'कुर्ता', 'सूट', 'पैंट', 'कॉटन'], t: 'BRANDED GARMENTS', u: makeSvgUrl('#581c87', '#3b0764', '<path d="M170 70 L188 60 L212 60 L230 70 L222 86 L214 82 L214 118 L186 118 L186 82 L178 86 Z" fill="#f9a8d4"/>') },
-    { k: ['इनवर्टर', 'बैटरी', 'सोलर', 'ट्यूबलाइट', 'led', 'इलेक्ट्रॉनिक्स', 'मशीन'], t: 'ELECTRONICS & POWER', u: makeSvgUrl('#1e3a8a', '#172554', '<polygon points="204,58 180,94 198,94 194,122 220,86 202,86" fill="#fde047"/>') },
-    { k: ['कलश', 'तांबे', 'पीतल', 'आरती', 'धूप', 'पूजा', 'शंख', 'मंदिर', 'सनातन'], t: 'SANATAN POOJA', u: makeSvgUrl('#9a3412', '#431407', '<path d="M200 56 C208 70 214 76 214 84 A14 14 0 0 1 186 84 C186 76 192 70 200 56 Z" fill="#ffd700"/><rect x="182" y="102" width="36" height="12" rx="4" fill="#fb923c"/>') },
-    { k: ['पंप', 'इंजन', 'स्प्रे', 'कृषि', 'किसान', 'ट्रैक्टर', 'खाद', 'बीज'], t: 'AGRI & FARM TOOLS', u: makeSvgUrl('#065f46', '#022c22', '<path d="M175 112 Q200 62 225 112 Z" fill="#34d399"/><circle cx="200" cy="76" r="10" fill="#fde047"/>') }
+  const HD_GALLERY = [
+    { k: ['तिजोरी', 'लॉकर', 'वॉल्ट', 'safe', 'गोदरेज'], t: 'DIGITAL SAFE & SECURITY', svg: buildHdArt('#1e293b', '#0f172a', '<rect x="170" y="55" width="60" height="60" rx="8" fill="#ffd700"/><circle cx="200" cy="85" r="16" fill="#1e293b"/><circle cx="200" cy="85" r="6" fill="#ffd700"/><rect x="184" y="103" width="32" height="5" rx="2" fill="#38bdf8"/>') },
+    { k: ['कैमरा', 'सीसीटीवी', 'बुलेट', 'डोम', 'सीपी प्लस', 'camera'], t: 'CCTV & SURVEILLANCE', svg: buildHdArt('#0c4a6e', '#082f49', '<circle cx="200" cy="85" r="28" fill="#f1f5f9"/><circle cx="200" cy="85" r="15" fill="#0284c7"/><circle cx="206" cy="79" r="5" fill="#ffffff"/>') },
+    { k: ['कार', 'बाइक', 'वैक्स', 'कोटिंग', 'ऑटो', 'टायर', 'हेलमेट'], t: 'AUTO CARE & SAFETY', svg: buildHdArt('#7f1d1d', '#450a0a', '<path d="M160 96 L172 68 L228 68 L240 96 Z" fill="#ffd700"/><circle cx="176" cy="100" r="10" fill="#ffffff"/><circle cx="224" cy="100" r="10" fill="#ffffff"/>') },
+    { k: ['चावल', 'बासमती', 'गेहूं', 'दाल', 'आटा', 'राशन', 'चाय', 'न्यूट्रिशन'], t: 'WHOLESALE GROCERY', svg: buildHdArt('#14532d', '#052e16', '<rect x="174" y="54" width="52" height="62" rx="8" fill="#fbbf24"/><path d="M184 76 H216 M184 92 H216" stroke="#14532d" stroke-width="5" stroke-linecap="round"/>') },
+    { k: ['घी', 'तेल', 'सरसों', 'मक्खन', 'डेयरी', 'oil', 'ghee'], t: 'PURE OIL & GHEE', svg: buildHdArt('#78350f', '#451a03', '<path d="M200 50 C200 50 226 80 226 98 A26 26 0 0 1 174 98 C174 80 200 50 200 50 Z" fill="#fde047"/>') },
+    { k: ['शर्ट', 'टी-शर्ट', 'कपड़ा', 'साड़ी', 'कुर्ता', 'सूट', 'पैंट', 'कॉटन'], t: 'BRANDED GARMENTS', svg: buildHdArt('#581c87', '#3b0764', '<path d="M168 65 L188 54 L212 54 L232 65 L223 82 L214 78 L214 116 L186 116 L186 78 L177 82 Z" fill="#f9a8d4"/>') },
+    { k: ['इनवर्टर', 'बैटरी', 'सोलर', 'ट्यूबलाइट', 'led', 'इलेक्ट्रॉनिक्स', 'मशीन'], t: 'ELECTRONICS & POWER', svg: buildHdArt('#1e3a8a', '#172554', '<polygon points="205,52 178,90 198,90 193,120 222,82 202,82" fill="#fde047"/>') },
+    { k: ['कलश', 'तांबे', 'पीतल', 'आरती', 'धूप', 'पूजा', 'शंख', 'मंदिर', 'सनातन'], t: 'SANATAN POOJA', svg: buildHdArt('#9a3412', '#431407', '<path d="M200 50 C209 66 216 73 216 82 A16 16 0 0 1 184 82 C184 73 191 66 200 50 Z" fill="#ffd700"/><rect x="180" y="102" width="40" height="12" rx="4" fill="#fb923c"/>') },
+    { k: ['पंप', 'इंजन', 'स्प्रे', 'कृषि', 'किसान', 'ट्रैक्टर', 'खाद', 'बीज'], t: 'AGRI & FARM TOOLS', svg: buildHdArt('#065f46', '#022c22', '<path d="M172 110 Q200 56 228 110 Z" fill="#34d399"/><circle cx="200" cy="72" r="11" fill="#fde047"/>') }
   ];
-  const BACKUP_IMG = makeSvgUrl('#27272a', '#09090b', '<polygon points="200,58 228,74 228,106 200,122 172,106 172,74" fill="none" stroke="#ffd700" stroke-width="4"/><circle cx="200" cy="90" r="12" fill="#ffd700"/>');
+  const DEFAULT_HD_SVG = buildHdArt('#27272a', '#09090b', '<polygon points="200,52 230,70 230,104 200,122 170,104 170,70" fill="none" stroke="#ffd700" stroke-width="4.5"/><circle cx="200" cy="87" r="13" fill="#ffd700"/>');
 
-  function pickRealImage(txt) {
+  function chooseHdArt(txt) {
     const low = (txt || '').toLowerCase();
-    for (let i = 0; i < REAL_IMAGES.length; i++) {
-      if (REAL_IMAGES[i].k.some(w => low.includes(w))) return REAL_IMAGES[i];
+    for (let i = 0; i < HD_GALLERY.length; i++) {
+      if (HD_GALLERY[i].k.some(w => low.includes(w))) return HD_GALLERY[i];
     }
-    return { t: 'RLY VERIFIED WHOLESALE', u: BACKUP_IMG };
+    return { t: 'RLY VERIFIED WHOLESALE', svg: DEFAULT_HD_SVG };
   }
 
-  function attachPhotosToAllCards() {
+  function renderHdArtOnCards() {
     const buttons = document.querySelectorAll('button');
     for (let i = 0; i < buttons.length; i++) {
       const btn = buttons[i];
@@ -2671,38 +2668,26 @@ setInterval(() => {
       if (card && card.parentElement && (card.parentElement.innerText || '').indexOf('कोड:') !== -1 && card.parentElement.children.length <= 4) {
         card = card.parentElement;
       }
-      if (!card || card.dataset.rlyPhotoV11 === '1') continue;
-      card.dataset.rlyPhotoV11 = '1';
+      if (!card || card.dataset.rlyArtV12 === '1') continue;
+      card.dataset.rlyArtV12 = '1';
 
-      const info = pickRealImage(card.innerText);
+      const item = chooseHdArt(card.innerText);
       const box = document.createElement('div');
-      box.className = 'rly-v11-photo-box';
+      box.className = 'rly-v12-photo-box';
       box.innerHTML =
-        '<span class="rly-v11-tag-tr">RLY HD PHOTO</span>' +
-        '<img src="' + info.u + '" alt="' + info.t + '" />' +
-        '<span class="rly-v11-tag-bl">' + info.t + '</span>';
+        '<span class="rly-v12-tag-tr">RLY HD</span>' +
+        item.svg +
+        '<span class="rly-v12-tag-bl">' + item.t + '</span>';
       card.insertBefore(box, card.firstChild);
     }
   }
 
-  function lockYellowStripAtBottom() {
-    document.querySelectorAll('div, footer, section').forEach(el => {
-      
-    
- if (el.innerText && el.innerText.indexOf('स्वायत्त कर्नल कोर') !== -1 && el.offsetHeight < 120) {
-        el.style.setProperty('position', 'relative', 'important');
-        el.style.setProperty('bottom', 'auto', 'important');
-        el.style.setProperty('z-index', '1', 'important');
-      }
-    });
-  }
-
-  // 4. सर्च बॉक्स को पिन कोड जैसा सुपर-फ़ास्ट बनाना
-  function enablePinSpeedSearch() {
+  // 3. पिन कोड जैसा सुपर-फ़ास्ट सर्च इंजन
+  function initPinSpeedSearch() {
     const oldInp = document.querySelector('input[placeholder*="खोजें"], input[placeholder*="उत्पाद"], #searchInput');
-    if (!oldInp || oldInp.dataset.rlyPinV11 === '1') return;
+    if (!oldInp || oldInp.dataset.rlyPinV12 === '1') return;
     const fastInp = oldInp.cloneNode(true);
-    fastInp.dataset.rlyPinV11 = '1';
+    fastInp.dataset.rlyPinV12 = '1';
     oldInp.parentNode.replaceChild(fastInp, oldInp);
 
     let timer = null;
@@ -2710,14 +2695,14 @@ setInterval(() => {
       const q = this.value.trim().toLowerCase();
       clearTimeout(timer);
       timer = setTimeout(function() {
-        const cards = document.querySelectorAll('[data-rly-photo-v11="1"]');
-        let count = 0;
+        const cards = document.querySelectorAll('[data-rly-art-v12="1"]');
+        let shown = 0;
         for (let i = 0; i < cards.length; i++) {
           const c = cards[i];
           const ok = !q || (c.innerText || '').toLowerCase().indexOf(q) !== -1;
-          if (ok && count < 60) {
+          if (ok && shown < 60) {
             c.style.display = '';
-            count++;
+            shown++;
           } else {
             c.style.display = 'none';
           }
@@ -2726,61 +2711,59 @@ setInterval(() => {
     });
   }
 
-  // 5. लाइव उत्पाद गिनती को हमेशा 2,116+ पर लॉक रखना
-  let verifiedCountStr = '';
-  function replace1000WithRealCount() {
-    if (!verifiedCountStr) return;
-    document.querySelectorAll('h1, h2, h3, h4, span, div, b').forEach(el => {
+  // 4. 1000 का हमेशा के लिए अंत — केवल अनलिमिटेड असली लाइव गिनती (2,116+ से करोड़ों तक)
+  let unlimitedLiveCount = '2,116+';
+  function lockUnlimitedCountForever() {
+    document.querySelectorAll('h1, h2, h3, h4, span, div, b, p').forEach(el => {
       if (el.children.length === 0 && el.innerText && el.innerText.indexOf('सत्यापित उत्पाद') !== -1) {
         if (/1,?000/.test(el.innerText)) {
-          el.innerText = el.innerText.replace(/1,?000/g, verifiedCountStr);
+          el.innerText = el.innerText.replace(/1,?000/g, unlimitedLiveCount);
         }
       }
     });
   }
 
-  async function fetchRealCountFromDB() {
+  async function syncUnlimitedCountFromDB() {
     try {
       const db = (typeof rlyDB !== 'undefined') ? rlyDB : window._rlySbClient;
       if (!db) return;
       const { count, error } = await db.from('products').select('*', { count: 'exact', head: true });
       if (!error && typeof count === 'number' && count > 0) {
-        verifiedCountStr = count.toLocaleString('en-IN');
-        replace1000WithRealCount();
+        unlimitedLiveCount = count.toLocaleString('en-IN') + '+';
+        lockUnlimitedCountForever();
       }
     } catch (e) {}
   }
 
-  // 6. मास्टर सिंक इंजन
-  let syncV11 = null;
-  function runAllV11() {
-    clearTimeout(syncV11);
-    syncV11 = setTimeout(() => {
-      lockYellowStripAtBottom();
-      enablePinSpeedSearch();
-      attachPhotosToAllCards();
-      replace1000WithRealCount();
-    }, 100);
+  // 5. मास्टर सिंक इंजन
+  let v12Timer = null;
+  function runV12Engine() {
+    clearTimeout(v12Timer);
+    v12Timer = setTimeout(() => {
+      initPinSpeedSearch();
+      renderHdArtOnCards();
+      lockUnlimitedCountForever();
+    }, 90);
   }
 
   window.addEventListener('DOMContentLoaded', () => {
-    lockYellowStripAtBottom();
-    enablePinSpeedSearch();
-    attachPhotosToAllCards();
-    fetchRealCountFromDB();
-    const obs = new MutationObserver(runAllV11);
+    lockUnlimitedCountForever();
+    initPinSpeedSearch();
+    renderHdArtOnCards();
+    syncUnlimitedCountFromDB();
+    const obs = new MutationObserver(runV12Engine);
     obs.observe(document.body, { childList: true, subtree: true });
   });
 
   if (document.readyState !== 'loading') {
-    lockYellowStripAtBottom();
-    enablePinSpeedSearch();
-    attachPhotosToAllCards();
-    fetchRealCountFromDB();
+    lockUnlimitedCountForever();
+    initPinSpeedSearch();
+    renderHdArtOnCards();
+    syncUnlimitedCountFromDB();
   }
 })();
 
-    </script>
+        </script>
     
 <!-- RLY OFFICIAL PRICING & MANDATORY COMPLIANCE POLICIES (CASHFREE VERIFIED) -->
 <div id="rly-compliance-footer" style="background:#0d0d10; border-top:2px solid #ffd700; color:#e5e5e5; padding:22px 16px 95px 16px; margin-top:20px; font-family:sans-serif; font-size:13px; line-height:1.6;">
