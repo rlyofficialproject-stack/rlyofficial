@@ -2586,8 +2586,11 @@ setInterval(() => {
   }
 }, 240000);
 // ============================================================================
-// 👑 RLY MASTER ENGINE V11.0: 100% REAL PHOTOS, NO FIXED BAR OVERLAP & PIN SPEED
-  // 1. कार्ड में सबसे ऊपर 100% लोड होने वाला HD फोटो स्टाइल
+// 👑 RLY MASTER ENGINE V11.0: 100% UNBREAKABLE HD PHOTOS & PIN SPEED
+// ============================================================================
+(function() {
+  'use strict';
+
   const v11Style = document.createElement('style');
   v11Style.innerHTML = `
     html, body {
@@ -2630,7 +2633,6 @@ setInterval(() => {
   `;
   document.head.appendChild(v11Style);
 
-  // 2. 100% अनब्रेकेबल HD SVG विज़ुअल जनरेटर (कभी नहीं टूटेगा)
   function makeSvgUrl(c1, c2, shape) {
     const svg = `<svg xmlns="http://w3.org" viewBox="0 0 400 180"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/></linearGradient></defs><rect width="400" height="180" fill="url(#g)"/><circle cx="200" cy="90" r="58" fill="rgba(0,0,0,0.28)" stroke="#ffd700" stroke-width="2"/>${shape}</svg>`;
     return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
@@ -2648,6 +2650,46 @@ setInterval(() => {
     { k: ['पंप', 'इंजन', 'स्प्रे', 'कृषि', 'किसान', 'ट्रैक्टर', 'खाद', 'बीज'], t: 'AGRI & FARM TOOLS', u: makeSvgUrl('#065f46', '#022c22', '<path d="M175 112 Q200 62 225 112 Z" fill="#34d399"/><circle cx="200" cy="76" r="10" fill="#fde047"/>') }
   ];
   const BACKUP_IMG = makeSvgUrl('#27272a', '#09090b', '<polygon points="200,58 228,74 228,106 200,122 172,106 172,74" fill="none" stroke="#ffd700" stroke-width="4"/><circle cx="200" cy="90" r="12" fill="#ffd700"/>');
+
+  function pickRealImage(txt) {
+    const low = (txt || '').toLowerCase();
+    for (let i = 0; i < REAL_IMAGES.length; i++) {
+      if (REAL_IMAGES[i].k.some(w => low.includes(w))) return REAL_IMAGES[i];
+    }
+    return { t: 'RLY VERIFIED WHOLESALE', u: BACKUP_IMG };
+  }
+
+  function attachPhotosToAllCards() {
+    const buttons = document.querySelectorAll('button');
+    for (let i = 0; i < buttons.length; i++) {
+      const btn = buttons[i];
+      if ((btn.innerText || '').indexOf('टोकरी में जोड़ें') === -1) continue;
+      let card = btn.parentElement;
+      while (card && card.parentElement && (card.innerText || '').indexOf('थोक रेट:') === -1) {
+        card = card.parentElement;
+      }
+      if (card && card.parentElement && (card.parentElement.innerText || '').indexOf('कोड:') !== -1 && card.parentElement.children.length <= 4) {
+        card = card.parentElement;
+      }
+      if (!card || card.dataset.rlyPhotoV11 === '1') continue;
+      card.dataset.rlyPhotoV11 = '1';
+
+      const info = pickRealImage(card.innerText);
+      const box = document.createElement('div');
+      box.className = 'rly-v11-photo-box';
+      box.innerHTML =
+        '<span class="rly-v11-tag-tr">RLY HD PHOTO</span>' +
+        '<img src="' + info.u + '" alt="' + info.t + '" />' +
+        '<span class="rly-v11-tag-bl">' + info.t + '</span>';
+      card.insertBefore(box, card.firstChild);
+    }
+  }
+
+  function lockYellowStripAtBottom() {
+    document.querySelectorAll('div, footer, section').forEach(el => {
+      if (el.innerText && el.innerText.indexOf('स्वायत्त कर्नल कोर') !== -1 && el.offsetHeight < 120) {
+        el.style.setProperty('position', 'relative', 'important');
+    
 
       if (el.innerText && el.innerText.indexOf('स्वायत्त कर्नल कोर') !== -1 && el.offsetHeight < 120) {
         el.style.setProperty('position', 'relative', 'important');
