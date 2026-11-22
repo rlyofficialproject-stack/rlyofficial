@@ -2106,23 +2106,62 @@ function rlyVerify3dPin() {
 
  
 
-  // Supabase से सभी अनलिमिटेड उत्पादों (2,116+ से करोड़ों तक) को असली HD चित्रों सहित लोड करना
+  // Supabase से सभी अनलिमिटेड उत्पादों (2,116+ से करोड़ों तक) को विस्तृत प्रोडक्ट चित्र व टॉप सर्च बार सहित लोड करना
   function rlyGetProductVisual(name, cat, comp) {
     const t = `${name || ''} ${cat || ''} ${comp || ''}`.toLowerCase();
-    const makeArt = (c1, c2, lbl, art) => ({
-      lbl,
-      svg: `<svg xmlns="http://w3.org" viewBox="0 0 400 155" style="width:100%;height:155px;display:block;border-radius:10px;margin-bottom:10px;border:1.5px solid #ffd700;"><defs><linearGradient id="g_${c1.slice(1)}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/></linearGradient></defs><rect width="400" height="155" fill="url(#g_${c1.slice(1)})"/><circle cx="200" cy="77" r="50" fill="rgba(0,0,0,0.35)" stroke="#ffd700" stroke-width="2.5"/>${art}<rect x="10" y="10" width="66" height="20" rx="4" fill="rgba(0,0,0,0.85)" stroke="#ffd700" stroke-width="1"/><text x="43" y="24" fill="#ffd700" font-size="10" font-weight="bold" text-anchor="middle" font-family="sans-serif">RLY HD</text><rect x="10" y="125" width="165" height="20" rx="4" fill="rgba(0,0,0,0.85)"/><text x="92" y="139" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle" font-family="sans-serif">${lbl}</text></svg>`
-    });
-    if (/तिजोरी|लॉकर|वॉल्ट|safe|गोदरेज/.test(t)) return makeArt('#1e293b', '#0f172a', 'DIGITAL SAFE & SECURITY', '<rect x="172" y="49" width="56" height="56" rx="8" fill="#ffd700"/><circle cx="200" cy="77" r="15" fill="#1e293b"/><circle cx="200" cy="77" r="6" fill="#ffd700"/>');
-    if (/कैमरा|सीसीटीवी|बुलेट|डोम|सीपी प्लस|camera/.test(t)) return makeArt('#0c4a6e', '#082f49', 'CCTV & SURVEILLANCE', '<circle cx="200" cy="77" r="26" fill="#f1f5f9"/><circle cx="200" cy="77" r="14" fill="#0284c7"/><circle cx="206" cy="71" r="4" fill="#ffffff"/>');
-    if (/कार|बाइक|वैक्स|कोटिंग|ऑटो|टायर|हेलमेट|ऑयल|मोतुल/.test(t)) return makeArt('#7f1d1d', '#450a0a', 'AUTO CARE & VEHICLES', '<path d="M162 88 L174 62 L226 62 L238 88 Z" fill="#ffd700"/><circle cx="176" cy="92" r="9" fill="#ffffff"/><circle cx="224" cy="92" r="9" fill="#ffffff"/>');
-    if (/चावल|बासमती|गेहूं|दाल|आटा|राशन|चाय|न्यूट्रिशन|थर्मो|जग|फ्लास्क/.test(t)) return makeArt('#14532d', '#052e16', 'WHOLESALE GROCERY & HOME', '<rect x="176" y="48" width="48" height="58" rx="8" fill="#fbbf24"/><path d="M185 68 H215 M185 84 H215" stroke="#14532d" stroke-width="5" stroke-linecap="round"/>');
-    if (/घी|तेल|सरसों|मक्खन|डेयरी|oil|ghee/.test(t)) return makeArt('#78350f', '#451a03', 'PURE OIL & GHEE', '<path d="M200 44 C200 44 224 72 224 89 A24 24 0 0 1 176 89 C176 72 200 44 200 44 Z" fill="#fde047"/>');
-    if (/शर्ट|टी-शर्ट|कपड़ा|साड़ी|कुर्ता|सूट|पैंट|कॉटन|सिल्क/.test(t)) return makeArt('#581c87', '#3b0764', 'BRANDED GARMENTS', '<path d="M170 58 L188 48 L212 48 L230 58 L222 74 L214 70 L214 106 L186 106 L186 70 L178 74 Z" fill="#f9a8d4"/>');
-    if (/इनवर्टर|बैटरी|सोलर|ट्यूबलाइट|led|इलेक्ट्रॉनिक्स|मशीन|स्विच|हैवेल्स/.test(t)) return makeArt('#1e3a8a', '#172554', 'ELECTRONICS & POWER', '<polygon points="205,46 179,82 198,82 193,110 221,74 202,74" fill="#fde047"/>');
-    if (/कलश|तांबे|पीतल|आरती|धूप|पूजा|शंख|मंदिर|सनातन/.test(t)) return makeArt('#9a3412', '#431407', 'SANATAN POOJA', '<path d="M200 44 C208 59 215 66 215 75 A15 15 0 0 1 185 75 C185 66 192 59 200 44 Z" fill="#ffd700"/><rect x="181" y="94" width="38" height="11" rx="4" fill="#fb923c"/>');
-    if (/पंप|इंजन|स्प्रे|कृषि|किसान|ट्रैक्टर|खाद|बीज|पाइप|सिंचाई/.test(t)) return makeArt('#065f46', '#022c22', 'AGRI & FARM TOOLS', '<path d="M174 102 Q200 50 226 102 Z" fill="#34d399"/><circle cx="200" cy="65" r="10" fill="#fde047"/>');
-    return makeArt('#27272a', '#09090b', 'RLY VERIFIED WHOLESALE', '<polygon points="200,46 228,63 228,95 200,112 172,95 172,63" fill="none" stroke="#ffd700" stroke-width="4"/><circle cx="200" cy="79" r="12" fill="#ffd700"/>');
+    const frame = (c1, c2, badge, label, art) => `
+      <svg xmlns="http://w3.org" viewBox="0 0 400 165" style="width:100%;height:165px;display:block;border-radius:10px;margin-bottom:10px;border:1.5px solid #ffd700;box-shadow:0 4px 12px rgba(0,0,0,0.6);">
+        <defs>
+          <linearGradient id="bg_${c1.slice(1)}" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/>
+          </linearGradient>
+          <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#fff3b0"/><stop offset="50%" stop-color="#ffd700"/><stop offset="100%" stop-color="#b8860b"/>
+          </linearGradient>
+        </defs>
+        <rect width="400" height="165" fill="url(#bg_${c1.slice(1)})"/>
+        <ellipse cx="200" cy="134" rx="85" ry="12" fill="rgba(0,0,0,0.45)"/>
+        ${art}
+        <rect x="10" y="10" width="84" height="20" rx="4" fill="rgba(0,0,0,0.85)" stroke="#ffd700" stroke-width="1"/>
+        <text x="52" y="24" fill="#ffd700" font-size="10" font-weight="bold" text-anchor="middle" font-family="sans-serif">${badge}</text>
+        <rect x="10" y="135" width="185" height="20" rx="4" fill="rgba(0,0,0,0.85)" stroke="rgba(255,215,0,0.4)" stroke-width="1"/>
+        <text x="102" y="149" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle" font-family="sans-serif">${label}</text>
+      </svg>`;
+
+    if (/तिजोरी|लॉकर|वॉल्ट|safe|गोदरेज/.test(t)) {
+      return frame('#1e293b', '#090d16', 'RLY SAFE HD', 'DIGITAL WALL SAFE LOCKER',
+        '<rect x="142" y="28" width="116" height="100" rx="8" fill="#334155" stroke="url(#goldGrad)" stroke-width="3"/><rect x="152" y="38" width="96" height="80" rx="4" fill="#1e293b" stroke="#64748b" stroke-width="1.5"/><circle cx="182" cy="78" r="18" fill="url(#goldGrad)"/><circle cx="182" cy="78" r="8" fill="#0f172a"/><rect x="210" y="54" width="28" height="16" rx="2" fill="#0ea5e9"/><rect x="210" y="76" width="28" height="26" rx="2" fill="#475569"/><rect x="147" y="48" width="6" height="16" rx="2" fill="#ffd700"/><rect x="147" y="92" width="6" height="16" rx="2" fill="#ffd700"/>');
+    }
+    if (/कैमरा|सीसीटीवी|बुलेट|डोम|सीपी प्लस|camera/.test(t)) {
+      return frame('#0c4a6e', '#041c2c', 'RLY CCTV HD', 'HD SURVEILLANCE CAMERA',
+        '<rect x="150" y="52" width="88" height="46" rx="8" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/><polygon points="238,58 262,48 262,102 238,92" fill="#cbd5e1"/><circle cx="248" cy="75" r="16" fill="#0f172a" stroke="#ffd700" stroke-width="2.5"/><circle cx="248" cy="75" r="8" fill="#0284c7"/><circle cx="251" cy="71" r="3" fill="#ffffff"/><path d="M180 98 L170 124 L205 124" fill="none" stroke="#94a3b8" stroke-width="6" stroke-linecap="round"/>');
+    }
+    if (/पाइप|सिंचाई|पंप|इंजन|स्प्रे|कृषि|किसान|ट्रैक्टर|खाद|बीज/.test(t)) {
+      return frame('#064e3b', '#022419', 'RLY AGRI HD', 'KRISHI IRRIGATION & TOOLS',
+        '<ellipse cx="200" cy="80" rx="52" ry="42" fill="#0284c7" stroke="#38bdf8" stroke-width="4"/><ellipse cx="200" cy="80" rx="38" ry="30" fill="#0369a1" stroke="#7dd3fc" stroke-width="3"/><ellipse cx="200" cy="80" rx="22" ry="17" fill="#064e3b" stroke="#ffd700" stroke-width="2.5"/><path d="M236 108 L272 118" stroke="#38bdf8" stroke-width="10" stroke-linecap="round"/>');
+    }
+    if (/टॉर्च|लालटेन|सोलर|इनवर्टर|बैटरी|ट्यूबलाइट|led|इलेक्ट्रॉनिक्स|मशीन|स्विच|हैवेल्स/.test(t)) {
+      return frame('#1e3a8a', '#0c1944', 'RLY POWER HD', 'HEAVY DUTY POWER & SOLAR',
+        '<rect x="135" y="42" width="130" height="82" rx="8" fill="#1e293b" stroke="url(#goldGrad)" stroke-width="3"/><rect x="148" y="54" width="62" height="26" rx="3" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/><text x="179" y="71" fill="#38bdf8" font-size="12" font-weight="bold" text-anchor="middle" font-family="monospace">230V ON</text><polygon points="238,52 224,78 236,78 232,104 252,74 240,74" fill="#ffd700"/><circle cx="158" cy="102" r="5" fill="#22c55e"/><circle cx="176" cy="102" r="5" fill="#eab308"/><circle cx="194" cy="102" r="5" fill="#ef4444"/>');
+    }
+    if (/घी|तेल|सरसों|मक्खन|डेयरी|oil|ghee/.test(t)) {
+      return frame('#78350f', '#361504', 'RLY DAIRY HD', 'PURE DESI GHEE & OIL TIN',
+        '<rect x="156" y="38" width="64" height="88" rx="6" fill="url(#goldGrad)" stroke="#fff" stroke-width="1.5"/><rect x="176" y="30" width="24" height="8" rx="2" fill="#b45309"/><path d="M188 56 C188 56 204 74 204 86 A16 16 0 0 1 172 86 C172 74 188 56 188 56 Z" fill="#78350f"/><path d="M242 54 C242 54 260 78 260 94 A18 18 0 0 1 224 94 C224 78 242 54 242 54 Z" fill="#fde047" stroke="#fff" stroke-width="1.5"/>');
+    }
+    if (/शर्ट|टी-शर्ट|कपड़ा|साड़ी|कुर्ता|सूट|पैंट|लोअर|कॉटन|सिल्क/.test(t)) {
+      return frame('#581c87', '#26083d', 'RLY TEXTILE HD', 'BRANDED GARMENTS & SAREE',
+        '<path d="M148 48 L178 34 L222 34 L252 48 L240 72 L224 64 L224 122 L176 122 L176 64 L160 72 Z" fill="#f472b6" stroke="url(#goldGrad)" stroke-width="2.5"/><path d="M184 34 Q200 50 216 34" fill="none" stroke="#ffd700" stroke-width="2.5"/><rect x="184" y="68" width="32" height="10" rx="2" fill="rgba(0,0,0,0.35)"/>');
+    }
+    if (/चावल|बासमती|गेहूं|दाल|आटा|राशन|चाय|न्यूट्रिशन|प्रोटीन|जार|थर्मो|जग/.test(t)) {
+      return frame('#14532d', '#062614', 'RLY NUTRITION HD', 'WHOLESALE GROCERY & JAR',
+        '<rect x="164" y="42" width="72" height="84" rx="10" fill="#f8fafc" stroke="url(#goldGrad)" stroke-width="3"/><rect x="170" y="30" width="60" height="14" rx="4" fill="#d97706"/><rect x="172" y="60" width="56" height="44" rx="4" fill="#15803d"/><text x="200" y="80" fill="#ffd700" font-size="11" font-weight="bold" text-anchor="middle" font-family="sans-serif">100% PURE</text><text x="200" y="95" fill="#ffffff" font-size="9" font-weight="bold" text-anchor="middle" font-family="sans-serif">WHOLESALE PACK</text>');
+    }
+    if (/कार|बाइक|वैक्स|कोटिंग|ऑटो|टायर|हेलमेट|ऑयल|मोतुल/.test(t)) {
+      return frame('#7f1d1d', '#330808', 'RLY AUTO HD', 'AUTOMOBILE & CARE PRO',
+        '<path d="M138 92 L156 58 L244 58 L262 92 L268 108 L132 108 Z" fill="#ef4444" stroke="url(#goldGrad)" stroke-width="2.5"/><polygon points="164,64 236,64 246,84 154,84" fill="#0f172a"/><circle cx="164" cy="110" r="15" fill="#18181b" stroke="#ffd700" stroke-width="3"/><circle cx="236" cy="110" r="15" fill="#18181b" stroke="#ffd700" stroke-width="3"/>');
+    }
+    return frame('#27272a', '#09090b', 'RLY VERIFIED HD', 'DIRECT MILL WHOLESALE',
+      '<rect x="152" y="44" width="96" height="78" rx="8" fill="#3f3f46" stroke="url(#goldGrad)" stroke-width="3"/><path d="M152 68 L248 68 M200 44 L200 122" stroke="#ffd700" stroke-width="2.5"/><circle cx="200" cy="83" r="14" fill="#18181b" stroke="#ffd700" stroke-width="2.5"/><text x="200" y="87" fill="#ffd700" font-size="10" font-weight="bold" text-anchor="middle" font-family="sans-serif">RLY</text>');
   }
 
   async function rlyLoadLiveCatalog() {
@@ -2134,58 +2173,28 @@ function rlyVerify3dPin() {
       const liveTotalCount = (typeof exactTotal === 'number' && exactTotal > data.length) ? exactTotal : data.length;
       const formattedTotal = liveTotalCount.toLocaleString('en-IN');
 
+      // 1. सर्च बार को हमेशा सबसे ऊपर (कैटलॉग के ठीक ऊपर) लाना ताकि ग्राहक तुरंत सर्च कर सकें
+      let topSearchWrap = document.getElementById('rlyLiveSearchWrap');
+      if (!topSearchWrap) {
+        topSearchWrap = document.createElement('div');
+        topSearchWrap.id = 'rlyLiveSearchWrap';
+        topSearchWrap.className = 'rly-search-wrap';
+        topSearchWrap.style.cssText = 'max-width:94%; margin:12px auto; padding:10px; background:#111; border:1.5px solid #ffd700; border-radius:12px;';
+        topSearchWrap.innerHTML = `
+          <input type="text" id="rlyLiveSearchInput" oninput="rlyFilterCards(this.value)" placeholder="🔍 2,116+ थोक उत्पाद, कंपनी या कोड खोजें..." style="width:100%; padding:11px 14px; border-radius:8px; border:1.5px solid #ffd700; background:#000; color:#fff; font-size:16px; outline:none;" />
+          <div style="display:flex; gap:6px; overflow-x:auto; margin-top:8px; padding-bottom:2px;">
+            <span onclick="rlyFilterCards('')" style="background:#ffd700;color:#000;padding:4px 10px;border-radius:15px;font-size:11px;font-weight:bold;white-space:nowrap;cursor:pointer;">सभी (${formattedTotal}+)</span>
+            <span onclick="rlyFilterCards('राशन')" style="background:#1f1f1f;color:#ffd700;border:1px solid #d4af37;padding:4px 10px;border-radius:15px;font-size:11px;white-space:nowrap;cursor:pointer;">🌾 राशन व घी</span>
+            <span onclick="rlyFilterCards('कपड़ा')" style="background:#1f1f1f;color:#ffd700;border:1px solid #d4af37;padding:4px 10px;border-radius:15px;font-size:11px;white-space:nowrap;cursor:pointer;">👕 कपड़े</span>
+            <span onclick="rlyFilterCards('इनवर्टर')" style="background:#1f1f1f;color:#ffd700;border:1px solid #d4af37;padding:4px 10px;border-radius:15px;font-size:11px;white-space:nowrap;cursor:pointer;">⚡ इलेक्ट्रॉनिक्स</span>
+            <span onclick="rlyFilterCards('किसान')" style="background:#1f1f1f;color:#ffd700;border:1px solid #d4af37;padding:4px 10px;border-radius:15px;font-size:11px;white-space:nowrap;cursor:pointer;">🚜 कृषि यंत्र</span>
+          </div>`;
+      }
+
       let catalogWrap = document.getElementById('rlyLiveCatalogWrap');
       if (!catalogWrap) {
         catalogWrap = document.createElement('div');
         catalogWrap.id = 'rlyLiveCatalogWrap';
-        catalogWrap.style.cssText = 'max-width:94%; margin:12px auto 24px auto; padding:12px; background:#0b0b0b; border:1.5px solid #d4af37; border-radius:14px;';
-        const searchEl = document.getElementById('rlyLiveSearchWrap');
-        if (searchEl && searchEl.parentNode) {
-          searchEl.parentNode.insertAdjacentElement('afterend', catalogWrap);
-        } else {
-          document.body.insertBefore(catalogWrap, document.body.firstChild);
-        }
-      }
-
-      const cardsHtml = data.map(item => {
-        const comp = item.company_name || 'RLY Verified';
-        const mrpHtml = item.mrp ? `<span style="text-decoration:line-through;color:#888;font-size:12px;margin-left:6px;">MRP ₹${item.mrp}</span>` : '';
-        const desc = item.description || '१००% असली थोक मिल सप्लाई';
-        const depot = item.depot || 'सूरत / मुंबई डिपो';
-        const code = item.batch_code || 'RLY-WHL';
-        const safeName = String(item.name || '').replace(/'/g, "\\'");
-        const vis = rlyGetProductVisual(item.name, item.category, comp);
-
-        return `
-          <div class="rly-prod-card" style="background:linear-gradient(145deg,#141414,#090909);border:1px solid rgba(212,175,55,0.45);border-radius:12px;padding:12px;margin-bottom:12px;">
-            ${vis.svg}
-            <div style="display:flex;justify-content:space-between;font-size:11px;color:#ffd700;margin-bottom:5px;flex-wrap:wrap;gap:4px;">
-              <span>🏭 ${comp}</span>
-              <span>🛡️ कोड: ${code} | 📍 ${depot}</span>
-            </div>
-            <div style="font-size:15px;font-weight:800;color:#ffffff;margin-bottom:4px;">${item.name}</div>
-            <div style="font-size:12px;color:#bbb;margin-bottom:10px;">${desc}</div>
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
-              <div>
-                <span style="color:#ffd700;font-size:16px;font-weight:900;">थोक रेट: ₹${item.price}</span>
-                ${mrpHtml}
-              </div>
-              <button onclick="rlyAddToCart('${safeName}', ${Number(item.price) || 0})" style="background:linear-gradient(135deg,#ffd700,#b8860b);color:#000;border:none;border-radius:8px;padding:8px 14px;font-weight:900;font-size:13px;cursor:pointer;">🛒 टोकरी में जोड़ें</button>
-            </div>
-          </div>`;
-      }).join('');
-
-      catalogWrap.innerHTML = `
-        <div style="text-align:center; margin-bottom:12px;">
-          <h3 style="color:#ffd700; margin:0 0 4px 0; font-size:16px;">🏛️ RLY OmniMart लाइव थोक बाज़ार (${formattedTotal}+ अनलिमिटेड सत्यापित उत्पाद)</h3>
-          <p style="color:#aaa; font-size:11px; margin:0;">सीधे निर्माता मिल से • एंटी-डुप्लिकेट QR सुरक्षा शील्ड • सूरत एवं मुंबई डिपो डिस्पैच</p>
-        </div>
-        ${cardsHtml}`;
-    } catch (e) {
-      console.log('Catalog load info:', e);
-    }
-  }
-
 
   window.addEventListener('DOMContentLoaded', () => {
     setTimeout(rlyLoadLiveCatalog, 600);
