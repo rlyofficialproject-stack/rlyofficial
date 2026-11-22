@@ -2581,10 +2581,29 @@ function rlyProceedCashfree() {
   window.location.href = RLY_CASHFREE_LIVE_URL;
 }
 
-// 10. एडमिन पैनल के अंदर सभी लाइव ग्राहक ऑर्डर व किसान आवेदन देखना
-async function rlyLoadAdminOrders() {
-  const box = document.getElementById('admLiveOrdersBox');
-  if (!box) return;
+    // 10. एडमिन पैनल के अंदर सभी लाइव ग्राहक ऑर्डर व किसान आवेदन दिखाना
+  async function rlyLoadAdminOrders() {
+    const box = document.getElementById('admLiveOrdersBox');
+    if (!box) return;
+    box.style.display = 'block';
+    box.innerHTML = '⏳ लाइव ऑर्डर व किसान आवेदन लोड हो रहे हैं...';
+    try {
+      const { data, error } = await rlyDB.from('orders').select('*').order('id', { ascending: false }).limit(25);
+      if (error || !data || data.length === 0) {
+        box.innerHTML = 'अभी कोई ऑर्डर दर्ज नहीं है।';
+        return;
+      }
+      box.innerHTML = data.map((o, idx) =>
+        '<div style="border-bottom:1px solid #333;padding:6px 0;font-size:12px;">' +
+        '<b style="color:#ffd700;">' + (idx + 1) + '. ' + (o.customer_name || 'ग्राहक') + '</b> (' + (o.phone || '') + ')<br>' +
+        'राशि: ₹' + (o.total_amount || 0) + ' | ' + (o.address || '') +
+        '</div>'
+      ).join('');
+    } catch (e) {
+      box.innerHTML = '⚠️ डेटा लोड करने में त्रुटि आई।';
+    }
+  }
+  
 // ============================================================================
 // 👑 RLY ULTRA-FAST SEARCH & LAYOUT LOCK (ZERO DUPLICATE, PIN-LIKE TYPING)
 // ============================================================================
