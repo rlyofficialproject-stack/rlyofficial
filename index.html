@@ -2195,6 +2195,57 @@ function rlyVerify3dPin() {
       if (!catalogWrap) {
         catalogWrap = document.createElement('div');
         catalogWrap.id = 'rlyLiveCatalogWrap';
+        catalogWrap.style.cssText = 'max-width:94%; margin:10px auto 24px auto; padding:12px; background:#0b0b0b; border:1.5px solid #d4af37; border-radius:14px;';
+        const headerEl = document.querySelector('header') || document.body.firstElementChild;
+        if (headerEl && headerEl.parentNode) {
+          headerEl.insertAdjacentElement('afterend', topSearchWrap);
+          topSearchWrap.insertAdjacentElement('afterend', catalogWrap);
+        } else {
+          document.body.insertBefore(catalogWrap, document.body.firstChild);
+          document.body.insertBefore(topSearchWrap, catalogWrap);
+        }
+      } else if (topSearchWrap.parentNode !== catalogWrap.parentNode || topSearchWrap.nextSibling !== catalogWrap) {
+        catalogWrap.parentNode.insertBefore(topSearchWrap, catalogWrap);
+      }
+
+      const cardsHtml = data.map(item => {
+        const comp = item.company_name || 'RLY Verified';
+        const mrpHtml = item.mrp ? `<span style="text-decoration:line-through;color:#888;font-size:12px;margin-left:6px;">MRP ₹${item.mrp}</span>` : '';
+        const desc = item.description || '१००% असली थोक मिल सप्लाई';
+        const depot = item.depot || 'सूरत / मुंबई डिपो';
+        const code = item.batch_code || 'RLY-WHL';
+        const safeName = String(item.name || '').replace(/'/g, "\\'");
+        const visualSvg = rlyGetProductVisual(item.name, item.category, comp);
+
+        return `
+          <div class="rly-prod-card" style="background:linear-gradient(145deg,#141414,#090909);border:1px solid rgba(212,175,55,0.45);border-radius:12px;padding:12px;margin-bottom:12px;">
+            ${visualSvg}
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:#ffd700;margin-bottom:5px;flex-wrap:wrap;gap:4px;">
+              <span>🏭 ${comp}</span>
+              <span>🛡️ कोड: ${code} | 📍 ${depot}</span>
+            </div>
+            <div style="font-size:15px;font-weight:800;color:#ffffff;margin-bottom:4px;">${item.name}</div>
+            <div style="font-size:12px;color:#bbb;margin-bottom:10px;">${desc}</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+              <div>
+                <span style="color:#ffd700;font-size:16px;font-weight:900;">थोक रेट: ₹${item.price}</span>
+                ${mrpHtml}
+              </div>
+              <button onclick="rlyAddToCart('${safeName}', ${Number(item.price) || 0})" style="background:linear-gradient(135deg,#ffd700,#b8860b);color:#000;border:none;border-radius:8px;padding:8px 14px;font-weight:900;font-size:13px;cursor:pointer;">🛒 टोकरी में जोड़ें</button>
+            </div>
+          </div>`;
+      }).join('');
+
+      catalogWrap.innerHTML = `
+        <div style="text-align:center; margin-bottom:12px;">
+          <h3 style="color:#ffd700; margin:0 0 4px 0; font-size:16px;">🏛️ RLY OmniMart लाइव थोक बाज़ार (${formattedTotal}+ अनलिमिटेड सत्यापित उत्पाद)</h3>
+          <p style="color:#aaa; font-size:11px; margin:0;">सीधे निर्माता मिल से • एंटी-डुप्लिकेट QR सुरक्षा शील्ड • सूरत एवं मुंबई डिपो डिस्पैच</p>
+        </div>
+        ${cardsHtml}`;
+    } catch (e) {
+      console.log('Catalog load info:', e);
+    }
+  }
 
   window.addEventListener('DOMContentLoaded', () => {
     setTimeout(rlyLoadLiveCatalog, 600);
