@@ -53,9 +53,8 @@ function assignDeptId(item) {
   if (item.image_url && item.image_url.startsWith('http')) return item.image_url;
   const d = RLY_DEPARTMENTS.find(x => x.id === item._deptId) || RLY_DEPARTMENTS[0];
   const comp = encodeURIComponent((item.company_name || 'RLY').slice(0, 18));
-  return "data:image/svg+xml;utf8," + encodeURIComponent(
-    `<svg xmlns="http://w3.org" viewBox="0 0 320 200"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1a1f2e"/><stop offset="100%" stop-color="#090a0f"/></linearGradient></defs><rect width="320" height="200" fill="url(#g)"/><circle cx="160" cy="82" r="44" fill="#11131a" stroke="#ffd700" stroke-width="3"/><text x="160" y="98" font-size="42" text-anchor="middle">${d.icon}</text><text x="160" y="154" fill="#ffd700" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">${decodeURIComponent(comp)}</text><text x="160" y="176" fill="#a1a1aa" font-family="sans-serif" font-size="11" text-anchor="middle">RLY VERIFIED HD</text></svg>`
-  );
+   return "";
+ 
 }
  
 
