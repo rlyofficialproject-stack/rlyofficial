@@ -261,4 +261,10 @@ async function loadAllCatalog() {
       const total = (typeof count === 'number' && count > allProducts.length) ? count : allProducts.length;
       document.getElementById('rlyLiveCounter').innerText = `🟢 2,000+ ब्रांड्स | ${total.toLocaleString('en-IN')}+ लाइव उत्पाद`;
       renderDepartments();
+      document.getElementById('rlyHomeProductGrid').innerHTML = buildProductCards(allProducts);
+    }
+  } catch (e) {}
+}
+
+window.addEventListener('DOMContentLoaded', loadAllCatalog);
     
