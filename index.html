@@ -1,1 +1,101 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#07080c">
+  <title>RLY OmniMart — Global Wholesale & Retail Shopping Mall</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+  <script>document.write('<scr'+'ipt src="https://cdn.'+'jsdelivr.net/npm/@'+'supabase/supabase-js@2"></scr'+'ipt>');</script>
+</head>
+<body>
 
+  <!-- 1. फिक्स्ड टॉप हेडर: ऊपर बीच में बड़ा लोगो + नीचे साफ़-सुथरा कंट्रोल बार -->
+  <header class="rly-top-header" style="text-align:center; padding:12px 10px 10px;">
+    <div onclick="rlyGoHome()" style="cursor:pointer; margin-bottom:8px;">
+      <img src="./rly-logo.png" alt="RLY DIGITAL" style="width:78px; height:78px; border-radius:50%; border:2.5px solid #ffd700; box-shadow:0 0 18px rgba(255,215,0,0.55); object-fit:cover; background:#000;" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://w3.org viewBox=%220 0 120 120%22><rect width=%22120%22 height=%22120%22 rx=%2260%22 fill=%22%23090a0f%22/><path d=%22M60 12 L102 28 L102 62 C102 88 84 106 60 113 C36 106 18 88 18 62 L18 28 Z%22 fill=%22%23141722%22 stroke=%22%23ffd700%22 stroke-width=%224.5%22/><text x=%2260%22 y=%2268%22 font-family=%22Arial Black%22 font-size=%2228%22 font-weight=%22900%22 fill=%22%23ffd700%22 text-anchor=%22middle%22>RLY</text><text x=%2260%22 y=%2286%22 font-family=%22sans-serif%22 font-size=%2210%22 font-weight=%22bold%22 fill=%22%23ffffff%22 text-anchor=%22middle%22>DIGITAL</text></svg>'">
+      <div style="font-size:20px; font-weight:900; color:#ffd700; letter-spacing:1.5px; margin-top:4px;">RLY OmniMart</div>
+      <div id="rlyLiveCounter" class="rly-live-counter">🟢 2,000+ ब्रांड्स | लोड हो रहा है...</div>
+    </div>
+
+    <div style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap;">
+      <select id="rlyLangSelect" class="rly-lang-select" style="max-width:115px;" onchange="rlyChangeLang(this.value)">
+        <option value="hi">🌐 हिंदी</option>
+        <option value="en">🌐 English</option>
+        <option value="mr">🌐 मराठी</option>
+        <option value="gu">🌐 ગુજરાતી</option>
+        <option value="bho">🌐 भोजपुरी</option>
+      </select>
+      <button type="button" class="rly-ai-top-btn" onclick="rlyOpenAI('मुख्य स्टोर (सभी २४ विभाग)')">🤖 24x7 AI सहायक</button>
+      <button type="button" class="rly-ai-top-btn" style="background:#1c1f2b; color:#ffd700; border:1px solid #ffd700;" onclick="rlyOpenAdminGate()">👑 स्वामी कक्ष</button>
+    </div>
+  </header>
+
+  <main class="rly-container">
+    <div id="rlyFestivalBanner" class="rly-offer-ticker">
+      🎉 महा-त्योहार व शादी सीज़न ऑफ़र: २,०००+ अंतर्राष्ट्रीय व भारतीय कंपनियों के सामान पर सीधा मिल रेट | 0% विज्ञापन | सुरक्षित होम डिलीवरी
+    </div>
+
+    <div id="rlyHomeLobby">
+      <div class="rly-search-bar-box">
+        <span>🔍</span>
+        <input type="text" id="rlyGlobalSearch" class="rly-search-input" placeholder="२,०००+ कंपनियों के लाखों उत्पाद खोजें..." oninput="rlyGlobalFilter(this.value)">
+        <button type="button" class="rly-voice-btn" onclick="rlyStartVoice('global')">🎤</button>
+      </div>
+
+      <div class="rly-section-heading">
+        <span id="rlyDeptHeading">🏛️ सुबह से रात तक — २४ स्टोर खांचे (Departments)</span>
+      </div>
+      <div id="rlyDeptGrid" class="rly-dept-grid"></div>
+
+      <div class="rly-section-heading" style="margin-top:18px;">
+        <span>🔥 सभी विभागों के चुनिंदा थोक व रिटेल उत्पाद</span>
+      </div>
+      <div id="rlyHomeProductGrid" class="rly-product-grid"></div>
+    </div>
+
+    <div id="rlyDeptStoreView" style="display:none;">
+      <button type="button" class="rly-back-btn" onclick="rlyGoHome()">← सभी २४ खांचों पर वापस जाएं</button>
+      <div class="rly-dept-banner">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+          <span id="rlyActiveDeptIcon" style="font-size:32px;">🏛️</span>
+          <div>
+            <h2 id="rlyActiveDeptTitle" style="color:#ffd700; font-size:18px; margin:0;">विभाग</h2>
+            <p id="rlyActiveDeptSub" style="color:#ccc; font-size:12px; margin:2px 0 0 0;">सभी कंपनियों के प्रमाणित उत्पाद</p>
+          </div>
+        </div>
+        <div class="rly-search-bar-box" style="margin:10px 0 8px 0; background:#090a0f;">
+          <span>🔍</span>
+          <input type="text" id="rlyDeptSearchInput" class="rly-search-input" placeholder="इस खांचे में कंपनी या सामान खोजें..." oninput="rlyDeptFilter(this.value)">
+          <button type="button" class="rly-voice-btn" onclick="rlyStartVoice('dept')">🎤</button>
+        </div>
+        <div class="rly-dept-tools">
+          <button type="button" id="rlyDeptAiTrigger" class="rly-dept-ai-btn">🤖 इस विभाग के AI सहायक से पूछें</button>
+        </div>
+      </div>
+      <div id="rlyDeptProductGrid" class="rly-product-grid"></div>
+    </div>
+
+    <footer class="rly-legal-footer">
+      <div style="color:#ffd700; font-weight:800; font-size:13px; margin-bottom:4px;">RLY DIGITAL &amp; OMNIMART — RAMESH LALMAN YADAV ENTERPRISES</div>
+      <div>१००% विज्ञापन मुक्त (0% ADS) • सीधा मिल एवं कंपनी रेट • सूरत एवं मुंबई डिपो डिस्पैच</div>
+      <div style="margin-top:4px;">शिकायत अधिकारी: श्री रमेश लालमान यादव | ईमेल: <a href="mailto:rly.official.project@gmail.com" style="color:#ffd700;">rly.official.project@gmail.com</a> | <a href="privacy.html" style="color:#ffd700;">गोपनीयता नीति</a></div>
+      <div style="margin-top:4px; font-size:11px;">© 2026 RLY DIGITAL (rlyofficial.in). सर्वाधिकार सुरक्षित।</div>
+    </footer>
+  </main>
+
+  <nav class="rly-bottom-nav">
+    <button type="button" class="rly-nav-item active" onclick="rlyGoHome()"><span class="rly-nav-icon">🏛️</span><span>मॉल (24 खांचे)</span></button>
+    <button type="button" class="rly-nav-item" onclick="rlyOpenModal('rlyTrackModal')"><span class="rly-nav-icon">📦</span><span>ऑर्डर ट्रैक</span></button>
+    <button type="button" class="rly-nav-item" onclick="rlyOpenCart()"><span class="rly-nav-icon">🛒</span><span>टोकरी</span><span id="rlyCartBadge" class="rly-cart-badge">0</span></button>
+    <button type="button" class="rly-nav-item" onclick="rlyOpenAdminGate()"><span class="rly-nav-icon">👑</span><span>स्वामी कक्ष</span></button>
+  </nav>
+
+  <div id="rlyCartModal" class="rly-modal-overlay"><div class="rly-modal-card"><div class="rly-modal-title">🛒 आपकी शॉपिंग टोकरी</div><div id="rlyCartItemsList" style="font-size:13px;margin-bottom:10px;max-height:180px;overflow-y:auto;"></div><div id="rlyCartTotalText" style="color:#ffd700;font-weight:900;font-size:16px;margin-bottom:12px;border-top:1px solid #2b2e3d;padding-top:8px;">कुल देय राशि: ₹0</div><input type="text" id="rlyCustName" class="rly-input" placeholder="ग्राहक / दुकान का पूरा नाम"><input type="tel" id="rlyCustPhone" class="rly-input" placeholder="१० अंकों का मोबाइल नंबर"><textarea id="rlyCustAddress" class="rly-textarea" rows="2" placeholder="पूरा डिलीवरी पता व पिनकोड"></textarea><button type="button" class="rly-btn-primary" onclick="rlySubmitOrder()">✅ ऑर्डर बुक करें व पेमेंट करें</button><button type="button" class="rly-btn-secondary" onclick="rlyCloseModal('rlyCartModal')">बंद करें</button></div></div>
+
+  <div id="rlyAiModal" class="rly-modal-overlay"><div class="rly-modal-card"><div id="rlyAiModalTitle" class="rly-modal-title">🤖 24x7 RLY AI सहायक</div><div id="rlyAiChatBox" style="height:200px;overflow-y:auto;background:#08090d;border:1px solid #d4af37;border-radius:10px;padding:10px;font-size:13px;margin-bottom:10px;"></div><div style="display:flex;gap:6px;margin-bottom:8px;"><input type="text" id="rlyAiUserInput" class="rly-input" style="margin-bottom:0;" placeholder="सामान या कीमत पूछें..."><button type="button" class="rly-voice-btn" onclick="rlyStartVoice('ai')">🎤</button><button type="button" class="rly-btn-primary" style="width:auto;padding:0 14px;" onclick="rlySendAiQuery()">पूछें</button></div><button type="button" class="rly-btn-secondary" onclick="rlyCloseModal('rlyAiModal')">बंद करें</button></div></div>
+
+  <div id="rlyTrackModal" class="rly-modal-overlay"><div class="rly-modal-card"><div class="rly-modal-title">📦 लाइव ऑर्डर ट्रैकिंग</div><input type="tel" id="rlyTrackPhoneInput" class="rly-input" placeholder="१० अंकों का मोबाइल नंबर डालें"><button type="button" class="rly-btn-primary" onclick="rlyTrackMyOrders()">🔍 ऑर्डर स्थिति देखें</button><div id="rlyTrackResults" style="margin-top:12px;font-size:13px;max-height:200px;overflow-y:auto;"></div><button type="button" class="rly-btn-secondary" onclick="rlyCloseModal('rlyTrackModal')">बंद करें</button></div></div>
+
+    
