@@ -89,6 +89,7 @@ function buildProductCards(list) {
     return `<div class="rly-prod-card"><div class="rly-prod-img-wrap">${mediaHtml}<span class="rly-prod-badge">🔥 ${badge}</span></div><div class="rly-prod-body"><div><div class="rly-prod-comp">${comp}</div><div class="rly-prod-title">${item.name}</div></div><div><div class="rly-prod-price-row"><span class="rly-prod-price">₹${item.price}</span>${mrpHtml}</div><button type="button" class="rly-add-cart-btn" onclick="rlyAddToCart('${safeName}', ${Number(item.price) || 0})">+ टोकरी में जोड़ें</button></div></div></div>`;
   }).join('');
 }
+function rlyEnterDept(deptId) {
 
   activeDept = RLY_DEPARTMENTS.find(d => d.id === deptId);
   if (!activeDept) return;
