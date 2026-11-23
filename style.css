@@ -1,214 +1,521 @@
+/* ==========================================================================
+   RLY OMNIMART — GLOBAL LUXURY DARK-GOLD MALL ARCHITECTURE (style.css)
+   Owner: Ramesh Lalman Yadav Enterprises (rlyofficial.in)
+   ========================================================================== */
+
 :root {
-    --gold: #FFD700;
-    --dark-bg: #0a0a0a;
-    --card-bg: #141414;
-    --neon-green: #39FF14;
-    --text-color: #ffffff;
+  --bg-main: #07080c;
+  --bg-card: #11131a;
+  --bg-elevated: #181b24;
+  --gold: #ffd700;
+  --gold-mid: #d4af37;
+  --gold-dark: #9e7a1c;
+  --cyan: #38bdf8;
+  --green: #22c55e;
+  --text-light: #ffffff;
+  --text-muted: #a1a1aa;
+  --border-gold: rgba(212, 175, 55, 0.45);
 }
 
-body {
-    background-color: var(--dark-bg);
-    color: var(--text-color);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.empire-header {
-    background: linear-gradient(145deg, #111, #222);
-    border-bottom: 3px solid var(--gold);
-    text-align: center;
-    padding: 20px;
+html, body {
+  background-color: var(--bg-main);
+  color: var(--text-light);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+  width: 100%;
+  padding-bottom: 85px;
 }
 
-.flag-salute {
-    background-color: #ff9933;
-    color: #000;
-    font-weight: bold;
-    padding: 5px;
-    display: inline-block;
-    border-radius: 4px;
+/* 1. फिक्स्ड टॉप हेडर बार (Logo, Live Count, Language & AI) */
+.rly-top-header {
+  position: sticky;
+  top: 0;
+  z-index: 9990;
+  background: linear-gradient(180deg, #0d0f17 0%, #07080c 100%);
+  border-bottom: 2px solid var(--gold-mid);
+  padding: 10px 14px;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.85);
 }
 
-h1 {
-    color: var(--gold);
-    margin: 10px 0;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+.rly-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
-    padding: 20px;
+.rly-brand-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.rly-logo-img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  object-fit: cover;
+  background: #000;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.45);
+}
+
+.rly-brand-title {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--gold);
+  letter-spacing: 1px;
+  line-height: 1.1;
+}
+
+.rly-live-counter {
+  font-size: 11px;
+  color: var(--green);
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+.rly-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rly-lang-select {
+  background: var(--bg-elevated);
+  color: var(--gold);
+  border: 1px solid var(--gold-mid);
+  border-radius: 8px;
+  padding: 6px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  outline: none;
+  max-width: 105px;
+}
+
+.rly-ai-top-btn {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-mid) 100%);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-size: 12px;
+  font-weight: 900;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 2px 10px rgba(255, 215, 0, 0.35);
+}
+
+/* 2. मुख्य कंटेनर और त्योहार ऑफ़र टिकर */
+.rly-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 12px;
+}
+
+.rly-offer-ticker {
+  background: linear-gradient(90deg, #1a1400, #2b2100, #1a1400);
+  border: 1px solid var(--gold-mid);
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  font-size: 12px;
+  color: var(--gold);
+  font-weight: 700;
+  text-align: center;
+}
+
+/* 3. ग्लोबल व डिपार्टमेंट सर्च + वॉइस बार */
+.rly-search-bar-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--gold-mid);
+  border-radius: 12px;
+  padding: 6px 10px;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+}
+
+.rly-search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 15px;
+  outline: none;
+  padding: 6px 4px;
+}
+
+.rly-voice-btn {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color: #000;
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* 4. २४ मुख्य स्टोर खांचों (Departments) का ग्रिड */
+.rly-section-heading {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--gold);
+  margin: 10px 0 12px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rly-dept-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+@media (min-width: 640px) {
+  .rly-dept-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .rly-dept-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.rly-dept-card {
+  background: linear-gradient(145deg, #151822 0%, #0c0e14 100%);
+  border: 1px solid var(--border-gold);
+  border-radius: 14px;
+  padding: 14px 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.rly-dept-card:active {
+  transform: scale(0.97);
+  border-color: var(--gold);
+}
+
+.rly-dept-icon {
+  font-size: 30px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.rly-dept-name {
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.3;
+}
+
+.rly-dept-sub {
+  font-size: 10px;
+  color: var(--gold-mid);
+  margin-top: 4px;
+}
+
+/* 5. किसी एक खांचे के अंदर खुलने वाला समर्पित स्टोर व्यू */
+.rly-dept-banner {
+  background: linear-gradient(135deg, #1c1705 0%, #0f1118 100%);
+  border: 1.5px solid var(--gold);
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.rly-back-btn {
+  background: #222530;
+  color: var(--gold);
+  border: 1px solid var(--gold-mid);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+.rly-dept-tools {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.rly-dept-ai-btn {
+  flex: 1;
+  background: linear-gradient(90deg, var(--gold), var(--gold-mid));
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  padding: 9px;
+  font-size: 12px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+/* 6. 2-कॉलम HD प्रोडक्ट कार्ड ग्रिड */
+.rly-product-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
 }
 
 @media (min-width: 768px) {
-    .dashboard-grid {
-        grid-template-columns: 1fr 1fr;
-    }
+  .rly-product-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
 }
 
-.card {
-    background-color: var(--card-bg);
-    border: 1px solid #333;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+.rly-prod-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-gold);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55);
 }
 
-.card h2 {
-    color: var(--gold);
-    border-bottom: 1px solid #333;
-    padding-bottom: 10px;
-    margin-top: 0;
+.rly-prod-img-wrap {
+  position: relative;
+  width: 100%;
+  height: 150px;
+  background: #181a22;
+  overflow: hidden;
 }
 
-.pulse-bar {
-    background-color: #9400D3;
-    padding: 8px;
-    border-radius: 4px;
-    font-size: 0.9em;
-    font-weight: bold;
-    text-align: center;
+.rly-prod-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-.engine-status-grid {
-    display: grid;
-    gap: 10px;
+.rly-prod-badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  background: rgba(0, 0, 0, 0.82);
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 5px;
 }
 
-.status-item {
-    background-color: #222;
-    padding: 12px;
-    border-left: 4px solid var(--neon-green);
-    border-radius: 4px;
+.rly-prod-body {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
 }
 
-.sub-panel {
-    background-color: #1a1a1a;
-    border: 1px solid #444;
-    padding: 15px;
-    border-radius: 6px;
-    margin-bottom: 15px;
+.rly-prod-comp {
+  font-size: 10px;
+  color: var(--cyan);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 3px;
 }
 
-button {
-    background: linear-gradient(145deg, #b8860b, #ffd700);
-    color: #000;
-    border: none;
-    padding: 12px 20px;
-    font-weight: bold;
-    border-radius: 4px;
-    cursor: pointer;
-    margin: 5px 0;
-    width: 100%;
+.rly-prod-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.3;
+  margin-bottom: 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 10px;
-    margin: 10px 0;
+.rly-prod-price-row {
+  margin-bottom: 8px;
 }
 
-.prod-item {
-    background-color: #2a2a2a;
-    padding: 10px;
-    text-align: center;
-    border-radius: 4px;
-    font-size: 0.85em;
-    border: 1px solid #444;
+.rly-prod-price {
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--gold);
 }
 
-.video-sandbox {
-    background-color: #000;
-    height: 120px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px dashed var(--neon-green);
-    margin: 10px 0;
-    border-radius: 4px;
+.rly-prod-mrp {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-decoration: line-through;
+  margin-left: 5px;
 }
 
-.empire-footer {
-    text-align: center;
-    padding: 20px;
-    font-size: 0.8em;
-    color: #888;
-    border-top: 1px solid #333;
+.rly-add-cart-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-mid) 100%);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 12px;
+  font-weight: 900;
+  cursor: pointer;
 }
 
-/* १३.८ अरब वर्ष पुराना पाषाण एवं स्वर्ण नक्काशी लोगो सीएसएस */
-.ancient-stone-slab {
-    background: linear-gradient(135deg, #151515 0%, #252525 50%, #121212 100%);
-    border: 4px double #d4af37;
-    border-radius: 12px;
-    padding: 25px;
-    max-width: 320px;
-    margin: 20px auto;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 0 20px #000;
+.rly-add-cart-btn:active {
+  transform: scale(0.96);
 }
 
-.embossed-stone-logo {
-    background-color: #1a1a1a;
-    border: 3px solid #2a2a2a;
-    border-radius: 50%;
-    width: 140px;
-    height: 140px;
-    margin: 0 auto 15px auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-shadow: inset 5px 5px 15px #000000, inset -5px -5px 15px #3a3a3a, 0 4px 10px rgba(0,0,0,0.5);
+/* 7. नीचे का फिक्स्ड मोबाइल ऐप नेविगेशन बार */
+.rly-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9995;
+  background: #0b0d14;
+  border-top: 2px solid var(--gold-mid);
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 4px;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.9);
 }
 
-.logo-core-engraving {
-    font-size: 36px;
-    font-weight: 900;
-    font-family: 'Arial Black', sans-serif;
-    color: #ffd700;
-    letter-spacing: 2px;
-    text-shadow: 0 0 8px rgba(255, 215, 0, 0.6), 2px 2px 2px #000;
+.rly-nav-item {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  cursor: pointer;
+  position: relative;
 }
 
-.logo-devanagari-engraving {
-    font-size: 16px;
-    font-weight: bold;
-    color: #e5e5e5;
-    margin-top: 5px;
-    letter-spacing: 1px;
-    text-shadow: 1px 1px 2px #000;
-    border-top: 1px solid #333;
-    padding-top: 4px;
-    width: 70%;
+.rly-nav-item.active, .rly-nav-item:hover {
+  color: var(--gold);
 }
 
-.logo-footer-text {
-    font-size: 14px;
-    font-weight: bold;
-    color: #ffd700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-top: 10px;
-    text-shadow: 1px 1px 1px #000;
+.rly-nav-icon {
+  font-size: 19px;
 }
 
-/* इन-कोठरी टर्मिनल बॉक्स डिज़ाइन */
-.terminal-display {
-    background-color: #000;
-    border: 2px solid #ffd700;
-    color: #ffd700;
-    padding: 15px;
-    font-family: monospace;
-    font-size: 0.95em;
-    border-radius: 6px;
-    margin-bottom: 20px;
-    text-align: left;
-    line-height: 1.4;
-    box-shadow: inset 0 0 10px rgba(255,215,0,0.2);
-    }
+.rly-cart-badge {
+  position: absolute;
+  top: -3px;
+  right: -6px;
+  background: var(--gold);
+  color: #000;
+  font-size: 10px;
+  font-weight: 900;
+  padding: 1px 5px;
+  border-radius: 10px;
+}
+
+/* 8. 3D पॉप-अप मोडल और फॉर्म इनपुट्स */
+.rly-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+}
+
+.rly-modal-card {
+  background: var(--bg-card);
+  border: 2px solid var(--gold);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 440px;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 18px;
+  box-shadow: 0 10px 35px rgba(255, 215, 0, 0.3);
+}
+
+.rly-modal-title {
+  color: var(--gold);
+  font-size: 17px;
+  font-weight: 900;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #262936;
+  padding-bottom: 8px;
+}
+
+.rly-input, .rly-select, .rly-textarea {
+  width: 100%;
+  background: #08090d;
+  border: 1px solid var(--gold-mid);
+  color: #fff;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 14px;
+  margin-bottom: 10px;
+  outline: none;
+}
+
+.rly-btn-primary {
+  width: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-mid));
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.rly-btn-secondary {
+  width: 100%;
+  background: #1f222e;
+  color: #ccc;
+  border: 1px solid #3a3f52;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+/* 9. कानूनी फ़ुटर */
+.rly-legal-footer {
+  background: #0b0d14;
+  border-top: 1px solid var(--border-gold);
+  padding: 18px 14px;
+  margin-top: 24px;
+  font-size: 12px;
+  color: var(--text-muted);
