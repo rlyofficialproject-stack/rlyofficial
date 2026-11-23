@@ -58,8 +58,6 @@ function assignDeptId(item) {
   );
 }
  
-  return `data:image/svg+xml;utf8,<svg xmlns="http://w3.org" viewBox="0 0 320 200"><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="%23181c28"/><stop offset="100%" stop-color="%23090a0f"/></linearGradient></defs><rect width="320" height="200" fill="url(%23bg)"/><circle cx="160" cy="85" r="46" fill="%2311131a" stroke="%23ffd700" stroke-width="2.5"/><text x="160" y="102" font-size="44" text-anchor="middle">${d.icon}</text><text x="160" y="158" fill="%23ffd700" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">${title}</text><text x="160" y="178" fill="%23a1a1aa" font-family="sans-serif" font-size="11" text-anchor="middle">RLY VERIFIED HD CATALOG</text></svg>`;
-}
 
 function renderDepartments() {
   const grid = document.getElementById('rlyDeptGrid');
