@@ -78,14 +78,18 @@ function buildProductCards(list) {
   }
   return list.slice(0, 120).map(item => {
     const img = getProductImage(item);
+    const d = RLY_DEPARTMENTS.find(x => x.id === item._deptId) || RLY_DEPARTMENTS;
+    const mediaHtml = img
+      ? `<img src="${img}" alt="${item.name}" class="rly-prod-img" loading="lazy">`
+      : `<div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#181c28,#090a0f);"><span style="font-size:48px;">${d.icon}</span><span style="font-size:10px;color:#ffd700;margin-top:4px;font-weight:bold;">RLY VERIFIED HD</span></div>`;
     const comp = item.company_name || 'RLY Verified';
     const mrpHtml = item.mrp ? `<span class="rly-prod-mrp">₹${item.mrp}</span>` : '';
     const badge = item.offer_tag || 'मिल रेट';
     const safeName = String(item.name || '').replace(/'/g, "\\'");
-    return `<div class="rly-prod-card"><div class="rly-prod-img-wrap"><img src="${img}" alt="${item.name}" class="rly-prod-img" loading="lazy"><span class="rly-prod-badge">🔥 ${badge}</span></div><div class="rly-prod-body"><div><div class="rly-prod-comp">${comp}</div><div class="rly-prod-title">${item.name}</div></div><div><div class="rly-prod-price-row"><span class="rly-prod-price">₹${item.price}</span>${mrpHtml}</div><button type="button" class="rly-add-cart-btn" onclick="rlyAddToCart('${safeName}', ${Number(item.price) || 0})">+ टोकरी में जोड़ें</button></div></div></div>`;
+    return `<div class="rly-prod-card"><div class="rly-prod-img-wrap">${mediaHtml}<span class="rly-prod-badge">🔥 ${badge}</span></div><div class="rly-prod-body"><div><div class="rly-prod-comp">${comp}</div><div class="rly-prod-title">${item.name}</div></div><div><div class="rly-prod-price-row"><span class="rly-prod-price">₹${item.price}</span>${mrpHtml}</div><button type="button" class="rly-add-cart-btn" onclick="rlyAddToCart('${safeName}', ${Number(item.price) || 0})">+ टोकरी में जोड़ें</button></div></div></div>`;
   }).join('');
 }
-function rlyEnterDept(deptId) {
+
   activeDept = RLY_DEPARTMENTS.find(d => d.id === deptId);
   if (!activeDept) return;
   document.getElementById('rlyHomeLobby').style.display = 'none';
