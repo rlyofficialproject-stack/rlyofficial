@@ -86,4 +86,179 @@ function buildProductCards(list) {
     return `<div class="rly-prod-card"><div class="rly-prod-img-wrap"><img src="${img}" alt="${item.name}" class="rly-prod-img" loading="lazy"><span class="rly-prod-badge">🔥 ${badge}</span></div><div class="rly-prod-body"><div><div class="rly-prod-comp">${comp}</div><div class="rly-prod-title">${item.name}</div></div><div><div class="rly-prod-price-row"><span class="rly-prod-price">₹${item.price}</span>${mrpHtml}</div><button type="button" class="rly-add-cart-btn" onclick="rlyAddToCart('${safeName}', ${Number(item.price) || 0})">+ टोकरी में जोड़ें</button></div></div></div>`;
   }).join('');
 }
-  
+function rlyEnterDept(deptId) {
+  activeDept = RLY_DEPARTMENTS.find(d => d.id === deptId);
+  if (!activeDept) return;
+  document.getElementById('rlyHomeLobby').style.display = 'none';
+  document.getElementById('rlyDeptStoreView').style.display = 'block';
+  document.getElementById('rlyActiveDeptIcon').innerText = activeDept.icon;
+  document.getElementById('rlyActiveDeptTitle').innerText = `${activeDept.id}. ${activeDept.name}`;
+  document.getElementById('rlyActiveDeptSub').innerText = `${activeDept.sub} — सभी कंपनियों के उत्पाद`;
+  document.getElementById('rlyDeptSearchInput').value = '';
+  document.getElementById('rlyDeptAiTrigger').onclick = () => rlyOpenAI(activeDept.name);
+  document.getElementById('rlyDeptProductGrid').innerHTML = buildProductCards(allProducts.filter(p => p._deptId === activeDept.id));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function rlyGoHome() {
+  activeDept = null;
+  document.getElementById('rlyDeptStoreView').style.display = 'none';
+  document.getElementById('rlyHomeLobby').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function rlyGlobalFilter(q) {
+  const query = q.toLowerCase().trim();
+  const filtered = !query ? allProducts : allProducts.filter(p => `${p.name} ${p.company_name} ${p.category}`.toLowerCase().includes(query));
+  document.getElementById('rlyHomeProductGrid').innerHTML = buildProductCards(filtered);
+}
+
+function rlyDeptFilter(q) {
+  if (!activeDept) return;
+  const query = q.toLowerCase().trim();
+  const deptItems = allProducts.filter(p => p._deptId === activeDept.id);
+  document.getElementById('rlyDeptProductGrid').innerHTML = buildProductCards(!query ? deptItems : deptItems.filter(p => `${p.name} ${p.company_name}`.toLowerCase().includes(query)));
+}
+
+function rlyStartVoice(mode) {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return rlyAlert('🎤 कृपया सर्च बॉक्स में लिखकर खोजें।');
+  const rec = new SR();
+  rec.lang = 'hi-IN';
+  rlyAlert('🎤 <b>सुन रहा हूँ...</b> उत्पाद का नाम बोलें...');
+  rec.onresult = (e) => {
+    const text = e.results.transcript;
+    rlyCloseModal('rlyAlertModal');
+    if (mode === 'dept' && activeDept) { document.getElementById('rlyDeptSearchInput').value = text; rlyDeptFilter(text); }
+    else if (mode === 'ai') { document.getElementById('rlyAiUserInput').value = text; rlySendAiQuery(); }
+    else { document.getElementById('rlyGlobalSearch').value = text; rlyGlobalFilter(text); }
+  };
+  rec.onerror = () => rlyAlert('⚠️ आवाज़ साफ़ नहीं मिली, पुनः प्रयास करें।');
+  rec.start();
+}
+
+function rlyOpenAI(contextName) {
+  currentAiContext = contextName;
+  document.getElementById('rlyAiModalTitle').innerText = `🤖 RLY AI — ${contextName}`;
+  document.getElementById('rlyAiChatBox').innerHTML = `<div style="color:#ffd700;margin-bottom:6px;"><b>RLY AI:</b> नमस्ते! आप अभी <b>${contextName}</b> में हैं। आप क्या ढूँढ रहे हैं?</div>`;
+  rlyOpenModal('rlyAiModal');
+}
+
+function rlySendAiQuery() {
+  const inp = document.getElementById('rlyAiUserInput');
+  const box = document.getElementById('rlyAiChatBox');
+  const q = inp.value.trim();
+  if (!q) return;
+  box.innerHTML += `<div style="color:#fff;margin:4px 0;"><b>आप:</b> ${q}</div>`;
+  inp.value = '';
+  const matches = allProducts.filter(p => `${p.name} ${p.company_name}`.toLowerCase().includes(q.toLowerCase())).slice(0, 3);
+  const reply = matches.length > 0
+    ? `ये विकल्प उपलब्ध हैं:<br>` + matches.map(m => `• <b>${m.name}</b> — <b>₹${m.price}</b>`).join('<br>')
+    : `<b>${currentAiContext}</b> में सभी कंपनियों के उत्पाद मिल रेट पर उपलब्ध हैं। ऊपर सर्च या माइक (🎤) का उपयोग करें।`;
+  box.innerHTML += `<div style="color:#ffd700;margin:4px 0 8px 0;"><b>RLY AI:</b> ${reply}</div>`;
+  box.scrollTop = box.scrollHeight;
+}
+
+function rlyAddToCart(name, price) {
+  rlyCart.push({ name, price: Number(price) || 0 });
+  document.getElementById('rlyCartBadge').innerText = rlyCart.length;
+  rlyAlert(`✅ <b>${name}</b> टोकरी में जोड़ दिया गया है!`);
+}
+
+function rlyOpenCart() {
+  const list = document.getElementById('rlyCartItemsList');
+  const totalEl = document.getElementById('rlyCartTotalText');
+  if (rlyCart.length === 0) { list.innerHTML = 'टोकरी खाली है।'; totalEl.innerText = 'कुल: ₹0'; }
+  else {
+    let sum = 0;
+    list.innerHTML = rlyCart.map((it, i) => { sum += it.price; return `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #222;"><span>${i + 1}. ${it.name}</span><b style="color:#ffd700;">₹${it.price}</b></div>`; }).join('');
+    totalEl.innerText = `कुल देय राशि: ₹${sum}`;
+  }
+  rlyOpenModal('rlyCartModal');
+}
+
+async function rlySubmitOrder() {
+  const name = document.getElementById('rlyCustName').value.trim();
+  const phone = document.getElementById('rlyCustPhone').value.trim();
+  const addr = document.getElementById('rlyCustAddress').value.trim();
+  if (!rlyCart.length || !name || !phone || !addr) return rlyAlert('⚠️ टोकरी, नाम, फ़ोन और पता भरें।');
+  const total = rlyCart.reduce((s, it) => s + it.price, 0);
+  try { await rlyDB.from('orders').insert([{ customer_name: name, phone, address: addr, items: JSON.stringify(rlyCart), total_amount: total }]); } catch (e) {}
+  rlyCart = [];
+  document.getElementById('rlyCartBadge').innerText = '0';
+  rlyCloseModal('rlyCartModal');
+  rlyAlert('✅ ऑर्डर दर्ज हो गया! Cashfree पेमेंट खुल रहा है...');
+  setTimeout(() => { window.location.href = RLY_CASHFREE_URL; }, 1400);
+}
+
+async function rlyTrackMyOrders() {
+  const phone = document.getElementById('rlyTrackPhoneInput').value.trim();
+  const box = document.getElementById('rlyTrackResults');
+  if (phone.length < 10) return rlyAlert('⚠️ 10 अंकों का मोबाइल नंबर डालें।');
+  box.innerHTML = '⏳ जाँच हो रही है...';
+  const { data } = await rlyDB.from('orders').select('*').eq('phone', phone).order('created_at', { ascending: false }).limit(5);
+  box.innerHTML = (!data || !data.length) ? 'कोई ऑर्डर नहीं मिला।' : data.map((o, i) => `<div style="padding:6px;border-bottom:1px solid #2b2e3d;"><b>#${i + 1} ${o.customer_name}</b> — ₹${o.total_amount || 0}<br>${o.address}</div>`).join('');
+}
+
+async function rlyOpenAdminGate() {
+  rlyOpenModal('rlyAdminModal');
+  const { data: { session } } = await rlyDB.auth.getSession();
+  if (session) { document.getElementById('rlyAdminAuthBox').style.display = 'none'; document.getElementById('rlyAdminDashboard').style.display = 'block'; }
+}
+
+async function rlyLoginAdmin() {
+  const email = document.getElementById('rlyAdminEmail').value.trim();
+  const password = document.getElementById('rlyAdminPass').value.trim();
+  const { error } = await rlyDB.auth.signInWithPassword({ email, password });
+  if (error) return rlyAlert('❌ सही एडमिन ईमेल व पासवर्ड डालें।');
+  document.getElementById('rlyAdminAuthBox').style.display = 'none';
+  document.getElementById('rlyAdminDashboard').style.display = 'block';
+}
+
+async function rlyUploadSingleProduct() {
+  const dept_id = Number(document.getElementById('admDeptSelect').value);
+  const company_name = document.getElementById('admComp').value.trim() || 'RLY Partner';
+  const name = document.getElementById('admName').value.trim();
+  const image_url = document.getElementById('admImgUrl').value.trim();
+  const price = Number(document.getElementById('admPrice').value) || 0;
+  const mrp = Number(document.getElementById('admMrp').value) || null;
+  const offer_tag = document.getElementById('admOfferTag').value.trim() || 'मिल रेट';
+  if (!name || price <= 0) return rlyAlert('⚠️ उत्पाद का नाम और रेट भरें।');
+  const { error } = await rlyDB.from('products').insert([{ company_name, name, category: RLY_DEPARTMENTS[dept_id - 1].name, price, mrp, description: offer_tag, image_url, dept_id, offer_tag }]);
+  if (error) return rlyAlert('⚠️ अपलोड विफल: Supabase कॉलम व लॉगिन जाँचें।');
+  rlyAlert(`✅ <b>${name}</b> लाइव हो गया!`);
+  loadAllCatalog();
+}
+
+async function rlyUploadBulkProducts() {
+  const raw = document.getElementById('admBulkText').value.trim();
+  if (!raw) return;
+  const rows = raw.split('\n').map(l => l.split('|').map(x => x.trim())).filter(p => p.length >= 4);
+  const records = rows.map(p => ({ dept_id: Number(p) || 3, company_name: p || 'RLY', name: p, category: (RLY_DEPARTMENTS[(Number(p) || 3) - 1] || RLY_DEPARTMENTS).name, price: Number(p) || 0, mrp: p ? Number(p) : null, image_url: p || '' }));
+  await rlyDB.from('products').insert(records);
+  rlyAlert(`🚀 ${records.length} उत्पाद लाइव!`);
+  loadAllCatalog();
+}
+
+async function rlyViewAdminOrders() {
+  const box = document.getElementById('admOrdersList');
+  const { data } = await rlyDB.from('orders').select('*').order('id', { ascending: false }).limit(20);
+  box.innerHTML = (!data || !data.length) ? 'कोई ऑर्डर नहीं।' : data.map((o, i) => `<div style="padding:5px;border-bottom:1px solid #2b2e3d;"><b>${i + 1}. ${o.customer_name}</b> (${o.phone}) — ₹${o.total_amount || 0}</div>`).join('');
+}
+
+function rlyChangeLang(lang) {
+  const t = { hi: '🏛️ सुबह से रात तक — २४ स्टोर खांचे', en: '🏛️ Morning to Night — 24 Store Departments', mr: '🏛️ सकाळपासून रात्रीपर्यंत — २४ विभाग', gu: '🏛️ સવારથી રાત સુધી — ૨૪ વિભાગો', bho: '🏛️ बिहान से रात ले — २४ गो खांचा' };
+  document.getElementById('rlyDeptHeading').innerText = t[lang] || t.hi;
+}
+
+async function loadAllCatalog() {
+  renderDepartments();
+  try {
+    const { count } = await rlyDB.from('products').select('*', { count: 'exact', head: true });
+    const { data } = await rlyDB.from('products').select('*').order('id', { ascending: false }).range(0, 2499);
+    if (data) {
+      allProducts = data.map(item => ({ ...item, _deptId: assignDeptId(item) }));
+      const total = (typeof count === 'number' && count > allProducts.length) ? count : allProducts.length;
+      document.getElementById('rlyLiveCounter').innerText = `🟢 2,000+ ब्रांड्स | ${total.toLocaleString('en-IN')}+ लाइव उत्पाद`;
+      renderDepartments();
+    
