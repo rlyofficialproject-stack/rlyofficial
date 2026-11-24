@@ -9,7 +9,8 @@
   "orientation": "portrait",
   "icons": [
     {
-  rly-omnimart-logo.jpg",      
+"src": "./rly-omnimart-logo.jpg",
+      
       "sizes": "512x512",
  "type": "image/jpeg", 
       "purpose": "any maskable"
