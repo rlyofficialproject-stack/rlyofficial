@@ -49,6 +49,16 @@ function assignDeptId(item) {
   for (const d of RLY_DEPARTMENTS) {
     if (d.kw.test(text)) return d.id;
   }
+  return 3;
+}
+
+function getProductImage(item) {
+  if (item.image_url && item.image_url.startsWith('http')) return item.image_url;
+  return "";
+}
+
+    if (d.kw.test(text)) return d.id;
+  }
  function getProductImage(item) {
   if (item.image_url && item.image_url.startsWith('http')) return item.image_url;
   const d = RLY_DEPARTMENTS.find(x => x.id === item._deptId) || RLY_DEPARTMENTS[0];
