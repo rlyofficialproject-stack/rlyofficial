@@ -255,7 +255,8 @@ async function rlyUploadBulkProducts() {
 async function rlyViewAdminOrders() {
   const box = document.getElementById('admOrdersList');
   const { data } = await rlyDB.from('orders').select('*').order('id', { ascending: false }).limit(20);
-  box.innerHTML = (!data || !data.length) ? 'कोई ऑर्डर नहीं।' : data.map((o, i) => `<div style="padding:5px;border-bottom:1px solid #2b2e3d;"><b>${i + 1}. ${o.customer_name}</b> (${o.phone}) — ₹${o.total_amount || 0}</div>`).join('');
+box.innerHTML = (!data || !data.length) ? 'कोई ऑर्डर नहीं।' : data.map((o, i) => { let list = ''; try { list = JSON.parse(o.items || '[]').map(x => `${x.name} (₹${x.price})`).join(', '); } catch(e) { list = o.items || ''; } return `<div style="padding:8px 5px;border-bottom:1px solid #2b2e3d;line-height:1.5;"><b style="color:#ffd700;">${i + 1}. ${o.customer_name}</b> (${o.phone}) — <b style="color:#22c55e;">₹${o.total_amount || 0}</b><br><span style="color:#e4e4e7;">📍 पता: ${o.address || 'उपलब्ध नहीं'}</span><br><span style="color:#a1a1aa;font-size:12px;">🛒 सामान: ${list}</span></div>`; }).join('');
+
 }
 
 function rlyChangeLang(lang) {
