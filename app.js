@@ -195,12 +195,15 @@ async function rlySubmitOrder() {
   const addr = document.getElementById('rlyCustAddress').value.trim();
   if (!rlyCart.length || !name || !phone || !addr) return rlyAlert('⚠️ टोकरी, नाम, फ़ोन और पता भरें।');
   const total = rlyCart.reduce((s, it) => s + it.price, 0);
-  try { await rlyDB.from('orders').insert([{ customer_name: name, phone, address: addr, items: JSON.stringify(rlyCart), total_amount: total }]); } catch (e) {}
+    const { data: inserted } = await rlyDB.from('orders').insert([{ customer_name: name, phone, address: addr, items: JSON.stringify(rlyCart), total_amount: total }]).select().single();
   rlyCart = [];
   document.getElementById('rlyCartBadge').innerText = '0';
   rlyCloseModal('rlyCartModal');
-  rlyAlert('✅ ऑर्डर दर्ज हो गया! Cashfree पेमेंट खुल रहा है...');
-  setTimeout(() => { window.location.href = RLY_CASHFREE_URL; }, 1400);
+  rlyAlert(`⏳ <b>₹${total}</b> का सुरक्षित फिक्स्ड पेमेंट गेटवे खुल रहा है...`);
+  const { data: cfData } = await rlyDB.functions.invoke('create-cashfree-order', { body: { amount: total, customer_name: name, phone, order_id: inserted?.id || Date.now() } });
+  if (cfData?.link_url) { window.location.href = cfData.link_url; }
+  else { window.location.href = RLY_CASHFREE_URL; }
+
 }
 
 async function rlyTrackMyOrders() {
