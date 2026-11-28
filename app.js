@@ -265,17 +265,64 @@ box.innerHTML = (!data || !data.length) ? 'कोई ऑर्डर नही�
 
 let currentRlyLang = 'hi';
 
+const RLY_LANGUAGES = [
+  { code: 'hi', label: '🇮🇳 हिंदी (Hindi)', locale: 'hi-IN', head: '🏛️ सुबह से रात तक — २४ स्टोर खांचे', offer: 'महा-त्योहार व शादी सीज़न ऑफ़र: २,०००+ अंतर्राष्ट्रीय व भारतीय कंपनियों के सामान पर सीधा मिल रेट | 0% विज्ञापन | सुरक्षित होम डिलीवरी' },
+  { code: 'en', label: '🌐 English (Global)', locale: 'en-IN', head: '🏛️ Morning to Night — 24 Store Departments', offer: 'Grand Festival & Wedding Season Offer: Direct Mill Rate on 2,000+ International & Indian Brands | 0% Ads | Safe Home Delivery' },
+  { code: 'bho', label: '🇮🇳 भोजपुरी (Bhojpuri)', locale: 'hi-IN', head: '🏛️ बिहान से रात ले — २४ गो खांचा', offer: 'महा-तिहार आ शादी सीज़न ऑफ़र: २,०००+ देसी आ विदेशी कंपनी के सामान पर सीधा मिल रेट | 0% प्रचार | सुरक्षित होम डिलीवरी' },
+  { code: 'mr', label: '🇮🇳 मराठी (Marathi)', locale: 'mr-IN', head: '🏛️ सकाळपासून रात्रीपर्यंत — २४ विभाग', offer: 'महा-सण आणि लग्नसराई ऑफर: २,०००+ आंतरराष्ट्रीय व भारतीय कंपन्यांच्या मालावर थेट मिल रेट | 0% जाहिरात | सुरक्षित होम डिलिव्हरी' },
+  { code: 'gu', label: '🇮🇳 ગુજરાતી (Gujarati)', locale: 'gu-IN', head: '🏛️ સવારથી રાત સુધી — ૨૪ વિભાગો', offer: 'મહા-તહેવાર અને લગ્ન સીઝન ઑફર: ૨,૦૦૦+ આંતરરાષ્ટ્રીય અને ભારતીય કંપનીઓના સામાન પર સીધો મિલ રેટ | 0% જાહેરાત | સુરક્ષિત હોમ ડિલિવરી' },
+  { code: 'pa', label: '🇮🇳 ਪੰਜਾਬੀ (Punjabi)', locale: 'pa-IN', head: '🏛️ ਸਵੇਰ ਤੋਂ ਰਾਤ ਤੱਕ — 24 ਸਟੋਰ ਵਿਭਾਗ', offer: 'ਮਹਾਂ-ਤਿਉਹਾਰ ਅਤੇ ਵਿਆਹ ਸੀਜ਼ਨ ਆਫ਼ਰ: 2,000+ ਅੰਤਰਰਾਸ਼ਟਰੀ ਅਤੇ ਭਾਰਤੀ ਕੰਪਨੀਆਂ ਦੇ ਸਮਾਨ \'ਤੇ ਸਿੱਧਾ ਮਿੱਲ ਰੇਟ | 0% ਇਸ਼ਤਿਹਾਰ | ਸੁਰੱਖਿਅਤ ਹੋਮ ਡਿਲੀਵਰੀ' },
+  { code: 'bn', label: '🇮🇳 বাংলা (Bengali)', locale: 'bn-IN', head: '🏛️ সকাল থেকে রাত — ২৪টি স্টোর বিভাগ', offer: 'মহা-উৎসব ও বিয়ের মরসুম অফার: ২,০০০+ আন্তর্জাতিক ও ভারতীয় কোম্পানির পণ্যে সরাসরি মিল রেট | ০% বিজ্ঞাপন | নিরাপদ হোম ডেলিভারি' },
+  { code: 'ta', label: '🇮🇳 தமிழ் (Tamil)', locale: 'ta-IN', head: '🏛️ காலை முதல் இரவு வரை — 24 கடை பிரிவுகள்', offer: 'மாபெரும் திருவிழா & திருமண சீசன் சலுகை: 2,000+ சர்வதேச & இந்திய நிறுவன பொருட்களுக்கு நேரடி மில் விலை | 0% விளம்பரம் | பாதுகாப்பான ஹோம் டெலிவரி' },
+  { code: 'te', label: '🇮🇳 తెలుగు (Telugu)', locale: 'te-IN', head: '🏛️ ఉదయం నుండి రాత్రి వరకు — 24 స్టోర్ విభాగాలు', offer: 'మహా పండుగ & పెళ్లిళ్ల సీజన్ ఆఫర్: 2,000+ అంతర్జాతీయ & భారతీయ కంపెనీల వస్తువులపై నేరుగా మిల్లు ధర | 0% ప్రకటనలు | సురక్షిత హోమ్ డెలివరీ' },
+  { code: 'kn', label: '🇮🇳 ಕನ್ನಡ (Kannada)', locale: 'kn-IN', head: '🏛️ ಬೆಳಿಗ್ಗೆಯಿಂದ ರಾತ್ರಿಯವರೆಗೆ — 24 ವಿಭಾಗಗಳು', offer: 'ಮಹಾ ಹಬ್ಬ ಮತ್ತು ಮದುವೆ ಸೀಸನ್ ಆಫರ್: 2,000+ ಅಂತರರಾಷ್ಟ್ರೀಯ ಮತ್ತು ಭಾರತೀಯ ಕಂಪನಿಗಳ ವಸ್ತುಗಳ ಮೇಲೆ ನೇರ ಮಿಲ್ ದರ | 0% ಜಾಹೀರಾತು | ಸುರಕ್ಷಿತ ಹೋಮ್ ಡೆಲಿವರಿ' },
+  { code: 'ml', label: '🇮🇳 മലയാളം (Malayalam)', locale: 'ml-IN', head: '🏛️ രാവിലെ മുതൽ രാത്രി വരെ — 24 വിഭാഗങ്ങൾ', offer: 'മഹാ ഉത്സവ & വിവാഹ സീസൺ ഓഫർ: 2,000+ അന്താരാഷ്ട്ര & ഇന്ത്യൻ കമ്പനികളുടെ ഉൽപ്പന്നങ്ങൾക്ക് നേരിട്ട് മിൽ നിരക്ക് | 0% പരസ്യം | സുരക്ഷിത ഹോം ഡെലിവറി' },
+  { code: 'or', label: '🇮🇳 ଓଡ଼ିଆ (Odia)', locale: 'or-IN', head: '🏛️ ସକାଳୁ ରାତି ପର୍ଯ୍ୟନ୍ତ — ୨୪ଟି ବିଭାଗ', offer: 'ମହା-ପର୍ବ ଓ ବିବାହ ସିଜନ୍ ଅଫର୍: ୨,୦୦୦+ ଆନ୍ତର୍ଜାତୀୟ ଓ ଭାରତୀୟ କମ୍ପାନୀ ସାମଗ୍ରୀ ଉପରେ ସିଧା ମିଲ୍ ଦର | 0% ବିଜ୍ଞାପନ | ସୁରକ୍ଷିତ ହୋମ୍ ଡେଲିଭରି' },
+  { code: 'as', label: '🇮🇳 অসমীয়া (Assamese)', locale: 'as-IN', head: '🏛️ ৰাতিপুৱাৰ পৰা ৰাতিলৈ — ২৪টা বিভাগ', offer: 'মহা-উৎসৱ আৰু বিবাহৰ বতৰৰ অফাৰ: ২,০০০+ আন্তঃৰাষ্ট্ৰীয় আৰু ভাৰতীয় কোম্পানীৰ সামগ্ৰীত পোনপটীয়া মিলৰ দাম | ০% বিজ্ঞাপন | সুৰক্ষিত হোম ডেলিভাৰী' },
+  { code: 'ur', label: '🇮🇳 اردو (Urdu)', locale: 'ur-IN', head: '🏛️ صبح سے رات تک — 24 اسٹور شعبہ جات', offer: 'عظیم تہوار اور شادی سیزن آفر: 2,000+ بین الاقوامی اور ہندوستانی کمپنیوں کے سامان پر براہ راست مل ریٹ | 0% اشتہارات | محفوظ ہوم ڈیلیوری' },
+  { code: 'ne', label: '🇳🇵 नेपाली (Nepali)', locale: 'ne-NP', head: '🏛️ बिहानदेखि रातिसम्म — २४ स्टोर विभागहरू', offer: 'महा-चाडपर्व र विवाह सिजन अफर: २,०००+ अन्तर्राष्ट्रिय र भारतीय कम्पनीका सामानमा सिधा मिल रेट | ०% विज्ञापन | सुरक्षित होम डेलिभरी' },
+  { code: 'ar', label: '🇦🇪 العربية (Arabic)', locale: 'ar-SA', head: '🏛️ من الصباح إلى الليل — 24 قسم متجر', offer: 'عرض المهرجانات وموسم الزفاف: أسعار المصنع مباشرة على أكثر من 2,000 علامة تجارية عالمية وهندية | 0% إعلانات | توصيل منزلي آمن' },
+  { code: 'es', label: '🇪🇸 Español (Spanish)', locale: 'es-ES', head: '🏛️ De la mañana a la noche — 24 Departamentos', offer: 'Gran Oferta de Festivales y Bodas: Precio directo de fábrica en más de 2,000 marcas internacionales e indias | 0% Anuncios | Entrega segura' },
+  { code: 'fr', label: '🇫🇷 Français (French)', locale: 'fr-FR', head: '🏛️ Du matin au soir — 24 Départements', offer: 'Grande Offre Festivals & Mariages : Prix direct usine sur plus de 2 000 marques internationales et indiennes | 0% Publicité | Livraison à domicile sûre' },
+  { code: 'de', label: '🇩🇪 Deutsch (German)', locale: 'de-DE', head: '🏛️ Von morgens bis abends — 24 Abteilungen', offer: 'Großes Festival- & Hochzeitsangebot: Direkter Fabrikpreis auf über 2.000 internationale & indische Marken | 0% Werbung | Sichere Lieferung' },
+  { code: 'ru', label: '🇷🇺 Русский (Russian)', locale: 'ru-RU', head: '🏛️ С утра до ночи — 24 отдела магазина', offer: 'Большая праздничная и свадебная акция: прямые цены фабрик на 2 000+ мировых и индийских брендов | 0% рекламы | Безопасная доставка' },
+  { code: 'zh', label: '🇨🇳 中文 (Chinese)', locale: 'zh-CN', head: '🏛️ 从早到晚 — 24个商店部门', offer: '盛大节日与婚庆季特惠：2,000+国际及印度品牌工厂直供价 | 0%广告 | 安全送货上门' },
+  { code: 'ja', label: '🇯🇵 日本語 (Japanese)', locale: 'ja-JP', head: '🏛️ 朝から夜まで — 24のストア部門', offer: 'グランドフェスティバル＆ウェディングセール：2,000以上の国際・インドブランドが工場直送価格 | 広告0% | 安全な宅配便' },
+  { code: 'ko', label: '🇰🇷 한국어 (Korean)', locale: 'ko-KR', head: '🏛️ 아침부터 밤까지 — 24개 매장 부서', offer: '대축제 및 웨딩 시즌 특가: 2,000개 이상의 글로벌 및 인도 브랜드 공장 직거래가 | 광고 0% | 안전한 홈 딜리버리' },
+  { code: 'pt', label: '🇧🇷 Português (Portuguese)', locale: 'pt-BR', head: '🏛️ De manhã à noite — 24 Departamentos', offer: 'Grande Oferta de Festivais e Casamentos: Preço direto de fábrica em mais de 2.000 marcas internacionais e indianas | 0% Anúncios' },
+  { code: 'it', label: '🇮🇹 Italiano (Italian)', locale: 'it-IT', head: '🏛️ Dalla mattina alla sera — 24 Reparti', offer: 'Grande Offerta Festival e Matrimoni: Prezzo diretto di fabbrica su oltre 2.000 marchi internazionali e indiani | 0% Pubblicità' },
+  { code: 'tr', label: '🇹🇷 Türkçe (Turkish)', locale: 'tr-TR', head: '🏛️ Sabahtan Geceye — 24 Mağaza Bölümü', offer: 'Büyük Festival ve Düğün Sezonu Fırsatı: 2.000+ Uluslararası ve Hint Markasında Doğrudan Fabrika Fiyatı | %0 Reklam | Güvenli Teslimat' },
+  { code: 'fa', label: '🇮🇷 فارسی (Persian)', locale: 'fa-IR', head: '🏛️ از صبح تا شب — ۲۴ بخش فروشگاه', offer: 'پیشنهاد ویژه جشنواره‌ها و فصل عروسی: قیمت مستقیم کارخانه برای بیش از ۲۰۰۰ برند بین‌المللی و هندی | ۰٪ تبلیغات | تحویل ایمن درب منزل' },
+  { code: 'id', label: '🇮🇩 Bahasa Indonesia', locale: 'id-ID', head: '🏛️ Pagi hingga Malam — 24 Departemen Toko', offer: 'Promo Besar Festival & Musim Pernikahan: Harga Langsung Pabrik untuk 2.000+ Merek Internasional & India | 0% Iklan | Pengiriman Aman' },
+  { code: 'th', label: '🇹🇭 ไทย (Thai)', locale: 'th-TH', head: '🏛️ เช้าจรดค่ำ — 24 แผนกร้านค้า', offer: 'ข้อเสนอพิเศษเทศกาลและฤดูแต่งงาน: ราคาตรงจากโรงงานกว่า 2,000 แบรนด์ชั้นนำ | โฆษณา 0% | จัดส่งถึงบ้านอย่างปลอดภัย' },
+  { code: 'vi', label: '🇻🇳 Tiếng Việt (Vietnamese)', locale: 'vi-VN', head: '🏛️ Từ sáng đến đêm — 24 Gian hàng', offer: 'Ưu đãi Lớn Mùa Lễ hội & Cưới hỏi: Giá gốc trực tiếp từ nhà máy cho hơn 2.000 thương hiệu quốc tế & Ấn Độ | 0% Quảng cáo' },
+  { code: 'sw', label: '🇰🇪 Kiswahili (Swahili)', locale: 'sw-KE', head: '🏛️ Asubuhi hadi Usiku — Idara 24 za Duka', offer: 'Ofa Kuu ya Sikukuu na Harusi: Bei ya Moja kwa Moja ya Kiwandani kwa Chapa 2,000+ za Kimataifa na India | 0% Matangazo' }
+];
+
+function renderRlyLangMenu() {
+  const box = document.getElementById('rlyLangDropdown');
+  if (!box) return;
+  box.innerHTML = RLY_LANGUAGES.map(l =>
+    `<div onclick="rlyChangeLang('${l.code}')" style="padding:7px 10px; color:${l.code === currentRlyLang ? '#000' : '#ffd700'}; background:${l.code === currentRlyLang ? '#ffd700' : 'transparent'}; font-weight:bold; font-size:12.5px; border-radius:6px; cursor:pointer; border-bottom:1px solid #1e2230;">${l.label}</div>`
+  ).join('');
+}
+
+function rlyToggleLangList() {
+  const box = document.getElementById('rlyLangDropdown');
+  if (!box) return;
+  renderRlyLangMenu();
+  box.style.display = (box.style.display === 'none' || !box.style.display) ? 'block' : 'none';
+}
+
 function updateRlyHeadlineAndClock() {
   const now = new Date();
-  const localeMap = { hi: 'hi-IN', en: 'en-IN', mr: 'mr-IN', gu: 'gu-IN', bho: 'hi-IN' };
-  const loc = localeMap[currentRlyLang] || 'hi-IN';
+  const langObj = RLY_LANGUAGES.find(x => x.code === currentRlyLang) || RLY_LANGUAGES[0];
 
-  // 1. लाइव समय (AM/PM) + अंग्रेज़ी तारीख + भारतीय पंचांग कैलेंडर
   const timeStr = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
-  const engDateStr = now.toLocaleDateString(loc, { timeZone: 'Asia/Kolkata', weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' });
+  const engDateStr = now.toLocaleDateString(langObj.locale, { timeZone: 'Asia/Kolkata', weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' });
   let panchangStr = '';
   try {
-    panchangStr = new Intl.DateTimeFormat(loc + '-u-ca-indian', { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'long', year: 'numeric' }).format(now);
+    panchangStr = new Intl.DateTimeFormat(langObj.locale + '-u-ca-indian', { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'long', year: 'numeric' }).format(now);
   } catch (e) { panchangStr = 'भारतीय पंचांग'; }
 
   const cEl = document.getElementById('rlyLiveClock');
@@ -285,70 +332,16 @@ function updateRlyHeadlineAndClock() {
   if (dEl) dEl.innerText = `📅 ${engDateStr}`;
   if (pEl) pEl.innerText = `🪔 ${panchangStr}`;
 
-  // 2. कैलेंडर के अनुसार त्योहार ऑफ़र (15 दिन बड़े पर्व / 7 दिन मासिक पर्व)
-  const year = now.getFullYear();
-  const festivals = [
-    { name: 'मकर संक्रांति', m: 1, d: 14, lead: 15 },
-    { name: 'महाशिवरात्रि', m: 2, d: 26, lead: 7 },
-    { name: 'होली महापर्व', m: 3, d: 14, lead: 15 },
-    { name: 'नवरात्रि व रामनवमी', m: 3, d: 30, lead: 15 },
-    { name: 'रक्षाबंधन', m: 8, d: 9, lead: 15 },
-    { name: 'जन्माष्टमी', m: 8, d: 16, lead: 7 },
-    { name: 'गणेश चतुर्थी', m: 8, d: 27, lead: 15 },
-    { name: 'शारदीय नवरात्रि व दशहरा', m: 10, d: 2, lead: 15 },
-    { name: 'दीपावली व धनतेरस', m: 10, d: 20, lead: 15 },
-    { name: 'छठ महापर्व', m: 10, d: 28, lead: 15 }
-  ];
-  let festTag = '';
-  for (const f of festivals) {
-    const diff = Math.ceil((new Date(year, f.m - 1, f.d) - now) / (1000 * 60 * 60 * 24));
-    if (diff >= 0 && diff <= f.lead) { festTag = ` (${f.name} विशेष)`; break; }
-  }
-
-  // 3. चुनी हुई भाषा में हेडलाइन ऑफ़र अपडेट
-  const headlines = {
-    hi: `🎉 महा-त्योहार व शादी सीज़न ऑफ़र${festTag}: २,०००+ अंतर्राष्ट्रीय व भारतीय कंपनियों के सामान पर सीधा मिल रेट | 0% विज्ञापन | सुरक्षित होम डिलीवरी`,
-    en: `🎉 Grand Festival & Wedding Season Offer${festTag}: Direct Mill Rate on 2,000+ International & Indian Brands | 0% Ads | Safe Home Delivery`,
-    mr: `🎉 महा-सण आणि लग्नसराई ऑफर${festTag}: २,०००+ आंतरराष्ट्रीय व भारतीय कंपन्यांच्या मालावर थेट मिल रेट | 0% जाहिरात | सुरक्षित होम डिलिव्हरी`,
-    gu: `🎉 મહા-તહેવાર અને લગ્ન સીઝન ઑફર${festTag}: ૨,૦૦૦+ આંતરરાષ્ટ્રીય અને ભારતીય કંપનીઓના સામાન પર સીધો મિલ રેટ | 0% જાહેરાત | સુરક્ષિત હોમ ડિલિવરી`,
-    bho: `🎉 महा-तिहार आ शादी सीज़न ऑफ़र${festTag}: २,०००+ देसी आ विदेशी कंपनी के सामान पर सीधा मिल रेट | 0% प्रचार | सुरक्षित होम डिलीवरी`
-  };
   const banner = document.getElementById('rlyFestivalBanner');
-  if (banner) banner.innerText = headlines[currentRlyLang] || headlines.hi;
+  if (banner) banner.innerText = `🎉 ${langObj.offer}`;
 }
 
 function rlyChangeLang(lang) {
   currentRlyLang = lang;
-  const t = {
-    hi: '🏛️ सुबह से रात तक — २४ स्टोर खांचे',
-    en: '🏛️ Morning to Night — 24 Store Departments',
-    mr: '🏛️ सकाळपासून रात्रीपर्यंत — २४ विभाग',
-    gu: '🏛️ સવારથી રાત સુધી — ૨૪ વિભાગો',
-    bho: '🏛️ बिहान से रात ले — २४ गो खांचा'
-  };
-  document.getElementById('rlyDeptHeading').innerText = t[lang] || t.hi;
-  updateRlyHeadlineAndClock();
-}
+  const langObj = RLY_LANGUAGES.find(x => x.code === lang) || RLY_LANGUAGES[0];
 
-async function loadAllCatalog() {
-  renderDepartments();
-  try {
-    const { count } = await rlyDB.from('products').select('*', { count: 'exact', head: true });
-    const { data } = await rlyDB.from('products').select('*').order('id', { ascending: false }).range(0, 2499);
-    if (data) {
-      allProducts = data.map(item => ({ ...item, _deptId: assignDeptId(item) }));
-      const total = (typeof count === 'number' && count > allProducts.length) ? count : allProducts.length;
-      document.getElementById('rlyLiveCounter').innerText = `🟢 2,000+ ब्रांड्स | ${total.toLocaleString('en-IN')}+ लाइव उत्पाद`;
-      renderDepartments();
-      document.getElementById('rlyHomeProductGrid').innerHTML = buildProductCards(allProducts);
-    }
-  } catch (e) {}
-}
+  const parts = langObj.label.split(' ');
+  const btn = document.getElementById('rlyLangBtn');
+  if (btn) btn.innerText = `${parts[0]} ${parts[1]} ▾`;
 
-window.addEventListener('DOMContentLoaded', () => {
-  updateRlyHeadlineAndClock();
-  setInterval(updateRlyHeadlineAndClock, 1000);
-  loadAllCatalog();
-});
-
-    
+  const box = document.getElementById('rlyLangDropdown');
