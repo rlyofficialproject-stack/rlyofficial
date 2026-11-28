@@ -345,3 +345,32 @@ function rlyChangeLang(lang) {
   if (btn) btn.innerText = `${parts[0]} ${parts[1]} ▾`;
 
   const box = document.getElementById('rlyLangDropdown');
+  if (box) box.style.display = 'none';
+
+  const hEl = document.getElementById('rlyDeptHeading');
+  if (hEl) hEl.innerText = langObj.head;
+
+  updateRlyHeadlineAndClock();
+}
+
+async function loadAllCatalog() {
+  renderDepartments();
+  try {
+    const { count } = await rlyDB.from('products').select('*', { count: 'exact', head: true });
+    const { data } = await rlyDB.from('products').select('*').order('id', { ascending: false }).range(0, 2499);
+    if (data) {
+      allProducts = data.map(item => ({ ...item, _deptId: assignDeptId(item) }));
+      const total = (typeof count === 'number' && count > allProducts.length) ? count : allProducts.length;
+      document.getElementById('rlyLiveCounter').innerText = `🟢 2,000+ ब्रांड्स | ${total.toLocaleString('en-IN')}+ लाइव उत्पाद`;
+      renderDepartments();
+      document.getElementById('rlyHomeProductGrid').innerHTML = buildProductCards(allProducts);
+    }
+  } catch (e) {}
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  renderRlyLangMenu();
+  updateRlyHeadlineAndClock();
+  setInterval(updateRlyHeadlineAndClock, 1000);
+  loadAllCatalog();
+});
