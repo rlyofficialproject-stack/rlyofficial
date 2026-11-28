@@ -263,9 +263,71 @@ box.innerHTML = (!data || !data.length) ? 'कोई ऑर्डर नही�
 
 }
 
+let currentRlyLang = 'hi';
+
+function updateRlyHeadlineAndClock() {
+  const now = new Date();
+  const localeMap = { hi: 'hi-IN', en: 'en-IN', mr: 'mr-IN', gu: 'gu-IN', bho: 'hi-IN' };
+  const loc = localeMap[currentRlyLang] || 'hi-IN';
+
+  // 1. लाइव समय (AM/PM) + अंग्रेज़ी तारीख + भारतीय पंचांग कैलेंडर
+  const timeStr = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+  const engDateStr = now.toLocaleDateString(loc, { timeZone: 'Asia/Kolkata', weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' });
+  let panchangStr = '';
+  try {
+    panchangStr = new Intl.DateTimeFormat(loc + '-u-ca-indian', { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'long', year: 'numeric' }).format(now);
+  } catch (e) { panchangStr = 'भारतीय पंचांग'; }
+
+  const cEl = document.getElementById('rlyLiveClock');
+  const dEl = document.getElementById('rlyEngDate');
+  const pEl = document.getElementById('rlyIndianPanchang');
+  if (cEl) cEl.innerText = `🕒 ${timeStr} IST`;
+  if (dEl) dEl.innerText = `📅 ${engDateStr}`;
+  if (pEl) pEl.innerText = `🪔 ${panchangStr}`;
+
+  // 2. कैलेंडर के अनुसार त्योहार ऑफ़र (15 दिन बड़े पर्व / 7 दिन मासिक पर्व)
+  const year = now.getFullYear();
+  const festivals = [
+    { name: 'मकर संक्रांति', m: 1, d: 14, lead: 15 },
+    { name: 'महाशिवरात्रि', m: 2, d: 26, lead: 7 },
+    { name: 'होली महापर्व', m: 3, d: 14, lead: 15 },
+    { name: 'नवरात्रि व रामनवमी', m: 3, d: 30, lead: 15 },
+    { name: 'रक्षाबंधन', m: 8, d: 9, lead: 15 },
+    { name: 'जन्माष्टमी', m: 8, d: 16, lead: 7 },
+    { name: 'गणेश चतुर्थी', m: 8, d: 27, lead: 15 },
+    { name: 'शारदीय नवरात्रि व दशहरा', m: 10, d: 2, lead: 15 },
+    { name: 'दीपावली व धनतेरस', m: 10, d: 20, lead: 15 },
+    { name: 'छठ महापर्व', m: 10, d: 28, lead: 15 }
+  ];
+  let festTag = '';
+  for (const f of festivals) {
+    const diff = Math.ceil((new Date(year, f.m - 1, f.d) - now) / (1000 * 60 * 60 * 24));
+    if (diff >= 0 && diff <= f.lead) { festTag = ` (${f.name} विशेष)`; break; }
+  }
+
+  // 3. चुनी हुई भाषा में हेडलाइन ऑफ़र अपडेट
+  const headlines = {
+    hi: `🎉 महा-त्योहार व शादी सीज़न ऑफ़र${festTag}: २,०००+ अंतर्राष्ट्रीय व भारतीय कंपनियों के सामान पर सीधा मिल रेट | 0% विज्ञापन | सुरक्षित होम डिलीवरी`,
+    en: `🎉 Grand Festival & Wedding Season Offer${festTag}: Direct Mill Rate on 2,000+ International & Indian Brands | 0% Ads | Safe Home Delivery`,
+    mr: `🎉 महा-सण आणि लग्नसराई ऑफर${festTag}: २,०००+ आंतरराष्ट्रीय व भारतीय कंपन्यांच्या मालावर थेट मिल रेट | 0% जाहिरात | सुरक्षित होम डिलिव्हरी`,
+    gu: `🎉 મહા-તહેવાર અને લગ્ન સીઝન ઑફર${festTag}: ૨,૦૦૦+ આંતરરાષ્ટ્રીય અને ભારતીય કંપનીઓના સામાન પર સીધો મિલ રેટ | 0% જાહેરાત | સુરક્ષિત હોમ ડિલિવરી`,
+    bho: `🎉 महा-तिहार आ शादी सीज़न ऑफ़र${festTag}: २,०००+ देसी आ विदेशी कंपनी के सामान पर सीधा मिल रेट | 0% प्रचार | सुरक्षित होम डिलीवरी`
+  };
+  const banner = document.getElementById('rlyFestivalBanner');
+  if (banner) banner.innerText = headlines[currentRlyLang] || headlines.hi;
+}
+
 function rlyChangeLang(lang) {
-  const t = { hi: '🏛️ सुबह से रात तक — २४ स्टोर खांचे', en: '🏛️ Morning to Night — 24 Store Departments', mr: '🏛️ सकाळपासून रात्रीपर्यंत — २४ विभाग', gu: '🏛️ સવારથી રાત સુધી — ૨૪ વિભાગો', bho: '🏛️ बिहान से रात ले — २४ गो खांचा' };
+  currentRlyLang = lang;
+  const t = {
+    hi: '🏛️ सुबह से रात तक — २४ स्टोर खांचे',
+    en: '🏛️ Morning to Night — 24 Store Departments',
+    mr: '🏛️ सकाळपासून रात्रीपर्यंत — २४ विभाग',
+    gu: '🏛️ સવારથી રાત સુધી — ૨૪ વિભાગો',
+    bho: '🏛️ बिहान से रात ले — २४ गो खांचा'
+  };
   document.getElementById('rlyDeptHeading').innerText = t[lang] || t.hi;
+  updateRlyHeadlineAndClock();
 }
 
 async function loadAllCatalog() {
@@ -283,5 +345,10 @@ async function loadAllCatalog() {
   } catch (e) {}
 }
 
-window.addEventListener('DOMContentLoaded', loadAllCatalog);
+window.addEventListener('DOMContentLoaded', () => {
+  updateRlyHeadlineAndClock();
+  setInterval(updateRlyHeadlineAndClock, 1000);
+  loadAllCatalog();
+});
+
     
