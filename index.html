@@ -19,13 +19,15 @@
       <div id="rlyLiveCounter" class="rly-live-counter">🟢 2,000+ ब्रांड्स | लोड हो रहा है...</div>
     </div>
 
-          <div style="position:relative; display:inline-block;">
+      <div style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap;">
+      <div style="position:relative; display:inline-block;">
         <button type="button" id="rlyLangBtn" class="rly-ai-top-btn" style="background:#141722; color:#ffd700; border:1px solid #ffd700;" onclick="rlyToggleLangList()">🌐 हिंदी ▾</button>
         <div id="rlyLangDropdown" style="display:none; position:absolute; top:110%; left:0; width:230px; max-height:280px; overflow-y:auto; background:#0d1017; border:1.5px solid #ffd700; border-radius:10px; z-index:9999; text-align:left; box-shadow:0 8px 25px rgba(0,0,0,0.9); padding:4px;"></div>
-          </div>
-    
+      </div>
+      <button type="button" class="rly-ai-top-btn" onclick="rlyOpenAI('मुख्य स्टोर (सभी २४ विभाग)')">🤖 24x7 AI सहायक</button>
       <button type="button" class="rly-ai-top-btn" style="background:#1c1f2b; color:#ffd700; border:1px solid #ffd700;" onclick="rlyOpenAdminGate()">👑 स्वामी कक्ष</button>
     </div>
+
   </header>
 
   <main class="rly-container">
